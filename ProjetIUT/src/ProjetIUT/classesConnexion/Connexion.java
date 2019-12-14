@@ -150,6 +150,13 @@ public abstract class Connexion {
         return tab;
     }
     
+    //supprime la table passée en paramètre
+    public void dropTable(String table) throws SQLException{
+    Statement dropTable = connect.createStatement();
+    dropTable.executeUpdate("DROP TABLE " + table + " CASCADE CONSTRAINTS");
+    
+    }
+    
     public void query (String requete) throws SQLException {
         statement = connect.createStatement();
         statement.execute(requete);

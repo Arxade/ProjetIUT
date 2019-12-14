@@ -12,8 +12,11 @@ import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
@@ -24,7 +27,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Kazed
  */
 public class VisualizationPanel extends javax.swing.JPanel {
-    private Connexion c;
+
+    private Connexion connexion;
     private Table[] recentTables = new Table[10];
 
     /**
@@ -38,25 +42,29 @@ public class VisualizationPanel extends javax.swing.JPanel {
         tblAttributes.setColumnSelectionAllowed(false);
     }
 
-    public void connect(Connexion c) {
-        this.c = c;
+    public void connect(Connexion connexion) {
+        this.connexion = connexion;
         try {
-            c.setTables();
+            connexion.setTables();
             tablesList();
-        }
-        catch(SQLException e) {
+        } catch (SQLException e) {
 
         }
     }
 
     public void tablesList() {
         //Remplissage de la liste des tables
-        ArrayList<String> tl = new ArrayList<>();
-        c.getTables().keySet().forEach((t) -> {
-            tl.add(t);
+        ArrayList<String> lesTables = new ArrayList<>();
+        connexion.getTables().keySet().forEach((uneTable) -> {
+            lesTables.add(uneTable);
         });
-        Collections.sort(tl);
-        lstTables.setListData(tl.toArray(new String[tl.size()]));
+        Collections.sort(lesTables);
+        DefaultListModel listModel = new DefaultListModel();
+        int size = lesTables.size();
+        for (int index = 0; index < size; index++) {
+            listModel.addElement(lesTables.get(index));
+        }
+        lstTables.setModel(listModel);
     }
 
     /**
@@ -76,6 +84,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnNewTable = new javax.swing.JButton();
+        btnSupprimer = new javax.swing.JButton();
 
         slpTables.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         slpTables.setMaximumSize(new java.awt.Dimension(192, 384));
@@ -144,10 +153,17 @@ public class VisualizationPanel extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel2.setText("Informations de la table : ");
 
-        btnNewTable.setText("Nouvelle table");
+        btnNewTable.setText("Créer une nouvelle table");
         btnNewTable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewTableActionPerformed(evt);
+            }
+        });
+
+        btnSupprimer.setText("Supprimer la table sélectionnée");
+        btnSupprimer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSupprimerActionPerformed(evt);
             }
         });
 
@@ -161,17 +177,19 @@ public class VisualizationPanel extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(slpTables, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(195, 195, 195)
-                                .addComponent(btnDisonnect, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(123, 123, 123)
-                                .addComponent(btnNewTable))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(16, 16, 16)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
-                                    .addComponent(slpAttributes, javax.swing.GroupLayout.PREFERRED_SIZE, 704, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(slpAttributes, javax.swing.GroupLayout.PREFERRED_SIZE, 704, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(btnNewTable)
+                                .addGap(42, 42, 42)
+                                .addComponent(btnSupprimer)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnDisonnect, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(32, 32, 32))
         );
         layout.setVerticalGroup(
@@ -186,42 +204,42 @@ public class VisualizationPanel extends javax.swing.JPanel {
                     .addComponent(slpTables, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(slpAttributes, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
+                        .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnDisonnect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNewTable))))
-                .addGap(32, 32, 32))
+                            .addComponent(btnSupprimer)
+                            .addComponent(btnNewTable)
+                            .addComponent(btnDisonnect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(28, 28, 28))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDisonnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisonnectActionPerformed
-        c.close();
+        connexion.close();
 
         //Vide la liste
-        DefaultTableModel tableModel = (DefaultTableModel)tblAttributes.getModel();
+        DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
         tableModel.setRowCount(0);
 
         //Switche l'affichage sur le JPanel ConnectionPanel
-        MainFrame f = (MainFrame)SwingUtilities.getRoot(this);
-        JPanel panel = (JPanel)f.getContentPane();
-        CardLayout layout = (CardLayout)panel.getLayout();
+        MainFrame f = (MainFrame) SwingUtilities.getRoot(this);
+        JPanel panel = (JPanel) f.getContentPane();
+        CardLayout layout = (CardLayout) panel.getLayout();
         layout.next(panel);
         f.setCurrentCard();
     }//GEN-LAST:event_btnDisonnectActionPerformed
 
     private void lstTablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstTablesMouseClicked
         String selected = lstTables.getSelectedValue();
-        DefaultTableModel tableModel = (DefaultTableModel)tblAttributes.getModel();
+        DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
         tableModel.setRowCount(0);
 
         //Remplissage de la JTable avec les variables de la classe Attribut;
         try {
-            c.tableColumns(selected);
-            c.getTables().get(selected).attributes().forEach((a) -> {
-                tableModel.addRow(a.getAttribute());
+            connexion.tableColumns(selected);
+            connexion.getTables().get(selected).attributes().forEach((unAttribute) -> {
+                tableModel.addRow(unAttribute.getAttribute());
             });
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             javax.swing.JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_lstTablesMouseClicked
@@ -231,10 +249,10 @@ public class VisualizationPanel extends javax.swing.JPanel {
         dialog.setTitle("Nouvelle table");
         dialog.setModal(true);
         dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        TableCreationPanel content = new TableCreationPanel(c);
+        TableCreationPanel content = new TableCreationPanel(connexion);
         content.getButton().addActionListener((ActionEvent e) -> {
             String name = content.getTableName().getText();
-            c.getTables().put(name, new Table(name));
+            connexion.getTables().put(name, new Table(name));
             tablesList();
             dialog.dispose();
         });
@@ -244,10 +262,24 @@ public class VisualizationPanel extends javax.swing.JPanel {
         dialog.setVisible(true);
     }//GEN-LAST:event_btnNewTableActionPerformed
 
+    private void btnSupprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupprimerActionPerformed
+        int dialog = JOptionPane.showConfirmDialog(btnDisonnect, "Êtes-vous sûr de vouloir supprimer la table " + lstTables.getSelectedValue() + "?", "Confirmation", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
+        if (dialog == JOptionPane.YES_OPTION) {
+            try {
+            connexion.dropTable(lstTables.getSelectedValue());
+            connexion.getTables().remove(lstTables.getSelectedValue());
+            tablesList();
+            } catch (SQLException ex) {
+                Logger.getLogger(VisualizationPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnSupprimerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDisonnect;
     private javax.swing.JButton btnNewTable;
+    private javax.swing.JButton btnSupprimer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JList<String> lstTables;
