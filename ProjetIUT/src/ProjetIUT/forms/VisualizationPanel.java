@@ -80,7 +80,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         lstTables = new javax.swing.JList<>(new DefaultListModel());
         slpAttributes = new javax.swing.JScrollPane();
         tblAttributes = new javax.swing.JTable();
-        btnDisonnect = new javax.swing.JButton();
+        btnDisconnect = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnNewTable = new javax.swing.JButton();
@@ -136,14 +136,14 @@ public class VisualizationPanel extends javax.swing.JPanel {
         tblAttributes.setPreferredSize(new java.awt.Dimension(640, 512));
         slpAttributes.setViewportView(tblAttributes);
 
-        btnDisonnect.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnDisonnect.setText("Se déconnecter");
-        btnDisonnect.setMaximumSize(new java.awt.Dimension(112, 32));
-        btnDisonnect.setMinimumSize(new java.awt.Dimension(112, 32));
-        btnDisonnect.setPreferredSize(new java.awt.Dimension(112, 32));
-        btnDisonnect.addActionListener(new java.awt.event.ActionListener() {
+        btnDisconnect.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnDisconnect.setText("Se déconnecter");
+        btnDisconnect.setMaximumSize(new java.awt.Dimension(112, 32));
+        btnDisconnect.setMinimumSize(new java.awt.Dimension(112, 32));
+        btnDisconnect.setPreferredSize(new java.awt.Dimension(112, 32));
+        btnDisconnect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDisonnectActionPerformed(evt);
+                btnDisconnectActionPerformed(evt);
             }
         });
 
@@ -189,7 +189,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
                                 .addGap(42, 42, 42)
                                 .addComponent(btnSupprimer)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnDisonnect, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(btnDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(32, 32, 32))
         );
         layout.setVerticalGroup(
@@ -208,12 +208,12 @@ public class VisualizationPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSupprimer)
                             .addComponent(btnNewTable)
-                            .addComponent(btnDisonnect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(28, 28, 28))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnDisonnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisonnectActionPerformed
+    private void btnDisconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisconnectActionPerformed
         connexion.close();
 
         //Vide la liste
@@ -226,7 +226,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         CardLayout layout = (CardLayout) panel.getLayout();
         layout.next(panel);
         f.setCurrentCard();
-    }//GEN-LAST:event_btnDisonnectActionPerformed
+    }//GEN-LAST:event_btnDisconnectActionPerformed
 
     private void lstTablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstTablesMouseClicked
         String selected = lstTables.getSelectedValue();
@@ -263,12 +263,14 @@ public class VisualizationPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnNewTableActionPerformed
 
     private void btnSupprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupprimerActionPerformed
-        int dialog = JOptionPane.showConfirmDialog(btnDisonnect, "Êtes-vous sûr de vouloir supprimer la table " + lstTables.getSelectedValue() + "?", "Confirmation", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
+        String droppedTable = lstTables.getSelectedValue();
+        int dialog = JOptionPane.showConfirmDialog(null, "Êtes-vous sûr de vouloir supprimer la table " + droppedTable + " ?", "Avertissement", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
         if (dialog == JOptionPane.YES_OPTION) {
             try {
-            connexion.dropTable(lstTables.getSelectedValue());
-            connexion.getTables().remove(lstTables.getSelectedValue());
-            tablesList();
+                connexion.dropTable(lstTables.getSelectedValue());
+                connexion.getTables().remove(lstTables.getSelectedValue());
+                tablesList();
+                JOptionPane.showMessageDialog(null, "Table " + droppedTable + " supprimée.");
             } catch (SQLException ex) {
                 Logger.getLogger(VisualizationPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -277,7 +279,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDisonnect;
+    private javax.swing.JButton btnDisconnect;
     private javax.swing.JButton btnNewTable;
     private javax.swing.JButton btnSupprimer;
     private javax.swing.JLabel jLabel1;
