@@ -91,11 +91,11 @@ public class TableCreationPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Nom", "Type", "Clef primaire", "NOT NULL", "UNIQUE", "Clef étrangère"
+                "Nom", "Type", "Clef primaire", "NOT NULL", "UNIQUE", "Clef étrangère" , "Default"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -301,8 +301,7 @@ public class TableCreationPanel extends javax.swing.JPanel {
         String pk = "";
         String fk = "";
         String notNull = "" ;
-        //String valParDef = "";
-        //String unique = "";
+        String unique = "";
         String type = "";
         String req = "CREATE TABLE " + txtTableName.getText() + " (";
         for(int i = 0; i < comp.getRowCount(); i++) {
@@ -313,7 +312,7 @@ public class TableCreationPanel extends javax.swing.JPanel {
             else {
                 req += nomAttribut;
             }
-            for(int y = 1; y < tableCreation.getColumnCount(); y++) {
+            for(int y = 1; y < tableCreation.getColumnCount()+1; y++) {
                 switch(comp.getColumnName(y)) {
                     case "Type" :
                     type = (String)comp.getValueAt(i, y);
@@ -346,21 +345,23 @@ public class TableCreationPanel extends javax.swing.JPanel {
                         fk = ", CONSTRAINT fk_" + nomAttribut + " FOREIGN KEY (" + nomAttribut.toLowerCase() + ") REFERENCES " + (String)comp.getValueAt(i, y);
                     }
                     break;
-                }
+                    case "unique" :
+                        if(comp.getValueAt(i, y) != null) {
+                        unique = ", CONSTRAINT un_" + nomAttribut + " UNIQUE (" + nomAttribut.toLowerCase() + ") ";
+                    }
 
-                //if(comp.getColumnName(y) == "Valeur par défaut")
-                //{
-                    // String constraintParDef = (String) comp.getValueAt(i, y);
-                    // if(constraintParDef.length()>0)
-                    // {
-                        //     valParDef = valParDef + ", CONSTRAINT default_" + nomAttribut + " DEFAULT "
-                        // }
-                    //}
+                    break;
+                    case "Default" :
+                        if(comp.getValueAt(i, y) != null) {
+                            type += " DEFAULT " + (String) comp.getValueAt(i, y);
+                        }
+                    break;
+                }
             }
             req = req + " " + type;
             primaire = false;
         }
-        req = req + ", CONSTRAINT pk_" + txtTableName.getText().toLowerCase() + " PRIMARY KEY (" + pk + ") " + fk + " " + notNull;
+        req = req + ", CONSTRAINT pk_" + txtTableName.getText().toLowerCase() + " PRIMARY KEY (" + pk + ") " + fk + " " + notNull + " " + unique;
         req = req + ")";
         System.out.println(req);
         try {
