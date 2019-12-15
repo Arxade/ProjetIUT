@@ -56,15 +56,8 @@ public class TableCreationPanel extends javax.swing.JPanel {
         tableCreation = new javax.swing.JTable();
         btnApply = new javax.swing.JButton();
         btnCreateTable = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        lblTableName1 = new javax.swing.JLabel();
-        txtTableName1 = new javax.swing.JTextField();
-        lblColumnNumber1 = new javax.swing.JLabel();
-        txtColumnNumber1 = new javax.swing.JTextField();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        tableCreation1 = new javax.swing.JTable();
-        btnApply1 = new javax.swing.JButton();
-        btnCreateTable1 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         lblTableName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         lblTableName.setText(" Nom");
@@ -123,107 +116,19 @@ public class TableCreationPanel extends javax.swing.JPanel {
             }
         });
 
-        jPanel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-
-        lblTableName1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lblTableName1.setText(" Nom");
-
-        txtTableName1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtTableName1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtTableName1.setMaximumSize(new java.awt.Dimension(128, 20));
-        txtTableName1.setMinimumSize(new java.awt.Dimension(128, 20));
-        txtTableName1.setPreferredSize(new java.awt.Dimension(128, 20));
-
-        lblColumnNumber1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lblColumnNumber1.setText("Colonnes");
-
-        txtColumnNumber1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtColumnNumber1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtColumnNumber1.setText("1");
-        txtColumnNumber1.setMaximumSize(new java.awt.Dimension(32, 20));
-        txtColumnNumber1.setMinimumSize(new java.awt.Dimension(32, 20));
-        txtColumnNumber1.setPreferredSize(new java.awt.Dimension(32, 20));
-
-        tableCreation1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tableCreation1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nom", "Type", "Clef primaire", "NOT NULL", "UNIQUE", "Clef étrangère"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane4.setViewportView(tableCreation1);
-
-        btnApply1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnApply1.setText("Appliquer");
-        btnApply1.setMaximumSize(new java.awt.Dimension(96, 32));
-        btnApply1.setMinimumSize(new java.awt.Dimension(96, 32));
-        btnApply1.setPreferredSize(new java.awt.Dimension(96, 32));
-        btnApply1.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Retirer une colonne");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnApply1ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
-        btnCreateTable1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnCreateTable1.setText("Créer Table");
-        btnCreateTable1.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setText("Ajouter une colonne");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCreateTable1ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCreateTable1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblColumnNumber1)
-                            .addComponent(lblTableName1))
-                        .addGap(16, 16, 16)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTableName1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtColumnNumber1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(16, 16, 16)
-                                .addComponent(btnApply1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(32, 32, 32)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
-                .addGap(32, 32, 32))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblTableName1)
-                            .addComponent(txtTableName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblColumnNumber1)
-                            .addComponent(txtColumnNumber1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnApply1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCreateTable1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(32, 32, 32))
-        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -231,7 +136,7 @@ public class TableCreationPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,22 +148,19 @@ public class TableCreationPanel extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtColumnNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(16, 16, 16)
-                                .addComponent(btnApply, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(btnApply, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(32, 32, 32)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
                 .addGap(32, 32, 32))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblTableName)
@@ -268,14 +170,13 @@ public class TableCreationPanel extends javax.swing.JPanel {
                             .addComponent(lblColumnNumber)
                             .addComponent(txtColumnNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnApply, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(32, 32, 32))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(52, 52, 52))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -373,117 +274,29 @@ public class TableCreationPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnCreateTableActionPerformed
 
-    private void btnApply1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApply1ActionPerformed
-        // TODO add your handling code here:
-        // TODO add your handling code here:
-        //on recup le modele du Jtable
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         DefaultTableModel model = (DefaultTableModel) tableCreation.getModel();
-        model.setRowCount(0);
         Object[] row = null;
-        //model.setValueAt(evt, ERROR, NORMAL);
+        model.addRow(row);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
-        int nbCol = Integer.parseInt(txtColumnNumber.getText());
-        for(int i = 0 ; i < nbCol ; i++)
-        {
-            model.addRow(row);
-        }
-    }//GEN-LAST:event_btnApply1ActionPerformed
-
-    private void btnCreateTable1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateTable1ActionPerformed
-        TableModel comp = tableCreation.getModel();
-        boolean primaire = false;
-        String pk = "";
-        String fk = "";
-        String notNull = "" ;
-        //String valParDef = "";
-        //String unique = "";
-        String type = "";
-        String req = "CREATE TABLE " + txtTableName.getText() + " (";
-        for(int i = 0; i < comp.getRowCount(); i++) {
-            String nomAttribut = (String)comp.getValueAt(i, 0);
-            if(i > 0) {
-                req += ", " + nomAttribut;
-            }
-            else {
-                req += nomAttribut;
-            }
-            for(int y = 1; y < tableCreation.getColumnCount(); y++) {
-                switch(comp.getColumnName(y)) {
-                    case "Type" :
-                    type = (String)comp.getValueAt(i, y);
-                    break;
-                    case "Clef primaire" :
-                    if(comp.getValueAt(i, y)!= null) {
-                        primaire = (boolean)comp.getValueAt(i, y);
-                    }
-                    if(primaire) {
-                        if(pk.length() == 0) {
-                            pk = nomAttribut;
-                        }
-                        else {
-                            pk += ", " + nomAttribut;
-                        }
-                    }
-                    break;
-                    case "NOT NULL" :
-                    System.out.println( comp.getValueAt(i, y));
-                    if(comp.getValueAt(i, y) != null) {
-                        notNull += ", CONSTRAINT nn_" + nomAttribut.toLowerCase() + " CHECK(" + nomAttribut + " IS NOT NULL)";
-                    }
-                    break;
-                    case "Clef étrangère" :
-                    String laFk = "";
-                    if(comp.getValueAt(i, y) != null) {
-                        laFk = (String)comp.getValueAt(i, y);
-                    }
-                    if(laFk.length()>1) {
-                        fk = ", CONSTRAINT fk_" + nomAttribut + " FOREIGN KEY (" + nomAttribut.toLowerCase() + ") REFERENCES " + (String)comp.getValueAt(i, y);
-                    }
-                    break;
-                }
-
-                //if(comp.getColumnName(y) == "Valeur par défaut")
-                //{
-                    // String constraintParDef = (String) comp.getValueAt(i, y);
-                    // if(constraintParDef.length()>0)
-                    // {
-                        //     valParDef = valParDef + ", CONSTRAINT default_" + nomAttribut + " DEFAULT "
-                        // }
-                    //}
-            }
-            req = req + " " + type;
-            primaire = false;
-        }
-        req = req + ", CONSTRAINT pk_" + txtTableName.getText().toLowerCase() + " PRIMARY KEY (" + pk + ") " + fk + " " + notNull;
-        req = req + ")";
-        System.out.println(req);
-        try {
-            c.query(req);
-        }
-        catch (SQLException ex) {
-            Logger.getLogger(ConnectionPanel.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, "Erreur à la création de la table \n"+ ex);
-        }
-    }//GEN-LAST:event_btnCreateTable1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tableCreation.getModel();
+        int nbRow = model.getRowCount();
+        model.removeRow(nbRow - 1);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApply;
-    private javax.swing.JButton btnApply1;
     private javax.swing.JButton btnCreateTable;
-    private javax.swing.JButton btnCreateTable1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblColumnNumber;
-    private javax.swing.JLabel lblColumnNumber1;
     private javax.swing.JLabel lblTableName;
-    private javax.swing.JLabel lblTableName1;
     private javax.swing.JTable tableCreation;
-    private javax.swing.JTable tableCreation1;
     private javax.swing.JTextField txtColumnNumber;
-    private javax.swing.JTextField txtColumnNumber1;
     private javax.swing.JTextField txtTableName;
-    private javax.swing.JTextField txtTableName1;
     // End of variables declaration//GEN-END:variables
 }
