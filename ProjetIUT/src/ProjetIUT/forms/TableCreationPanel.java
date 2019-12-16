@@ -6,12 +6,14 @@
 package ProjetIUT.forms;
 
 import ProjetIUT.classesConnexion.Connexion;
+import java.awt.Window;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -78,8 +80,9 @@ public class TableCreationPanel extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         tableCreation = new javax.swing.JTable();
         btnCreateTable = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        removeRowBtn = new javax.swing.JButton();
+        addRowBtn = new javax.swing.JButton();
+        annulerBtn = new javax.swing.JButton();
 
         lblTableName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         lblTableName.setText(" Nom");
@@ -117,17 +120,24 @@ public class TableCreationPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton1.setText("Retirer une colonne");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        removeRowBtn.setText("Retirer une colonne");
+        removeRowBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                removeRowBtnActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Ajouter une colonne");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        addRowBtn.setText("Ajouter une colonne");
+        addRowBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                addRowBtnActionPerformed(evt);
+            }
+        });
+
+        annulerBtn.setText("Annuler");
+        annulerBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                annulerBtnActionPerformed(evt);
             }
         });
 
@@ -135,22 +145,20 @@ public class TableCreationPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblTableName)
-                                .addGap(40, 40, 40)
-                                .addComponent(txtTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(36, 36, 36))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(32, 32, 32)))
+                        .addComponent(lblTableName)
+                        .addGap(40, 40, 40)
+                        .addComponent(txtTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(addRowBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                        .addComponent(removeRowBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(annulerBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCreateTable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)))
+                .addGap(32, 32, 32)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
                 .addGap(32, 32, 32))
         );
@@ -159,18 +167,22 @@ public class TableCreationPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
+                        .addGap(52, 52, 52))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblTableName)
                             .addComponent(txtTableName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(76, 76, 76)
-                        .addComponent(jButton2)
+                        .addComponent(addRowBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1)
+                        .addComponent(removeRowBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(52, 52, 52))
+                        .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(annulerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -252,25 +264,41 @@ public class TableCreationPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnCreateTableActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void addRowBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRowBtnActionPerformed
         DefaultTableModel model = (DefaultTableModel) tableCreation.getModel();
         Object[] row = null;
         model.addRow(row);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_addRowBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void removeRowBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeRowBtnActionPerformed
         DefaultTableModel model = (DefaultTableModel) tableCreation.getModel();
         int nbRow = model.getRowCount();
         model.removeRow(nbRow - 1);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_removeRowBtnActionPerformed
+
+    private void annulerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annulerBtnActionPerformed
+        // TODO add your handling code here:
+        //on supprime les lignes du jtable
+       DefaultTableModel model = (DefaultTableModel) tableCreation.getModel();      
+       int rowCount = model.getRowCount(); 
+       for (int i = rowCount - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+       
+       //on le rend invisible
+       Window w = SwingUtilities.getWindowAncestor(TableCreationPanel.this);
+       w.setVisible(false);
+        
+    }//GEN-LAST:event_annulerBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addRowBtn;
+    private javax.swing.JButton annulerBtn;
     private javax.swing.JButton btnCreateTable;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblTableName;
+    private javax.swing.JButton removeRowBtn;
     private javax.swing.JTable tableCreation;
     private javax.swing.JTextField txtTableName;
     // End of variables declaration//GEN-END:variables
