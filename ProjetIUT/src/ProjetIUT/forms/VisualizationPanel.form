@@ -30,13 +30,13 @@
                                   <Component id="slpAttributes" min="-2" pref="704" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                               <Component id="btnNewTable" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                               <Component id="btnSupprimer" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="btnDisconnect" min="-2" pref="128" max="-2" attributes="0"/>
+                              <Component id="btnDisconnect" min="-2" pref="135" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -60,8 +60,8 @@
                       <Component id="slpAttributes" min="-2" pref="320" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnSupprimer" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnNewTable" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnSupprimer" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="btnNewTable" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                           <Component id="btnDisconnect" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>

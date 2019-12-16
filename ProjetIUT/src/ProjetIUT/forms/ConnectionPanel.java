@@ -87,7 +87,7 @@ public class ConnectionPanel extends javax.swing.JPanel {
 
         btnConnect.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnConnect.setText("Se connecter");
-        btnConnect.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnConnect.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnConnect.setMaximumSize(new java.awt.Dimension(112, 32));
         btnConnect.setMinimumSize(new java.awt.Dimension(112, 32));
         btnConnect.setPreferredSize(new java.awt.Dimension(112, 32));
@@ -108,7 +108,7 @@ public class ConnectionPanel extends javax.swing.JPanel {
 
         cbxSGBD.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cbxSGBD.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Oracle", "MySQL" }));
-        cbxSGBD.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cbxSGBD.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cbxSGBD.setLightWeightPopupEnabled(false);
         cbxSGBD.setMaximumSize(new java.awt.Dimension(96, 20));
         cbxSGBD.setMinimumSize(new java.awt.Dimension(96, 20));
@@ -127,7 +127,7 @@ public class ConnectionPanel extends javax.swing.JPanel {
         btnConnectionParams.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnConnectionParams.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/settings.png"))); // NOI18N
         btnConnectionParams.setToolTipText("Options avancées");
-        btnConnectionParams.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnConnectionParams.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnConnectionParams.setMaximumSize(new java.awt.Dimension(32, 32));
         btnConnectionParams.setMinimumSize(new java.awt.Dimension(32, 32));
         btnConnectionParams.setPreferredSize(new java.awt.Dimension(32, 32));
@@ -141,10 +141,6 @@ public class ConnectionPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(105, 105, 105)
-                .addComponent(btnConnect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(105, 105, 105))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -164,7 +160,10 @@ public class ConnectionPanel extends javax.swing.JPanel {
                                     .addComponent(txtUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnConnectionParams, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnConnectionParams, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(105, 105, 105)
+                        .addComponent(btnConnect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(48, 48, 48))
         );
         layout.setVerticalGroup(

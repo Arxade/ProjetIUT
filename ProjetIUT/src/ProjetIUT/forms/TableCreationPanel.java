@@ -22,46 +22,45 @@ import javax.swing.table.TableModel;
  * @author Kazed
  */
 public class TableCreationPanel extends javax.swing.JPanel {
+
     private Connexion c;
     private int nbCol = 0;
+
     /**
      * Creates new form TableCreationPanel
+     *
      * @param c
      */
     public TableCreationPanel(Connexion c) {
         initComponents();
         this.c = c;
-        
-        
-        
+
         //set du nbr de lignes de la table 
-        boolean good = false;
-        while(!good){
-            try {
-                String strNbCol= JOptionPane.showInputDialog("entrez le nombre de colonnes: ");
+        try {
+            String strNbCol = JOptionPane.showInputDialog("Entrer le nombre de colonnes : ");
+            if (strNbCol == null) {
+                nbCol = 0;
+            } else {
                 nbCol = Integer.parseInt(strNbCol);
-                good = true;
-            } catch (Exception e) {            
-            }   
+            }
+        } catch (Exception e) {
+            //  }   
         }
-        
+
         DefaultTableModel model = (DefaultTableModel) tableCreation.getModel();
         model.setRowCount(0);
         Object[] row = null;
- 
-     
-        for(int i = 0 ; i < nbCol ; i++)
-        {
+
+        for (int i = 0; i < nbCol; i++) {
             model.addRow(row);
         }
-        
+
     }
-    
+
     public JTextField getTableName() {
         return txtTableName;
     }
-    
-    
+
     public JButton getButton() {
         return btnCreateTable;
     }
@@ -85,7 +84,7 @@ public class TableCreationPanel extends javax.swing.JPanel {
         annulerBtn = new javax.swing.JButton();
 
         lblTableName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lblTableName.setText(" Nom");
+        lblTableName.setText("Nom de la table :");
 
         txtTableName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtTableName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -146,43 +145,40 @@ public class TableCreationPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(addRowBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                        .addComponent(removeRowBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCreateTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(annulerBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTableName)
-                        .addGap(40, 40, 40)
-                        .addComponent(txtTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(addRowBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-                        .addComponent(removeRowBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(annulerBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCreateTable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)))
-                .addGap(32, 32, 32)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
-                .addGap(32, 32, 32))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 711, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
-                        .addGap(52, 52, 52))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblTableName)
-                            .addComponent(txtTableName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(76, 76, 76)
+                            .addComponent(txtTableName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblTableName))
+                        .addGap(96, 96, 96)
                         .addComponent(addRowBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(removeRowBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                         .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(annulerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33))))
+                        .addComponent(annulerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3))
+                .addGap(33, 33, 33))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -191,62 +187,60 @@ public class TableCreationPanel extends javax.swing.JPanel {
         boolean primaire = false;
         String pk = "";
         String fk = "";
-        String notNull = "" ;
+        String notNull = "";
         String unique = "";
         String type = "";
         String req = "CREATE TABLE " + txtTableName.getText() + " (";
-        for(int i = 0; i < comp.getRowCount(); i++) {
-            String nomAttribut = (String)comp.getValueAt(i, 0);
-            if(i > 0) {
+        for (int i = 0; i < comp.getRowCount(); i++) {
+            String nomAttribut = (String) comp.getValueAt(i, 0);
+            if (i > 0) {
                 req += ", " + nomAttribut;
-            }
-            else {
+            } else {
                 req += nomAttribut;
             }
-            for(int y = 1; y < tableCreation.getColumnCount()+1; y++) {
-                switch(comp.getColumnName(y)) {
-                    case "Type" :
-                    type = (String)comp.getValueAt(i, y);
-                    break;
-                    case "Clef primaire" :
-                    if(comp.getValueAt(i, y)!= null) {
-                        primaire = (boolean)comp.getValueAt(i, y);
-                    }
-                    if(primaire) {
-                        if(pk.length() == 0) {
-                            pk = nomAttribut;
+            for (int y = 1; y < tableCreation.getColumnCount() + 1; y++) {
+                switch (comp.getColumnName(y)) {
+                    case "Type":
+                        type = (String) comp.getValueAt(i, y);
+                        break;
+                    case "Clef primaire":
+                        if (comp.getValueAt(i, y) != null) {
+                            primaire = (boolean) comp.getValueAt(i, y);
                         }
-                        else {
-                            pk += ", " + nomAttribut;
+                        if (primaire) {
+                            if (pk.length() == 0) {
+                                pk = nomAttribut;
+                            } else {
+                                pk += ", " + nomAttribut;
+                            }
                         }
-                    }
-                    break;
-                    case "NOT NULL" :
-                    System.out.println( comp.getValueAt(i, y));
-                    if(comp.getValueAt(i, y) != null) {
-                        notNull += ", CONSTRAINT nn_" + nomAttribut.toLowerCase() + " CHECK(" + nomAttribut + " IS NOT NULL)";
-                    }
-                    break;
-                    case "Clef étrangère" :
-                    String laFk = "";
-                    if(comp.getValueAt(i, y) != null) {
-                        laFk = (String)comp.getValueAt(i, y);
-                    }
-                    if(laFk.length()>1) {
-                        fk = ", CONSTRAINT fk_" + nomAttribut + " FOREIGN KEY (" + nomAttribut.toLowerCase() + ") REFERENCES " + (String)comp.getValueAt(i, y);
-                    }
-                    break;
-                    case "unique" :
-                        if(comp.getValueAt(i, y) != null) {
-                        unique = ", CONSTRAINT un_" + nomAttribut + " UNIQUE (" + nomAttribut.toLowerCase() + ") ";
-                    }
+                        break;
+                    case "NOT NULL":
+                        System.out.println(comp.getValueAt(i, y));
+                        if (comp.getValueAt(i, y) != null) {
+                            notNull += ", CONSTRAINT nn_" + nomAttribut.toLowerCase() + " CHECK(" + nomAttribut + " IS NOT NULL)";
+                        }
+                        break;
+                    case "Clef étrangère":
+                        String laFk = "";
+                        if (comp.getValueAt(i, y) != null) {
+                            laFk = (String) comp.getValueAt(i, y);
+                        }
+                        if (laFk.length() > 1) {
+                            fk = ", CONSTRAINT fk_" + nomAttribut + " FOREIGN KEY (" + nomAttribut.toLowerCase() + ") REFERENCES " + (String) comp.getValueAt(i, y);
+                        }
+                        break;
+                    case "unique":
+                        if (comp.getValueAt(i, y) != null) {
+                            unique = ", CONSTRAINT un_" + nomAttribut + " UNIQUE (" + nomAttribut.toLowerCase() + ") ";
+                        }
 
-                    break;
-                    case "Default" :
-                        if(comp.getValueAt(i, y) != null) {
+                        break;
+                    case "Default":
+                        if (comp.getValueAt(i, y) != null) {
                             type += " DEFAULT " + (String) comp.getValueAt(i, y);
                         }
-                    break;
+                        break;
                 }
             }
             req = req + " " + type;
@@ -257,10 +251,9 @@ public class TableCreationPanel extends javax.swing.JPanel {
         System.out.println(req);
         try {
             c.query(req);
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(ConnectionPanel.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, "Erreur à la création de la table \n"+ ex);
+            JOptionPane.showMessageDialog(this, "Erreur à la création de la table \n" + ex);
         }
     }//GEN-LAST:event_btnCreateTableActionPerformed
 
@@ -277,18 +270,17 @@ public class TableCreationPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_removeRowBtnActionPerformed
 
     private void annulerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annulerBtnActionPerformed
-        // TODO add your handling code here:
         //on supprime les lignes du jtable
-       DefaultTableModel model = (DefaultTableModel) tableCreation.getModel();      
-       int rowCount = model.getRowCount(); 
-       for (int i = rowCount - 1; i >= 0; i--) {
+        DefaultTableModel model = (DefaultTableModel) tableCreation.getModel();
+        int rowCount = model.getRowCount();
+        for (int i = rowCount - 1; i >= 0; i--) {
             model.removeRow(i);
         }
-       
-       //on le rend invisible
-       Window w = SwingUtilities.getWindowAncestor(TableCreationPanel.this);
-       w.setVisible(false);
-        
+
+        //on le rend invisible
+        Window w = SwingUtilities.getWindowAncestor(TableCreationPanel.this);
+        w.setVisible(false);
+
     }//GEN-LAST:event_annulerBtnActionPerformed
 
 
