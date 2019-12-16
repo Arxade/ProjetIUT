@@ -251,7 +251,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         TableCreationPanel content = new TableCreationPanel(connexion);
         content.getButton().addActionListener((ActionEvent e) -> {
-            String name = content.getTableName().getText();
+            String name = content.getTableName().getText().toUpperCase();
             connexion.getTables().put(name, new Table(name));
             tablesList();
             dialog.dispose();

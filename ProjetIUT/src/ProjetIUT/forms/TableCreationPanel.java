@@ -190,7 +190,7 @@ public class TableCreationPanel extends javax.swing.JPanel {
         String notNull = "";
         String unique = "";
         String type = "";
-        String req = "CREATE TABLE " + txtTableName.getText() + " (";
+        String req = "CREATE TABLE " + txtTableName.getText().toUpperCase() + " (";
         for (int i = 0; i < comp.getRowCount(); i++) {
             String nomAttribut = (String) comp.getValueAt(i, 0);
             if (i > 0) {
@@ -227,12 +227,12 @@ public class TableCreationPanel extends javax.swing.JPanel {
                             laFk = (String) comp.getValueAt(i, y);
                         }
                         if (laFk.length() > 1) {
-                            fk = ", CONSTRAINT fk_" + nomAttribut + " FOREIGN KEY (" + nomAttribut.toLowerCase() + ") REFERENCES " + (String) comp.getValueAt(i, y);
+                            fk = ", CONSTRAINT fk_" + nomAttribut.toLowerCase() + " FOREIGN KEY (" + nomAttribut.toUpperCase() + ") REFERENCES " + (String) comp.getValueAt(i, y);
                         }
                         break;
                     case "unique":
                         if (comp.getValueAt(i, y) != null) {
-                            unique = ", CONSTRAINT un_" + nomAttribut + " UNIQUE (" + nomAttribut.toLowerCase() + ") ";
+                            unique = ", CONSTRAINT un_" + nomAttribut.toLowerCase() + " UNIQUE (" + nomAttribut.toUpperCase() + ") ";
                         }
 
                         break;
@@ -251,6 +251,7 @@ public class TableCreationPanel extends javax.swing.JPanel {
         System.out.println(req);
         try {
             c.query(req);
+            JOptionPane.showMessageDialog(this, "Table " + txtTableName.getText().toUpperCase() + " créée.");
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionPanel.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Erreur à la création de la table \n" + ex);
