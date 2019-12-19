@@ -6,16 +6,21 @@
 package ProjetIUT.forms;
 
 import ProjetIUT.classesConnexion.Connexion;
-import java.awt.Window;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
 
 /**
  *
@@ -34,6 +39,11 @@ public class TableCreationPanel extends javax.swing.JPanel {
     public TableCreationPanel(Connexion c) {
         initComponents();
         this.c = c;
+        
+        //remplissage des combobox du tableau
+        comboBoxTypes.setModel(new javax.swing.DefaultComboBoxModel(c.getTypesTab()));
+        comboBoxTables.setModel(new javax.swing.DefaultComboBoxModel(c.getTablesTab()));
+
 
         //set du nbr de lignes de la table 
         try {
@@ -79,6 +89,9 @@ public class TableCreationPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        comboBoxTypes = new javax.swing.JComboBox<>();
+        comboBoxTables = new javax.swing.JComboBox<>();
+        comboBoxCles = new javax.swing.JComboBox<>();
         lblTableName = new javax.swing.JLabel();
         txtTableName = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -87,6 +100,15 @@ public class TableCreationPanel extends javax.swing.JPanel {
         removeRowBtn = new javax.swing.JButton();
         addRowBtn = new javax.swing.JButton();
         annulerBtn = new javax.swing.JButton();
+
+        comboBoxTables.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxTables.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxTablesActionPerformed(evt);
+            }
+        });
+
+        comboBoxCles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lblTableName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         lblTableName.setText("Nom de la table :");
@@ -103,142 +125,162 @@ public class TableCreationPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Nom", "Type", "Clef primaire", "NOT NULL", "UNIQUE", "Clef étrangère" , "Default"
+                "Nom", "Type", "Longueur", "Clé primaire", "Not null", "Unique", "Clé étrangère", "Table FK", "Référence FK"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(tableCreation);
+        tableCreation.getModel().addTableModelListener(
+            new TableModelListener() 
+            {
+                public void tableChanged(TableModelEvent e) 
+                {
+                    //  int row = e.getFirstRow();
+                    // int column = e.getColumn();
+                    //   TableModel model = (TableModel)e.getSource();
+                    //    String columnName = model.getColumnName(column);
+                    //   Object data = model.getValueAt(row, column);
 
-        btnCreateTable.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnCreateTable.setText("Créer Table");
-        btnCreateTable.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCreateTableActionPerformed(evt);
+                }
+            });
+            jScrollPane3.setViewportView(tableCreation);
+            if (tableCreation.getColumnModel().getColumnCount() > 0) {
+                tableCreation.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(comboBoxTypes));
+                tableCreation.getColumnModel().getColumn(7).setCellEditor(new DefaultCellEditor(comboBoxTables));
+                tableCreation.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(comboBoxCles));
             }
-        });
 
-        removeRowBtn.setText("Retirer une colonne");
-        removeRowBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeRowBtnActionPerformed(evt);
-            }
-        });
+            btnCreateTable.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+            btnCreateTable.setText("Créer Table");
+            btnCreateTable.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnCreateTableActionPerformed(evt);
+                }
+            });
 
-        addRowBtn.setText("Ajouter une colonne");
-        addRowBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addRowBtnActionPerformed(evt);
-            }
-        });
+            removeRowBtn.setText("Retirer une colonne");
+            removeRowBtn.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    removeRowBtnActionPerformed(evt);
+                }
+            });
 
-        annulerBtn.setText("Annuler");
+            addRowBtn.setText("Ajouter une colonne");
+            addRowBtn.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    addRowBtnActionPerformed(evt);
+                }
+            });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(addRowBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-                        .addComponent(removeRowBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCreateTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(annulerBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblTableName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 711, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtTableName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblTableName))
-                        .addGap(96, 96, 96)
-                        .addComponent(addRowBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(removeRowBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
-                        .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(annulerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane3))
-                .addGap(33, 33, 33))
-        );
-    }// </editor-fold>//GEN-END:initComponents
+            annulerBtn.setText("Annuler");
+
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+            this.setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(addRowBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                        .addComponent(removeRowBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCreateTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(annulerBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(lblTableName)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtTableName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGap(18, 18, 18)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1049, Short.MAX_VALUE)
+                    .addContainerGap())
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtTableName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblTableName))
+                            .addGap(96, 96, 96)
+                            .addComponent(addRowBtn)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(removeRowBtn)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 227, Short.MAX_VALUE)
+                            .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(annulerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane3))
+                    .addGap(33, 33, 33))
+            );
+        }// </editor-fold>//GEN-END:initComponents
 
     private void btnCreateTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateTableActionPerformed
-        TableModel comp = tableCreation.getModel();
+        TableModel tableModel = tableCreation.getModel();
         boolean primaire = false;
+        boolean etrangere = false;
         String pk = "";
         String fk = "";
         String notNull = "";
         String unique = "";
         String type = "";
         String req = "CREATE TABLE " + txtTableName.getText().toUpperCase() + " (";
-        for (int i = 0; i < comp.getRowCount(); i++) {
-            String nomAttribut = (String) comp.getValueAt(i, 0);
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            String nomAttribut = (String) tableModel.getValueAt(i, 0);
             if (i > 0) {
                 req += ", " + nomAttribut;
             } else {
                 req += nomAttribut;
             }
-            for (int y = 1; y < tableCreation.getColumnCount() + 1; y++) {
-                switch (comp.getColumnName(y)) {
+            for (int j = 1; j < tableCreation.getColumnCount() + 1; j++) {
+                switch (tableModel.getColumnName(j)) {
                     case "Type":
-                        type = (String) comp.getValueAt(i, y);
+                        type = (String) tableModel.getValueAt(i, j);
                         break;
-                    case "Clef primaire":
-                        if (comp.getValueAt(i, y) != null) {
-                            primaire = (boolean) comp.getValueAt(i, y);
+                    case "Longueur":
+                        type = type + "(" + tableModel.getValueAt(i, j) + ")";
+                        break;
+                    case "Clé primaire":
+                        if (tableModel.getValueAt(i, j) != null) {
+                            primaire = (boolean) tableModel.getValueAt(i, j);
                         }
                         if (primaire) {
-                            if (pk.length() == 0) {
-                                pk = nomAttribut;
-                            } else {
-                                pk += ", " + nomAttribut;
-                            }
+                                pk = ", CONSTRAINT pk_" + nomAttribut + " PRIMARY KEY (" + nomAttribut +")";
                         }
                         break;
-                    case "NOT NULL":
-                        System.out.println(comp.getValueAt(i, y));
-                        if (comp.getValueAt(i, y) != null) {
+                    case "Not null":
+                        System.out.println(tableModel.getValueAt(i, j));
+                        if (tableModel.getValueAt(i, j) != null) {
                             notNull += ", CONSTRAINT nn_" + nomAttribut.toLowerCase() + " CHECK(" + nomAttribut + " IS NOT NULL)";
                         }
                         break;
-                    case "Clef étrangère":
-                        String laFk = "";
-                        if (comp.getValueAt(i, y) != null) {
-                            laFk = (String) comp.getValueAt(i, y);
+                    case "Clé étrangère":
+                        if ( tableModel.getValueAt(i, j) != null) {
+                           etrangere = (boolean) tableModel.getValueAt(i, j);
                         }
-                        if (laFk.length() > 1) {
-                            fk = ", CONSTRAINT fk_" + nomAttribut.toLowerCase() + " FOREIGN KEY (" + nomAttribut.toUpperCase() + ") REFERENCES " + (String) comp.getValueAt(i, y);
+                        if (etrangere ==true)
+                            {
+                            fk = ", CONSTRAINT fk_" + nomAttribut.toLowerCase() + " FOREIGN KEY (" + nomAttribut.toUpperCase() + ") REFERENCES " +
+                                    (String) tableModel.getValueAt(i, j+1) + "(" + (String) tableModel.getValueAt(i, j+2) + ")";
                         }
+                           
                         break;
                     case "unique":
-                        if (comp.getValueAt(i, y) != null) {
+                        if (tableModel.getValueAt(i, j) != null) {
                             unique = ", CONSTRAINT un_" + nomAttribut.toLowerCase() + " UNIQUE (" + nomAttribut.toUpperCase() + ") ";
                         }
 
                         break;
                     case "Default":
-                        if (comp.getValueAt(i, y) != null) {
-                            type += " DEFAULT " + (String) comp.getValueAt(i, y);
+          
+                        if (tableModel.getValueAt(i, j) != null) {
+                            type += " DEFAULT " + (String) tableModel.getValueAt(i, j);
                         }
                         break;
                 }
@@ -246,8 +288,7 @@ public class TableCreationPanel extends javax.swing.JPanel {
             req = req + " " + type;
             primaire = false;
         }
-        req = req + ", CONSTRAINT pk_" + txtTableName.getText().toLowerCase() + " PRIMARY KEY (" + pk + ") " + fk + " " + notNull + " " + unique;
-        req = req + ")";
+        req = req + pk + " " + fk + " " + notNull + " " + unique + ")";
         System.out.println(req);
         try {
             c.query(req);
@@ -267,14 +308,27 @@ public class TableCreationPanel extends javax.swing.JPanel {
     private void removeRowBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeRowBtnActionPerformed
         DefaultTableModel model = (DefaultTableModel) tableCreation.getModel();
         int nbRow = model.getRowCount();
+        if(nbRow > 0)
         model.removeRow(nbRow - 1);
     }//GEN-LAST:event_removeRowBtnActionPerformed
+
+    private void comboBoxTablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxTablesActionPerformed
+        //remplissage des clés primaires
+        comboBoxCles.removeAllItems();
+        if (comboBoxTables.getSelectedItem() != null) {
+            comboBoxCles.setModel(new javax.swing.DefaultComboBoxModel(c.getPKTab(comboBoxTables.getSelectedItem().toString())));
+        }
+
+    }//GEN-LAST:event_comboBoxTablesActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addRowBtn;
     private javax.swing.JButton annulerBtn;
     private javax.swing.JButton btnCreateTable;
+    private javax.swing.JComboBox<String> comboBoxCles;
+    private javax.swing.JComboBox<String> comboBoxTables;
+    private javax.swing.JComboBox<String> comboBoxTypes;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblTableName;
     private javax.swing.JButton removeRowBtn;

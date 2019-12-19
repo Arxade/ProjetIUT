@@ -8,19 +8,24 @@ package ProjetIUT.forms;
 import ProjetIUT.DatabaseClasses.Table;
 import ProjetIUT.classesConnexion.Connexion;
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
+
 
 /**
  *
@@ -40,6 +45,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         //empecher selection élément du tableau
         tblAttributes.setRowSelectionAllowed(false);
         tblAttributes.setColumnSelectionAllowed(false);
+
     }
 
     public void connect(Connexion connexion) {
@@ -118,10 +124,10 @@ public class VisualizationPanel extends javax.swing.JPanel {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -132,10 +138,21 @@ public class VisualizationPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tblAttributes.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        tblAttributes.setAutoscrolls(false);
         tblAttributes.setMaximumSize(new java.awt.Dimension(640, 512));
         tblAttributes.setMinimumSize(new java.awt.Dimension(640, 512));
         tblAttributes.setPreferredSize(new java.awt.Dimension(640, 512));
         slpAttributes.setViewportView(tblAttributes);
+        if (tblAttributes.getColumnModel().getColumnCount() > 0) {
+            tblAttributes.getColumnModel().getColumn(1).setCellEditor(null);
+            tblAttributes.getColumnModel().getColumn(2).setCellEditor(null);
+        }
+        JComboBox comboBoxType = new JComboBox();
+        comboBoxType.addItem("Mohamed");
+
+        TableColumn nameColumn = tblAttributes.getColumnModel().getColumn(2);
+        nameColumn.setCellEditor(new DefaultCellEditor(comboBoxType));
 
         btnDisconnect.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnDisconnect.setText("Se déconnecter");
@@ -187,11 +204,6 @@ public class VisualizationPanel extends javax.swing.JPanel {
                         .addComponent(slpTables, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(slpAttributes, javax.swing.GroupLayout.PREFERRED_SIZE, 704, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGap(32, 32, 32)
                                 .addComponent(btnNewTable)
                                 .addGap(18, 18, 18)
@@ -199,8 +211,13 @@ public class VisualizationPanel extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnModif)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(20, 20, 20))
+                                .addComponent(btnDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(slpAttributes, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE))))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,7 +237,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
                             .addComponent(btnNewTable, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnModif, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(28, 28, 28))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -237,6 +254,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         CardLayout layout = (CardLayout) panel.getLayout();
         layout.next(panel);
         f.setCurrentCard();
+        
     }//GEN-LAST:event_btnDisconnectActionPerformed
 
     private void lstTablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstTablesMouseClicked
@@ -253,6 +271,29 @@ public class VisualizationPanel extends javax.swing.JPanel {
         } catch (SQLException e) {
             javax.swing.JOptionPane.showMessageDialog(null, e);
         }
+        
+        //Resize automatique de la largeur des colonnes
+        for (int column = 0; column < tblAttributes.getColumnCount(); column++) {
+            TableColumn tableColumn = tblAttributes.getColumnModel().getColumn(column);
+            int preferredWidth = tableColumn.getMinWidth();
+            int maxWidth = tableColumn.getMaxWidth();
+
+            for (int row = 0; row < tblAttributes.getRowCount(); row++) {
+                TableCellRenderer cellRenderer = tblAttributes.getCellRenderer(row, column);
+                Component comp = tblAttributes.prepareRenderer(cellRenderer, row, column);
+                int width = comp.getPreferredSize().width + tblAttributes.getIntercellSpacing().width;
+                preferredWidth = Math.max(preferredWidth, width);
+ 
+                if (preferredWidth >= maxWidth) {
+                    preferredWidth = maxWidth;
+                    break;
+                }
+            }
+
+            tableColumn.setPreferredWidth(preferredWidth);
+        }
+        
+
     }//GEN-LAST:event_lstTablesMouseClicked
 
     private void btnNewTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewTableActionPerformed
@@ -296,22 +337,17 @@ public class VisualizationPanel extends javax.swing.JPanel {
         final JDialog dialog = new JDialog();
         dialog.setTitle("Modification");
         dialog.setModal(true);
-        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);     
-        String selected = lstTables.getSelectedValue();   
+        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        String selected = lstTables.getSelectedValue();
         TableModifPanel content = new TableModifPanel(connexion, connexion.getTables().get(selected).getName());
-        
+
         content.getButton("confirmer").addActionListener((ActionEvent e) -> {
-            
+
         });
         content.getButton("annuler").addActionListener((ActionEvent e) -> {
-           
+
         });
-        
-        
-        
-        
-        
-        
+
         dialog.setContentPane(content);
         dialog.setResizable(true);
         dialog.pack();
