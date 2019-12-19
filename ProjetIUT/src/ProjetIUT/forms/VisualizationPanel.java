@@ -26,7 +26,6 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.*;
 
-
 /**
  *
  * @author Kazed
@@ -254,7 +253,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         CardLayout layout = (CardLayout) panel.getLayout();
         layout.next(panel);
         f.setCurrentCard();
-        
+
     }//GEN-LAST:event_btnDisconnectActionPerformed
 
     private void lstTablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstTablesMouseClicked
@@ -271,7 +270,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         } catch (SQLException e) {
             javax.swing.JOptionPane.showMessageDialog(null, e);
         }
-        
+
         //Resize automatique de la largeur des colonnes
         for (int column = 0; column < tblAttributes.getColumnCount(); column++) {
             TableColumn tableColumn = tblAttributes.getColumnModel().getColumn(column);
@@ -283,7 +282,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
                 Component comp = tblAttributes.prepareRenderer(cellRenderer, row, column);
                 int width = comp.getPreferredSize().width + tblAttributes.getIntercellSpacing().width;
                 preferredWidth = Math.max(preferredWidth, width);
- 
+
                 if (preferredWidth >= maxWidth) {
                     preferredWidth = maxWidth;
                     break;
@@ -292,7 +291,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
 
             tableColumn.setPreferredWidth(preferredWidth);
         }
-        
+
 
     }//GEN-LAST:event_lstTablesMouseClicked
 
@@ -325,6 +324,8 @@ public class VisualizationPanel extends javax.swing.JPanel {
                 connexion.dropTable(lstTables.getSelectedValue());
                 connexion.getTables().remove(lstTables.getSelectedValue());
                 tablesList();
+                DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
+                tableModel.setRowCount(0);
                 JOptionPane.showMessageDialog(null, "Table " + droppedTable + " supprimée.");
             } catch (SQLException ex) {
                 Logger.getLogger(VisualizationPanel.class.getName()).log(Level.SEVERE, null, ex);
