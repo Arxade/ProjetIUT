@@ -152,10 +152,22 @@ public abstract class Connexion {
     
     //supprime la table passée en paramètre
     public void dropTable(String table) throws SQLException{
-    Statement dropTable = connect.createStatement();
-    dropTable.executeUpdate("DROP TABLE " + table + " CASCADE CONSTRAINTS");
-    
+        Statement dropTable = connect.createStatement();
+        dropTable.executeUpdate("DROP TABLE " + table + " CASCADE CONSTRAINTS");  
     }
+    
+    
+    public void modifTable(String nomTable, Table oldT, Table newT){
+        
+        
+        
+    }
+    
+    
+    
+    
+    
+    
     
     public void query (String requete) throws SQLException {
         statement = connect.createStatement();
@@ -178,27 +190,5 @@ public abstract class Connexion {
         }
     }
     
-    //METHODE INUTILISEE POUR LINSTANT
-    //public abstract ResultSet getResultSetFromTable(String table) throws Exception;
     
-     /*
-    METHODE SELECT PAR NOM DE TABLE JE LA LAISSE ON VA SUREMENT SEN SERVIR PLUS TARD
-    
-    public String writeSelectToString(String nomTable) throws SQLException, Exception {
-        String text = "";
-        resultSet = getResultSetFromTable(nomTable);
-        ResultSet rsTable = getResultSetFromTable(nomTable);
-        while (resultSet.next()) {
-            for (int y = 1; y < (rsTable.getMetaData().getColumnCount()) + 1; y++) {
-                if (y == rsTable.getMetaData().getColumnCount()) {
-                    text = text + resultSet.getString(y) + "\r\n";
-                } else {
-                    text = text + resultSet.getString(y) + " ";
-                }
-
-            }
-        }
-        return text;
-    }
-    */
 }

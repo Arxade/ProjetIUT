@@ -61,8 +61,13 @@ public class TableCreationPanel extends javax.swing.JPanel {
         return txtTableName;
     }
 
-    public JButton getButton() {
-        return btnCreateTable;
+    public JButton getButton(String s) {
+        switch(s) {
+            case "annuler":
+                return annulerBtn;
+            default:
+                return btnCreateTable;
+        }
     }
 
     /**
@@ -134,11 +139,6 @@ public class TableCreationPanel extends javax.swing.JPanel {
         });
 
         annulerBtn.setText("Annuler");
-        annulerBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                annulerBtnActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -269,20 +269,6 @@ public class TableCreationPanel extends javax.swing.JPanel {
         int nbRow = model.getRowCount();
         model.removeRow(nbRow - 1);
     }//GEN-LAST:event_removeRowBtnActionPerformed
-
-    private void annulerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annulerBtnActionPerformed
-        //on supprime les lignes du jtable
-        DefaultTableModel model = (DefaultTableModel) tableCreation.getModel();
-        int rowCount = model.getRowCount();
-        for (int i = rowCount - 1; i >= 0; i--) {
-            model.removeRow(i);
-        }
-
-        //on le rend invisible
-        Window w = SwingUtilities.getWindowAncestor(TableCreationPanel.this);
-        w.setVisible(false);
-
-    }//GEN-LAST:event_annulerBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

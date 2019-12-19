@@ -85,6 +85,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         btnNewTable = new javax.swing.JButton();
         btnSupprimer = new javax.swing.JButton();
+        btnModif = new javax.swing.JButton();
 
         slpTables.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         slpTables.setMaximumSize(new java.awt.Dimension(192, 384));
@@ -167,6 +168,13 @@ public class VisualizationPanel extends javax.swing.JPanel {
             }
         });
 
+        btnModif.setText("Modifier la table sélectionnée");
+        btnModif.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModifActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -177,20 +185,22 @@ public class VisualizationPanel extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(slpTables, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(16, 16, 16)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
                                     .addComponent(slpAttributes, javax.swing.GroupLayout.PREFERRED_SIZE, 704, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addGap(32, 32, 32)
                                 .addComponent(btnNewTable)
-                                .addGap(42, 42, 42)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnSupprimer)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnModif)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(32, 32, 32))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,7 +218,8 @@ public class VisualizationPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSupprimer, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnNewTable, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnModif, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(28, 28, 28))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -250,10 +261,13 @@ public class VisualizationPanel extends javax.swing.JPanel {
         dialog.setModal(true);
         dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         TableCreationPanel content = new TableCreationPanel(connexion);
-        content.getButton().addActionListener((ActionEvent e) -> {
+        content.getButton("confirmer").addActionListener((ActionEvent e) -> {
             String name = content.getTableName().getText().toUpperCase();
             connexion.getTables().put(name, new Table(name));
             tablesList();
+            dialog.dispose();
+        });
+        content.getButton("annuler").addActionListener((ActionEvent e) -> {
             dialog.dispose();
         });
         dialog.setContentPane(content);
@@ -277,9 +291,37 @@ public class VisualizationPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSupprimerActionPerformed
 
+    private void btnModifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifActionPerformed
+        // TODO add your handling code here:
+        final JDialog dialog = new JDialog();
+        dialog.setTitle("Modification");
+        dialog.setModal(true);
+        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);     
+        String selected = lstTables.getSelectedValue();   
+        TableModifPanel content = new TableModifPanel(connexion, connexion.getTables().get(selected).getName());
+        
+        content.getButton("confirmer").addActionListener((ActionEvent e) -> {
+            
+        });
+        content.getButton("annuler").addActionListener((ActionEvent e) -> {
+           
+        });
+        
+        
+        
+        
+        
+        
+        dialog.setContentPane(content);
+        dialog.setResizable(true);
+        dialog.pack();
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnModifActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDisconnect;
+    private javax.swing.JButton btnModif;
     private javax.swing.JButton btnNewTable;
     private javax.swing.JButton btnSupprimer;
     private javax.swing.JLabel jLabel1;

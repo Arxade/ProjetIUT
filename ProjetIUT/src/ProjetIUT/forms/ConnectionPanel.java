@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
@@ -36,6 +37,7 @@ public class ConnectionPanel extends javax.swing.JPanel {
         initComponents();
         json = new ConnectionDataJSON();
         if(json.getSGBD() != null) cbxSGBD.setSelectedItem(json.getSGBD());
+
     }
 
     public boolean isURLSet() {
