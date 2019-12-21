@@ -153,9 +153,14 @@ public abstract class Connexion {
     }
 
     //supprime la table passée en paramètre
-    public void dropTable(String table) throws SQLException {
+    public void dropTable(String table, boolean cascade) throws SQLException {
         Statement dropTable = connect.createStatement();
-        dropTable.executeUpdate("DROP TABLE " + table + " CASCADE CONSTRAINTS");
+        if (cascade == true) {
+            dropTable.executeUpdate("DROP TABLE " + table + " CASCADE CONSTRAINTS");
+        } else {
+            dropTable.executeUpdate("DROP TABLE " + table);
+        }
+
     }
 
     public void modifTable(String nomTable, Table oldT, Table newT) {

@@ -81,6 +81,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        checkBoxSuppr = new javax.swing.JCheckBox();
         slpTables = new javax.swing.JScrollPane();
         lstTables = new javax.swing.JList<>(new DefaultListModel());
         slpAttributes = new javax.swing.JScrollPane();
@@ -91,6 +92,8 @@ public class VisualizationPanel extends javax.swing.JPanel {
         btnNewTable = new javax.swing.JButton();
         btnSupprimer = new javax.swing.JButton();
         btnModif = new javax.swing.JButton();
+
+        checkBoxSuppr.setText("Supprimer également les contraintes liées à la table");
 
         slpTables.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         slpTables.setMaximumSize(new java.awt.Dimension(192, 384));
@@ -143,10 +146,6 @@ public class VisualizationPanel extends javax.swing.JPanel {
         tblAttributes.setMinimumSize(new java.awt.Dimension(640, 512));
         tblAttributes.setPreferredSize(new java.awt.Dimension(640, 512));
         slpAttributes.setViewportView(tblAttributes);
-        if (tblAttributes.getColumnModel().getColumnCount() > 0) {
-            tblAttributes.getColumnModel().getColumn(1).setCellEditor(null);
-            tblAttributes.getColumnModel().getColumn(2).setCellEditor(null);
-        }
         JComboBox comboBoxType = new JComboBox();
         comboBoxType.addItem("Mohamed");
 
@@ -318,17 +317,19 @@ public class VisualizationPanel extends javax.swing.JPanel {
 
     private void btnSupprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupprimerActionPerformed
         String droppedTable = lstTables.getSelectedValue();
-        int dialog = JOptionPane.showConfirmDialog(null, "Êtes-vous sûr de vouloir supprimer la table " + droppedTable + " ?", "Avertissement", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
+        String message = "Êtes-vous sûr de vouloir supprimer la table " + droppedTable + " ?";
+        Object[] params = {message, checkBoxSuppr};
+        int dialog = JOptionPane.showConfirmDialog(null, params , "Avertissement", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
         if (dialog == JOptionPane.YES_OPTION) {
             try {
-                connexion.dropTable(lstTables.getSelectedValue());
+                connexion.dropTable(lstTables.getSelectedValue(), checkBoxSuppr.isSelected());
                 connexion.getTables().remove(lstTables.getSelectedValue());
                 tablesList();
                 DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
                 tableModel.setRowCount(0);
                 JOptionPane.showMessageDialog(null, "Table " + droppedTable + " supprimée.");
             } catch (SQLException ex) {
-                Logger.getLogger(VisualizationPanel.class.getName()).log(Level.SEVERE, null, ex);
+                javax.swing.JOptionPane.showMessageDialog(null, ex, "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnSupprimerActionPerformed
@@ -361,6 +362,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnModif;
     private javax.swing.JButton btnNewTable;
     private javax.swing.JButton btnSupprimer;
+    private javax.swing.JCheckBox checkBoxSuppr;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JList<String> lstTables;
