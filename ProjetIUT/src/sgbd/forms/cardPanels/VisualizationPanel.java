@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import sgbd.controllers.Controller;
 import sgbd.forms.MainFrame;
 import sgbd.forms.dialogs.TableAlterationPanel;
+import sgbd.forms.dialogs.TableDonneesCRUDPanel;
 
 /**
  *
@@ -128,6 +129,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         tblAttributes = new javax.swing.JTable();
         btnCreateTable = new javax.swing.JButton();
         lblTableName = new javax.swing.JLabel();
+        jButtonDonneesCRUD = new javax.swing.JButton();
 
         setName("visualizationPanel"); // NOI18N
 
@@ -210,6 +212,13 @@ public class VisualizationPanel extends javax.swing.JPanel {
             }
         });
 
+        jButtonDonneesCRUD.setText("Gestion de données");
+        jButtonDonneesCRUD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDonneesCRUDActionPerformed(evt);
+            }
+        });
+
         lpnContainer.setLayer(toolBar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(lblUser, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(lblDb, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -219,6 +228,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         lpnContainer.setLayer(slpAttributes, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(btnCreateTable, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(lblTableName, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lpnContainer.setLayer(jButtonDonneesCRUD, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout lpnContainerLayout = new javax.swing.GroupLayout(lpnContainer);
         lpnContainer.setLayout(lpnContainerLayout);
@@ -243,7 +253,9 @@ public class VisualizationPanel extends javax.swing.JPanel {
                         .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(lpnContainerLayout.createSequentialGroup()
                                 .addGap(235, 235, 235)
-                                .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonDonneesCRUD))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lpnContainerLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(slpAttributes, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -270,7 +282,9 @@ public class VisualizationPanel extends javax.swing.JPanel {
                     .addGroup(lpnContainerLayout.createSequentialGroup()
                         .addComponent(slpAttributes, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                         .addGap(32, 32, 32)
-                        .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonDonneesCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(70, 70, 70))
                     .addGroup(lpnContainerLayout.createSequentialGroup()
                         .addComponent(slpTables)
@@ -404,10 +418,29 @@ public class VisualizationPanel extends javax.swing.JPanel {
         else lstTables.clearSelection();
     }//GEN-LAST:event_setSelectedListItem
 
+    private void jButtonDonneesCRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDonneesCRUDActionPerformed
+        final JDialog dialog = new JDialog();
+        dialog.setTitle("Gestion des données");
+        dialog.setModal(true);
+        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        TableDonneesCRUDPanel content = new TableDonneesCRUDPanel(controller , recentTables[0]);
+        //content.getButton("confirm").addActionListener((ActionEvent e) -> {
+        //    String name = content.getTableName().getText();
+        //    setTablesList();
+        //    dialog.dispose();
+        //});
+        dialog.setContentPane(content);
+        dialog.setResizable(true);
+        dialog.pack();
+        dialog.setVisible(true);
+    }//GEN-LAST:event_jButtonDonneesCRUDActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreateTable;
     private javax.swing.JButton btnDisonnect;
+    private javax.swing.JButton jButtonDonneesCRUD;
     private javax.swing.JLabel lblDb;
     private javax.swing.JLabel lblDbName;
     private javax.swing.JLabel lblTableName;

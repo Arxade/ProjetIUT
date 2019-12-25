@@ -7,6 +7,7 @@ package sgbd.forms.dialogs;
 
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
+import sgbd.controllers.Controller;
 import sgbd.database.Table;
 
 /**
@@ -17,17 +18,21 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form TableDonneesCRUDPanel
+     * @param ctr
+     * @param laTable
      */
-    public TableDonneesCRUDPanel(Table laTable) {
+    public TableDonneesCRUDPanel(Controller ctr,Table laTable) {
         initComponents();
         TableColumn col;
         int longueurArrayListDeLaTable = laTable.attributes().size();
         for(int i=0 ; i<longueurArrayListDeLaTable ; i++)
         {
             col = new TableColumn(i);
-            col.setHeaderValue(laTable.attributes().get(i));
+            col.setHeaderValue(laTable.attributes().get(i).getName());
             jTableDonneesCRUD.addColumn(col);
         }
+        labelTableName.setText(laTable.getName());
+        labelTableName2.setText(laTable.getName());
         
     }
 
@@ -44,6 +49,12 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
         labelTableName = new java.awt.Label();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableDonneesCRUD = new javax.swing.JTable();
+        labelFiltreSELECT = new java.awt.Label();
+        jButtonLancerSELECT = new javax.swing.JButton();
+        checkboxSelectAll = new java.awt.Checkbox();
+        labelSelectFrom = new java.awt.Label();
+        labelTableName2 = new java.awt.Label();
+        labelSelectFromWhere = new java.awt.Label();
 
         labelNomDeLaTable.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         labelNomDeLaTable.setText("Nom de la table:");
@@ -61,39 +72,85 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(jTableDonneesCRUD);
 
+        labelFiltreSELECT.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        labelFiltreSELECT.setText("Select");
+
+        jButtonLancerSELECT.setText("Lancer Recherche");
+
+        checkboxSelectAll.setLabel("*  (tous les attributs)");
+
+        labelSelectFrom.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        labelSelectFrom.setText("From");
+
+        labelTableName2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        labelTableName2.setText("TABLE_NAME");
+
+        labelSelectFromWhere.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        labelSelectFromWhere.setText("Where");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(labelNomDeLaTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(labelNomDeLaTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(labelTableName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(labelFiltreSELECT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(checkboxSelectAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButtonLancerSELECT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelSelectFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelTableName2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelSelectFromWhere, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelTableName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(83, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelTableName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelNomDeLaTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(labelFiltreSELECT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(checkboxSelectAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(labelSelectFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelTableName2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelSelectFromWhere, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonLancerSELECT, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private java.awt.Checkbox checkboxSelectAll;
+    private javax.swing.JButton jButtonLancerSELECT;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableDonneesCRUD;
+    private java.awt.Label labelFiltreSELECT;
     private java.awt.Label labelNomDeLaTable;
+    private java.awt.Label labelSelectFrom;
+    private java.awt.Label labelSelectFromWhere;
     private java.awt.Label labelTableName;
+    private java.awt.Label labelTableName2;
     // End of variables declaration//GEN-END:variables
 }
