@@ -189,10 +189,11 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
                 {
                     System.out.println("Dans le for du while " + y);
                     valeurs[y-1] = rs.getString(y);
-                    model.addRow(valeurs);
+                    
                     /*model.setValueAt(valeurs, y, y);*/
                     
                 }
+                model.addRow(valeurs);
             }
             jTableDonneesCRUD.setModel(model);
             
