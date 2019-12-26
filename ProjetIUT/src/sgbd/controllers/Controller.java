@@ -5,7 +5,10 @@
  */
 package sgbd.controllers;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import sgbd.connection.DatabaseConnection;
+import sgbd.database.Attribute;
 import sgbd.database.Table;
 import sgbd.json.ConnectionDataJSON;
 
@@ -59,5 +62,15 @@ public class Controller {
 
     public boolean tryDropTable(String table, boolean cascadeConstraints) {
         return connection.dropTable(table, cascadeConstraints);
+    }
+    
+    public ResultSet getResultSetFromTable(Table table) throws Exception
+    {
+        return connection.getResultSetFromTable(table);
+    }
+    
+    public ArrayList<String> getAttributesNames(Table laTable)
+    {
+        return connection.getAttributesNames(laTable);
     }
 }

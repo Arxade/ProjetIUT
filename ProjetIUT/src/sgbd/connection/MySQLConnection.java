@@ -8,6 +8,7 @@ package sgbd.connection;
 
 import java.awt.HeadlessException;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,6 +94,11 @@ public class MySQLConnection extends DatabaseConnection {
 
     @Override
     public String getDatabaseName() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ResultSet getResultSetFromTable(Table table) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

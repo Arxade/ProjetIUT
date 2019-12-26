@@ -107,18 +107,10 @@
         <Component class="javax.swing.JTable" name="tblAttributes">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="10" rowCount="0">
-                <Column editable="false" title="" type="java.lang.Object"/>
-                <Column editable="true" title="Nom" type="java.lang.String"/>
-                <Column editable="true" title="Type" type="java.lang.String"/>
-                <Column editable="true" title="Longueur" type="java.lang.String"/>
-                <Column editable="true" title="Cl&#xe9; primaire" type="java.lang.Boolean"/>
-                <Column editable="true" title="Not null" type="java.lang.Boolean"/>
-                <Column editable="true" title="Unique" type="java.lang.Boolean"/>
-                <Column editable="true" title="Cl&#xe9; &#xe9;trang&#xe8;re" type="java.lang.Boolean"/>
-                <Column editable="true" title="Table FK" type="java.lang.String"/>
-                <Column editable="true" title="R&#xe9;f&#xe9;rence FK" type="java.lang.String"/>
-              </Table>
+              <Table columnCount="0" rowCount="0"/>
+            </Property>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0"/>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>

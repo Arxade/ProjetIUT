@@ -156,7 +156,7 @@ public abstract class DatabaseConnection {
     }
     
     //METHODE INUTILISEE POUR LINSTANT
-    //public abstract ResultSet getResultSetFromTable(String table) throws Exception;
+    public abstract ResultSet getResultSetFromTable(Table table) throws Exception;
     
      /*
     METHODE SELECT PAR NOM DE TABLE JE LA LAISSE ON VA SUREMENT SEN SERVIR PLUS TARD
@@ -178,4 +178,14 @@ public abstract class DatabaseConnection {
         return text;
     }
     */
+    
+    public ArrayList<String> getAttributesNames(Table laTable)
+    {
+        ArrayList<String> lesAttributs = new ArrayList<>();
+        for(Attribute attribute : laTable.attributes())
+        {
+            lesAttributs.add(attribute.getName());
+        }
+        return lesAttributs;
+    }
 }

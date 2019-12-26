@@ -115,24 +115,9 @@ public class TableCreationPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "", "Nom", "Type", "Longueur", "Clé primaire", "Not null", "Unique", "Clé étrangère", "Table FK", "Référence FK"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true, true, true, true
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         tblAttributes.getModel().addTableModelListener(
             new TableModelListener() 
             {

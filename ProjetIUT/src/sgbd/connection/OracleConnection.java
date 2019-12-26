@@ -7,6 +7,7 @@ package sgbd.connection;
 
 import java.awt.HeadlessException;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -191,17 +192,17 @@ public class OracleConnection extends DatabaseConnection {
             return false;
         }
     }
-    /* 
-    VOIR DANS "Connexion.java"
+    
+    //VOIR DANS "Connexion.java"
     
     @Override
-    public ResultSet getResultSetFromTable(String table) throws Exception{
-                statement = connect.createStatement();
+    public ResultSet getResultSetFromTable(Table table) throws Exception{
+                statement = connection.createStatement();
 
-            preparedStatement = connect.prepareStatement("SELECT * FROM "+ table);
+            preparedStatement = connection.prepareStatement("SELECT * FROM "+ table.getName());
             resultSet = preparedStatement.executeQuery();
             return resultSet;
    
     }
-    */
+    
 }
