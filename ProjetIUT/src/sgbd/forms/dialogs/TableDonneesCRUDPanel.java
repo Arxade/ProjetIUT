@@ -174,38 +174,57 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
             int y = 1;
             ArrayList<String> nomsDeColonnes = new ArrayList<>();
            
-            
+            //Obligation de recréer les colonnes dans le nouveau model//
             if(checkboxSelectAll.getState() || (!checkboxSelectAll.getState() && jTextAreaSelectNomsDesAttributs.getText().isEmpty()))
             {
                 nomsDeColonnes = controllerCRUD.getAttributesNames(tableCRUD);
-                 //Obligation de recréer les colonnes dans le nouveau model//
-                
+                for(String nomCol : nomsDeColonnes)
+                {
+                    model.addColumn(nomCol);
+                }
+
+                //Création des lignes de données//
+                while(rs.next())
+                {
+                    String valeurs[] = new String[rs.getMetaData().getColumnCount()];
+                    for(y=1 ; y<rs.getMetaData().getColumnCount()+1 ; y++)
+                    {
+                        valeurs[y-1] = rs.getString(y);
+
+                    }
+                    model.addRow(valeurs);
+                }
             }
             else if(!checkboxSelectAll.getState())
             {
-                rs = controllerCRUD.getResultSetFromTableWithParams(tableCRUD, jTextAreaSelectNomsDesAttributs.getText());
-                for(int i = 1 ; i < rs.getMetaData().getColumnCount()+1 ; i++)
+                String[] lesAttributs = controllerCRUD.getAttributesFromJTextArea(jTextAreaSelectNomsDesAttributs.getText());
+                for(int i = 0 ; i < lesAttributs.length ; i++)
                 {
-                    nomsDeColonnes.add(rs.getMetaData().getColumnName(i));
+                    nomsDeColonnes.add(lesAttributs[i]); 
                 }
+                for(String nomCol : nomsDeColonnes)
+                {
+                    model.addColumn(nomCol);
+                }
+                while(rs.next())
+                {
+                    String valeurs[] = new String[nomsDeColonnes.size()];
+                    for(y=1 ; y<rs.getMetaData().getColumnCount()+1 ; y++)
+                    {
+                        for(int x = 0 ; x < nomsDeColonnes.size() ; x++)
+                        {
+                            if(nomsDeColonnes.get(x).equals(rs.getMetaData().getColumnName(y)))
+                            {
+                                valeurs[x] = rs.getString(y);
+                            }
+                        }
+                    }
+                    model.addRow(valeurs);
+                }
+                System.out.println(nomsDeColonnes.toString());
             }
             
-            for(String nomCol : nomsDeColonnes)
-            {
-                model.addColumn(nomCol);
-            }
             
-            //Création des lignes de données//
-            while(rs.next())
-            {
-                String valeurs[] = new String[rs.getMetaData().getColumnCount()];
-                for(y=1 ; y<rs.getMetaData().getColumnCount()+1 ; y++)
-                {
-                    valeurs[y-1] = rs.getString(y);
-                    
-                }
-                model.addRow(valeurs);
-            }
             jTableDonneesCRUD.setModel(model);
             
             

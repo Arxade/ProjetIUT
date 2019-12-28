@@ -75,8 +75,21 @@ public class Controller {
         return connection.getAttributesNames(laTable);
     }
     
-    public ResultSet getResultSetFromTableWithParams(Table laTable , String lesAttributs) throws SQLException
+    //Pour Plus tard//
+    /* public ResultSet getResultSetFromTableWithParams(Table laTable , String lesAttributs) throws SQLException
     {
-        return connection.getResultSetFromTableWithParams(laTable, lesAttributs);
+    return connection.getResultSetFromTableWithParams(laTable, lesAttributs);
+    }*/
+    
+    public String[] getAttributesFromJTextArea(String lesAttributs)
+    {
+        lesAttributs = lesAttributs.toUpperCase();
+        lesAttributs = lesAttributs.replace(" ", "");
+        
+        String[] tabAttributs ;
+        
+        tabAttributs = lesAttributs.split(",");
+        
+        return tabAttributs;
     }
 }
