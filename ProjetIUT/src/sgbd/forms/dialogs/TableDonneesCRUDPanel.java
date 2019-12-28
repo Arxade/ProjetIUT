@@ -173,24 +173,35 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
             DefaultTableModel model = new DefaultTableModel();
             int y = 1;
             ArrayList<String> nomsDeColonnes = new ArrayList<>();
-            nomsDeColonnes = controllerCRUD.getAttributesNames(tableCRUD);
+           
+            
+            if(checkboxSelectAll.getState() || (!checkboxSelectAll.getState() && jTextAreaSelectNomsDesAttributs.getText().isEmpty()))
+            {
+                nomsDeColonnes = controllerCRUD.getAttributesNames(tableCRUD);
+                 //Obligation de recréer les colonnes dans le nouveau model//
+                
+            }
+            else if(!checkboxSelectAll.getState())
+            {
+                rs = controllerCRUD.getResultSetFromTableWithParams(tableCRUD, jTextAreaSelectNomsDesAttributs.getText());
+                for(int i = 1 ; i < rs.getMetaData().getColumnCount()+1 ; i++)
+                {
+                    nomsDeColonnes.add(rs.getMetaData().getColumnName(i));
+                }
+            }
             
             for(String nomCol : nomsDeColonnes)
             {
                 model.addColumn(nomCol);
             }
             
-            System.out.println("Le size(): " + tableCRUD.attributes().size());
-            
+            //Création des lignes de données//
             while(rs.next())
             {
-                String valeurs[] = new String[tableCRUD.attributes().size()];
-                for(y=1 ; y<tableCRUD.attributes().size()+1 ; y++)
+                String valeurs[] = new String[rs.getMetaData().getColumnCount()];
+                for(y=1 ; y<rs.getMetaData().getColumnCount()+1 ; y++)
                 {
-                    System.out.println("Dans le for du while " + y);
                     valeurs[y-1] = rs.getString(y);
-                    
-                    /*model.setValueAt(valeurs, y, y);*/
                     
                 }
                 model.addRow(valeurs);

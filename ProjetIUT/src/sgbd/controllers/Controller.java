@@ -6,6 +6,7 @@
 package sgbd.controllers;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import sgbd.connection.DatabaseConnection;
 import sgbd.database.Attribute;
@@ -72,5 +73,10 @@ public class Controller {
     public ArrayList<String> getAttributesNames(Table laTable)
     {
         return connection.getAttributesNames(laTable);
+    }
+    
+    public ResultSet getResultSetFromTableWithParams(Table laTable , String lesAttributs) throws SQLException
+    {
+        return connection.getResultSetFromTableWithParams(laTable, lesAttributs);
     }
 }

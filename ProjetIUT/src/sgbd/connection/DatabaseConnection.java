@@ -188,4 +188,14 @@ public abstract class DatabaseConnection {
         }
         return lesAttributs;
     }
+    
+    public ResultSet getResultSetFromTableWithParams(Table laTable, String lesAttributs) throws SQLException
+    {
+        System.out.println("Nom de table: " + laTable.getName() + " Nom des attributs: " + lesAttributs);
+        preparedStatement = connection.prepareStatement("SELECT ? FROM ? ");
+        preparedStatement.setString(1, lesAttributs);
+        preparedStatement.setString(2, laTable.getName());
+        resultSet = preparedStatement.executeQuery();
+        return resultSet;
+    }
 }
