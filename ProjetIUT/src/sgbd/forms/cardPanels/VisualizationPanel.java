@@ -488,10 +488,24 @@ public class VisualizationPanel extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_btnDropTableActionPerformed
-    
-    
+
+
     private void btnAlterTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterTableActionPerformed
-        // TODO add your handling code here:
+        final JDialog dialog = new JDialog();
+        dialog.setTitle("Modification");
+        dialog.setModal(true);
+        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        String selected = lstTables.getSelectedValue();
+        TableAlterationPanel content = new TableAlterationPanel(controller, recentTables[0]);
+        content.getButton("confirmer").addActionListener((ActionEvent e) -> {
+        });
+        content.getButton("annuler").addActionListener((ActionEvent e) -> {
+            dialog.dispose();
+        });
+        dialog.setContentPane(content);
+        dialog.setResizable(true);
+        dialog.pack();
+        dialog.setVisible(true);
     }//GEN-LAST:event_btnAlterTableActionPerformed
 
 
