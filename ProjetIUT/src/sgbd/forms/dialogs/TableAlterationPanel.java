@@ -6,6 +6,7 @@
 package sgbd.forms.dialogs;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sgbd.controllers.Controller;
 import sgbd.database.Table;
@@ -97,6 +98,11 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         btnDiscard.setText("Annuler");
 
         btnRenameTable.setText("Changer le nom de la table");
+        btnRenameTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRenameTableActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Nom de la table : ");
 
@@ -140,10 +146,22 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnRenameTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenameTableActionPerformed
+        String inputNom;
+        inputNom = JOptionPane.showInputDialog(null, "Entre le nouveau nom de la table : ", "Renommage de la table", JOptionPane.QUESTION_MESSAGE);
+        if(controller.renameTable(table.getName(), inputNom.toUpperCase()) == true)
+        {
+
+        }
+
+    }//GEN-LAST:event_btnRenameTableActionPerformed
+
     public JButton getButton(String s) {
             switch(s) {
                 case "annuler":
                     return btnDiscard;
+                case "rename":
+                    return btnRenameTable;
                 default:
                     return btnSave;
             }

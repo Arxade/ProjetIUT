@@ -82,6 +82,20 @@ public abstract class DatabaseConnection {
     
     public abstract boolean dropTable(String table, boolean cascadeConstraints);
     
+    public boolean renameTable(String nomActuel, String nouveauNom) {
+
+        String renameQuery = "RENAME " + nomActuel + " TO " + nouveauNom;
+        System.out.println(renameQuery);
+        try {
+            statement = connection.createStatement();
+            statement.executeQuery(renameQuery);
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Impossible de renommer la table.");
+            return false;
+        }
+    }
+    
     public String[] getTablesList() {
         String[] tblLst = new String[tablesList.size()];
         int i = 0;

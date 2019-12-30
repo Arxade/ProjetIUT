@@ -141,6 +141,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         jButtonDonneesCRUD = new javax.swing.JButton();
         btnAlterTable = new javax.swing.JButton();
         btnDropTable = new javax.swing.JButton();
+        btnRenameTable = new javax.swing.JButton();
 
         setName("visualizationPanel"); // NOI18N
 
@@ -244,6 +245,13 @@ public class VisualizationPanel extends javax.swing.JPanel {
             }
         });
 
+        btnRenameTable.setText("Renommer la table");
+        btnRenameTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRenameTableActionPerformed(evt);
+            }
+        });
+
         lpnContainer.setLayer(toolBar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(lblUser, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(lblDb, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -256,6 +264,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         lpnContainer.setLayer(jButtonDonneesCRUD, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(btnAlterTable, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(btnDropTable, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lpnContainer.setLayer(btnRenameTable, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout lpnContainerLayout = new javax.swing.GroupLayout(lpnContainer);
         lpnContainer.setLayout(lpnContainerLayout);
@@ -270,27 +279,27 @@ public class VisualizationPanel extends javax.swing.JPanel {
                 .addComponent(lblTableName)
                 .addGap(365, 365, 365))
             .addGroup(lpnContainerLayout.createSequentialGroup()
+                .addComponent(lblUser)
+                .addGap(8, 8, 8)
+                .addComponent(lblUserName)
+                .addGap(95, 95, 95))
+            .addGroup(lpnContainerLayout.createSequentialGroup()
+                .addComponent(slpTables, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(lpnContainerLayout.createSequentialGroup()
-                        .addComponent(lblUser)
-                        .addGap(8, 8, 8)
-                        .addComponent(lblUserName))
-                    .addGroup(lpnContainerLayout.createSequentialGroup()
-                        .addComponent(slpTables, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(lpnContainerLayout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAlterTable)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnDropTable)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonDonneesCRUD))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lpnContainerLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(slpAttributes, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAlterTable)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRenameTable)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDropTable)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonDonneesCRUD)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(slpAttributes))
+                .addContainerGap())
         );
         lpnContainerLayout.setVerticalGroup(
             lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,11 +326,11 @@ public class VisualizationPanel extends javax.swing.JPanel {
                             .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonDonneesCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAlterTable, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnRenameTable, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDropTable, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(70, 70, 70))
-                    .addGroup(lpnContainerLayout.createSequentialGroup()
-                        .addComponent(slpTables)
-                        .addContainerGap())))
+                        .addGap(59, 59, 59))
+                    .addComponent(slpTables))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -363,12 +372,11 @@ public class VisualizationPanel extends javax.swing.JPanel {
         Object[] params = {message, ckbCascadeConstraints};
         int dialog = JOptionPane.showConfirmDialog(null, params, "Suppression d'une table", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
         if (dialog == JOptionPane.YES_OPTION) {
-            if (controller.tryDropTable(lstTables.getSelectedValue(), ckbCascadeConstraints.isSelected()) == true)
-            {
-            ((DefaultListModel) lstTables.getModel()).removeElement(tableToDrop);
-            DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
-            tableModel.setRowCount(0);
-            JOptionPane.showMessageDialog(null, "Table " + tableToDrop + " supprimée.");
+            if (controller.tryDropTable(lstTables.getSelectedValue(), ckbCascadeConstraints.isSelected()) == true) {
+                ((DefaultListModel) lstTables.getModel()).removeElement(tableToDrop);
+                DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
+                tableModel.setRowCount(0);
+                JOptionPane.showMessageDialog(null, "Table " + tableToDrop + " supprimée.");
             }
         }
     }
@@ -473,18 +481,17 @@ public class VisualizationPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonDonneesCRUDActionPerformed
 
     private void btnDropTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDropTableActionPerformed
-                String tableToDrop = lstTables.getSelectedValue();
+        String tableToDrop = lstTables.getSelectedValue();
         String message = "Supprimer la table " + tableToDrop + " ?";
         JCheckBox ckbCascadeConstraints = new JCheckBox("Supprimer les contraintes d'intégrité référentielle");
         Object[] params = {message, ckbCascadeConstraints};
         int dialog = JOptionPane.showConfirmDialog(null, params, "Suppression d'une table", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
         if (dialog == JOptionPane.YES_OPTION) {
-            if (controller.tryDropTable(lstTables.getSelectedValue(), ckbCascadeConstraints.isSelected()) == true)
-            {
-            ((DefaultListModel) lstTables.getModel()).removeElement(tableToDrop);
-            DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
-            tableModel.setRowCount(0);
-            JOptionPane.showMessageDialog(null, "Table " + tableToDrop + " supprimée.");
+            if (controller.tryDropTable(lstTables.getSelectedValue(), ckbCascadeConstraints.isSelected()) == true) {
+                ((DefaultListModel) lstTables.getModel()).removeElement(tableToDrop);
+                DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
+                tableModel.setRowCount(0);
+                JOptionPane.showMessageDialog(null, "Table " + tableToDrop + " supprimée.");
             }
         }
     }//GEN-LAST:event_btnDropTableActionPerformed
@@ -502,11 +509,28 @@ public class VisualizationPanel extends javax.swing.JPanel {
         content.getButton("annuler").addActionListener((ActionEvent e) -> {
             dialog.dispose();
         });
+        content.getButton("rename").addActionListener((ActionEvent e) -> {
+        });
         dialog.setContentPane(content);
         dialog.setResizable(true);
         dialog.pack();
         dialog.setVisible(true);
     }//GEN-LAST:event_btnAlterTableActionPerformed
+
+    private void btnRenameTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenameTableActionPerformed
+        String inputNom, nomActuel;
+        nomActuel = lstTables.getSelectedValue();
+        inputNom = JOptionPane.showInputDialog(null, "Entrer le nouveau nom de la table : ", "Renommage de la table", JOptionPane.QUESTION_MESSAGE).toUpperCase();
+        if (controller.renameTable(nomActuel, inputNom) == true) {
+            //setTablesList();  il faut fix cette méthode
+            //le code qui suit est une solution temporaire pas géniale
+
+            DefaultListModel listModel = (DefaultListModel) lstTables.getModel();
+            listModel.removeElement(nomActuel);
+            listModel.addElement(inputNom);
+        }
+
+    }//GEN-LAST:event_btnRenameTableActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -514,6 +538,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnCreateTable;
     private javax.swing.JButton btnDisonnect;
     private javax.swing.JButton btnDropTable;
+    private javax.swing.JButton btnRenameTable;
     private javax.swing.JButton jButtonDonneesCRUD;
     private javax.swing.JLabel lblDb;
     private javax.swing.JLabel lblDbName;

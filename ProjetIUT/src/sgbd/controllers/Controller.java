@@ -75,6 +75,15 @@ public class Controller {
         return connection.getAttributesNames(laTable);
     }
     
+    public boolean renameTable(String nomActuel, String nouveauNom)
+    {
+        if (nouveauNom != null && !nomActuel.equals(nouveauNom)) {
+            return connection.renameTable(nomActuel, nouveauNom);
+        } else {
+            return false;
+        }
+    }
+
     //Pour Plus tard//
     /* public ResultSet getResultSetFromTableWithParams(Table laTable , String lesAttributs) throws SQLException
     {
