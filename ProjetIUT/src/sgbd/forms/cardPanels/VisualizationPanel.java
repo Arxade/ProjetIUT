@@ -36,6 +36,7 @@ import sgbd.forms.dialogs.TableDonneesCRUDPanel;
  * @author Kazed
  */
 public class VisualizationPanel extends javax.swing.JPanel {
+
     private Controller controller;
     private Table[] recentTables = new Table[10];
 
@@ -49,38 +50,44 @@ public class VisualizationPanel extends javax.swing.JPanel {
         pppLstTables.add(new JMenuItem("Supprimer"));
         pppLstTables.addPopupMenuListener(new PopupMenuListener() {
             @Override
-            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {}
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+            }
+
             @Override
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+            }
+
             @Override
-            public void popupMenuCanceled(PopupMenuEvent e) {}
+            public void popupMenuCanceled(PopupMenuEvent e) {
+            }
         });
         lstTables.setComponentPopupMenu(pppLstTables);
-        for(Component comp : pppLstTables.getComponents()) {
-            JMenuItem item = (JMenuItem)comp;
+        for (Component comp : pppLstTables.getComponents()) {
+            JMenuItem item = (JMenuItem) comp;
             item.addActionListener((ActionEvent e) -> {
-                switch(((JMenuItem)e.getSource()).getText()) {
+                switch (((JMenuItem) e.getSource()).getText()) {
                     case "Modifier":
                         showAlterTableDialog(e);
                         break;
                     case "Supprimer":
                         showDropTableDialog(e);
                         break;
-                    default: break;
+                    default:
+                        break;
                 }
             });
         }
     }
-    
+
     public void setComponentsParams(Font f) {
-        for(Component comp : lpnContainer.getComponents()) {
+        for (Component comp : lpnContainer.getComponents()) {
             boolean setFont = true;
-            switch(comp.getClass().getSimpleName()) {
+            switch (comp.getClass().getSimpleName()) {
                 case "JToolBar":
                     setFont = false;
-                    JToolBar tools = (JToolBar)comp;
-                    for(Component tool : tools.getComponents()) {
-                       tool.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); 
+                    JToolBar tools = (JToolBar) comp;
+                    for (Component tool : tools.getComponents()) {
+                        tool.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                     }
                     break;
                 case "JButton":
@@ -88,21 +95,23 @@ public class VisualizationPanel extends javax.swing.JPanel {
                 default:
                     break;
             }
-            if(setFont)comp.setFont(f);
+            if (setFont) {
+                comp.setFont(f);
+            }
         }
     }
-    
+
     public void loadPanel(Controller c) {
         controller = c;
         lblUserName.setText(controller.getUserName());
         lblDbName.setText(controller.getDatabaseName());
         setTablesList();
     }
-    
+
     public void setTablesList() {
-        DefaultListModel listModel = (DefaultListModel)lstTables.getModel();
+        DefaultListModel listModel = (DefaultListModel) lstTables.getModel();
         String[] tablesList = controller.getTablesList();
-        for(String table : tablesList) {
+        for (String table : tablesList) {
             listModel.addElement(table);
         }
     }
@@ -130,6 +139,8 @@ public class VisualizationPanel extends javax.swing.JPanel {
         btnCreateTable = new javax.swing.JButton();
         lblTableName = new javax.swing.JLabel();
         jButtonDonneesCRUD = new javax.swing.JButton();
+        btnAlterTable = new javax.swing.JButton();
+        btnDropTable = new javax.swing.JButton();
 
         setName("visualizationPanel"); // NOI18N
 
@@ -219,6 +230,20 @@ public class VisualizationPanel extends javax.swing.JPanel {
             }
         });
 
+        btnAlterTable.setText("Modifier la table");
+        btnAlterTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterTableActionPerformed(evt);
+            }
+        });
+
+        btnDropTable.setText("Supprimer la table");
+        btnDropTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDropTableActionPerformed(evt);
+            }
+        });
+
         lpnContainer.setLayer(toolBar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(lblUser, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(lblDb, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -229,6 +254,8 @@ public class VisualizationPanel extends javax.swing.JPanel {
         lpnContainer.setLayer(btnCreateTable, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(lblTableName, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(jButtonDonneesCRUD, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lpnContainer.setLayer(btnAlterTable, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lpnContainer.setLayer(btnDropTable, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout lpnContainerLayout = new javax.swing.GroupLayout(lpnContainer);
         lpnContainer.setLayout(lpnContainerLayout);
@@ -252,8 +279,12 @@ public class VisualizationPanel extends javax.swing.JPanel {
                         .addComponent(slpTables, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(lpnContainerLayout.createSequentialGroup()
-                                .addGap(235, 235, 235)
+                                .addGap(30, 30, 30)
                                 .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnAlterTable)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnDropTable)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonDonneesCRUD))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lpnContainerLayout.createSequentialGroup()
@@ -284,7 +315,9 @@ public class VisualizationPanel extends javax.swing.JPanel {
                         .addGap(32, 32, 32)
                         .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonDonneesCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButtonDonneesCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAlterTable, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnDropTable, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(70, 70, 70))
                     .addGroup(lpnContainerLayout.createSequentialGroup()
                         .addComponent(slpTables)
@@ -311,16 +344,16 @@ public class VisualizationPanel extends javax.swing.JPanel {
         //Ferme la connexion et réinitialise le contrôleur
         controller.close();
         controller = null;
-        
+
         //Vide la liste des tables et la table des attributs
-        ((DefaultListModel)lstTables.getModel()).clear();
-        ((DefaultTableModel)tblAttributes.getModel()).setRowCount(0);
+        ((DefaultListModel) lstTables.getModel()).clear();
+        ((DefaultTableModel) tblAttributes.getModel()).setRowCount(0);
         lblTableName.setText("");
         lblUserName.setText("");
         lblDbName.setText("");
 
         //Switche sur le panel de connexion
-        ((MainFrame)SwingUtilities.getWindowAncestor(this)).getCardPanel("first");
+        ((MainFrame) SwingUtilities.getWindowAncestor(this)).getCardPanel("first");
     }//GEN-LAST:event_btnDisonnectActionPerformed
 
     private void showDropTableDialog(java.awt.event.ActionEvent evt) {
@@ -328,16 +361,18 @@ public class VisualizationPanel extends javax.swing.JPanel {
         String message = "Supprimer la table " + tableToDrop + " ?";
         JCheckBox ckbCascadeConstraints = new JCheckBox("Supprimer les contraintes d'intégrité référentielle");
         Object[] params = {message, ckbCascadeConstraints};
-        int dialog = JOptionPane.showConfirmDialog(null,  params, "Suppression d'une table", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
+        int dialog = JOptionPane.showConfirmDialog(null, params, "Suppression d'une table", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
         if (dialog == JOptionPane.YES_OPTION) {
-            controller.tryDropTable(lstTables.getSelectedValue(), ckbCascadeConstraints.isSelected());
-            ((DefaultListModel)lstTables.getModel()).removeElement(tableToDrop);
+            if (controller.tryDropTable(lstTables.getSelectedValue(), ckbCascadeConstraints.isSelected()) == true)
+            {
+            ((DefaultListModel) lstTables.getModel()).removeElement(tableToDrop);
             DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
             tableModel.setRowCount(0);
             JOptionPane.showMessageDialog(null, "Table " + tableToDrop + " supprimée.");
+            }
         }
     }
-    
+
     private void showAlterTableDialog(java.awt.event.ActionEvent evt) {
         final JDialog dialog = new JDialog();
         dialog.setTitle("Modification");
@@ -345,14 +380,17 @@ public class VisualizationPanel extends javax.swing.JPanel {
         dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         String selected = lstTables.getSelectedValue();
         TableAlterationPanel content = new TableAlterationPanel(controller, recentTables[0]);
-        content.getButton("confirmer").addActionListener((ActionEvent e) -> {});
-        content.getButton("annuler").addActionListener((ActionEvent e) -> {});
+        content.getButton("confirmer").addActionListener((ActionEvent e) -> {
+        });
+        content.getButton("annuler").addActionListener((ActionEvent e) -> {
+            dialog.dispose();
+        });
         dialog.setContentPane(content);
         dialog.setResizable(true);
         dialog.pack();
         dialog.setVisible(true);
     }
-    
+
     private void btnCreateTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateTableActionPerformed
         final JDialog dialog = new JDialog();
         dialog.setTitle("Nouvelle table");
@@ -372,50 +410,48 @@ public class VisualizationPanel extends javax.swing.JPanel {
 
     private void showSelectedListItem(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showSelectedListItem
         String selected = lstTables.getSelectedValue();
-        DefaultTableModel tableModel = (DefaultTableModel)tblAttributes.getModel();
+        DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
         tableModel.setRowCount(0);
         int i = 0;
         boolean tblFound = false;
-        while(recentTables[i] != null && i < recentTables.length && !tblFound) {
-            if(recentTables[i].getName().equals(selected)) {
+        while (recentTables[i] != null && i < recentTables.length && !tblFound) {
+            if (recentTables[i].getName().equals(selected)) {
                 tblFound = true;
             }
             i++;
         }
-        if(tblFound) {
+        if (tblFound) {
             Table t = recentTables[i - 1];
-            for(int j = i - 1; j > 1; j--) {
+            for (int j = i - 1; j > 1; j--) {
                 recentTables[j] = recentTables[j - 1];
             }
             recentTables[0] = t;
-        }
-        else if(i == recentTables.length) {
-            for(int j = recentTables.length - 1; j > 1; j--) {
+        } else if (i == recentTables.length) {
+            for (int j = recentTables.length - 1; j > 1; j--) {
+                recentTables[j] = recentTables[j - 1];
+            }
+            recentTables[0] = new Table(selected);
+            controller.getAttributesList(recentTables[0]);
+        } else {
+            for (int j = i - 1; j > 1; j--) {
                 recentTables[j] = recentTables[j - 1];
             }
             recentTables[0] = new Table(selected);
             controller.getAttributesList(recentTables[0]);
         }
-        else {
-            for(int j = i - 1; j > 1; j--) {
-                recentTables[j] = recentTables[j - 1];
-            }
-            recentTables[0] = new Table(selected);
-            controller.getAttributesList(recentTables[0]);
-        }
-        if(!recentTables[0].attributes().isEmpty()) {
+        if (!recentTables[0].attributes().isEmpty()) {
             recentTables[0].attributes().forEach((a) -> {
                 tableModel.addRow(a.toObject());
             });
             lblTableName.setText(selected);
-        }
-        else lblTableName.setText("");
+        } else
+            lblTableName.setText("");
     }//GEN-LAST:event_showSelectedListItem
 
     private void setSelectedListItem(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setSelectedListItem
-        int index = lstTables.locationToIndex(evt.getPoint());
-        if(index > -1 && index < lstTables.getVisibleRowCount()) lstTables.setSelectedIndex(index);
-        else lstTables.clearSelection();
+//        int index = lstTables.locationToIndex(evt.getPoint());
+//        if(index > -1 && index < lstTables.getVisibleRowCount()) lstTables.setSelectedIndex(index);
+//        else lstTables.clearSelection();
     }//GEN-LAST:event_setSelectedListItem
 
     private void jButtonDonneesCRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDonneesCRUDActionPerformed
@@ -423,8 +459,8 @@ public class VisualizationPanel extends javax.swing.JPanel {
         dialog.setTitle("Gestion des données");
         dialog.setModal(true);
         dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
-        TableDonneesCRUDPanel content = new TableDonneesCRUDPanel(controller , recentTables[0]);
+
+        TableDonneesCRUDPanel content = new TableDonneesCRUDPanel(controller, recentTables[0]);
         //content.getButton("confirm").addActionListener((ActionEvent e) -> {
         //    String name = content.getTableName().getText();
         //    setTablesList();
@@ -436,10 +472,34 @@ public class VisualizationPanel extends javax.swing.JPanel {
         dialog.setVisible(true);
     }//GEN-LAST:event_jButtonDonneesCRUDActionPerformed
 
+    private void btnDropTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDropTableActionPerformed
+                String tableToDrop = lstTables.getSelectedValue();
+        String message = "Supprimer la table " + tableToDrop + " ?";
+        JCheckBox ckbCascadeConstraints = new JCheckBox("Supprimer les contraintes d'intégrité référentielle");
+        Object[] params = {message, ckbCascadeConstraints};
+        int dialog = JOptionPane.showConfirmDialog(null, params, "Suppression d'une table", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
+        if (dialog == JOptionPane.YES_OPTION) {
+            if (controller.tryDropTable(lstTables.getSelectedValue(), ckbCascadeConstraints.isSelected()) == true)
+            {
+            ((DefaultListModel) lstTables.getModel()).removeElement(tableToDrop);
+            DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
+            tableModel.setRowCount(0);
+            JOptionPane.showMessageDialog(null, "Table " + tableToDrop + " supprimée.");
+            }
+        }
+    }//GEN-LAST:event_btnDropTableActionPerformed
+    
+    
+    private void btnAlterTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterTableActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAlterTableActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlterTable;
     private javax.swing.JButton btnCreateTable;
     private javax.swing.JButton btnDisonnect;
+    private javax.swing.JButton btnDropTable;
     private javax.swing.JButton jButtonDonneesCRUD;
     private javax.swing.JLabel lblDb;
     private javax.swing.JLabel lblDbName;

@@ -59,9 +59,13 @@
                       <Group type="102" attributes="0">
                           <Component id="slpTables" min="-2" pref="190" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="235" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="btnCreateTable" min="-2" pref="113" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="btnAlterTable" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="btnDropTable" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jButtonDonneesCRUD" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -105,6 +109,8 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnCreateTable" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButtonDonneesCRUD" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="btnAlterTable" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="btnDropTable" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                       </Group>
@@ -233,6 +239,22 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDonneesCRUDActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnAlterTable">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Modifier la table"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAlterTableActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnDropTable">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Supprimer la table"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDropTableActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
