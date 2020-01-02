@@ -72,7 +72,11 @@ public class Controller {
     public boolean dropColonne(String nomTable, String nomColonne) {
         return connection.dropColonne(nomTable, nomColonne);
     }
-    
+
+    public boolean addColonne(String nomTable, String nomColonne, String typeColonne, int longueurColonne) {
+        return connection.addColonne(nomTable, nomColonne, typeColonne, longueurColonne);
+    }
+
     public ResultSet getResultSetFromTable(Table table) throws Exception
     {
         return connection.getResultSetFromTable(table);

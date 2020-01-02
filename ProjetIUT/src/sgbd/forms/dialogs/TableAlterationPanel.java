@@ -7,7 +7,9 @@ package sgbd.forms.dialogs;
 
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import sgbd.controllers.Controller;
 import sgbd.database.Table;
@@ -68,7 +70,6 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        comboBoxListeColonnes = new javax.swing.JComboBox<>();
         btnSave = new javax.swing.JButton();
         btnDiscard = new javax.swing.JButton();
         btnRenameTable = new javax.swing.JButton();
@@ -79,9 +80,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         buttonAddColonne = new javax.swing.JButton();
         buttonDropColonne = new javax.swing.JButton();
 
-        comboBoxListeColonnes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        btnSave.setText("Sauvegarder");
+        btnSave.setText("Confirmer les modifications");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -141,6 +140,11 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         }
 
         buttonAddColonne.setText("Ajouter une colonne");
+        buttonAddColonne.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAddColonneActionPerformed(evt);
+            }
+        });
 
         buttonDropColonne.setText("Supprimer une colonne");
         buttonDropColonne.addActionListener(new java.awt.event.ActionListener() {
@@ -196,16 +200,6 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnRenameTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenameTableActionPerformed
-        String inputNom;
-        inputNom = JOptionPane.showInputDialog(null, "Entre le nouveau nom de la table : ", "Renommage de la table", JOptionPane.QUESTION_MESSAGE);
-        if(controller.renameTable(table.getName(), inputNom.toUpperCase()) == true)
-        {
-
-        }
-
-    }//GEN-LAST:event_btnRenameTableActionPerformed
-
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         //modifTable();
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -221,13 +215,48 @@ public class TableAlterationPanel extends javax.swing.JPanel {
             if (dialogConfirmation == JOptionPane.YES_OPTION)
             {            
             controller.dropColonne(table.getName(), droppedColonne);
-            getTableInfo();}
+            getTableInfo();
+            }
         }
     }//GEN-LAST:event_buttonDropColonneActionPerformed
 
+    private void buttonAddColonneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddColonneActionPerformed
+        JTextField txtboxNomColonne = new JTextField();
+        JTextField txtboxLongueur = new JTextField();
+        JComboBox comboboxTypes = new JComboBox();
+        String[] types = controller.getTypesList();
+        
+        for(String type : types) {
+            comboboxTypes.addItem(type);
+        }
+        
+        Object[] message = {
+            "Nom de la colonne : ", txtboxNomColonne,
+            "Type de données : ", comboboxTypes,
+            "Longueur : ", txtboxLongueur
+        };
+
+        int option = JOptionPane.showConfirmDialog(null, message, "Ajouter une colonne", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            controller.addColonne(table.getName(), txtboxNomColonne.getText(), comboboxTypes.getSelectedItem().toString(), Integer.parseInt(txtboxLongueur.getText()));
+            getTableInfo();
+        } 
+    }//GEN-LAST:event_buttonAddColonneActionPerformed
+
+    private void btnRenameTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenameTableActionPerformed
+        String inputNom;
+        inputNom = JOptionPane.showInputDialog(null, "Entre le nouveau nom de la table : ", "Renommage de la table", JOptionPane.QUESTION_MESSAGE);
+        if(controller.renameTable(table.getName(), inputNom.toUpperCase()) == true)
+        {
+            table.setName(inputNom);
+            labelTableName.setText(table.getName().toUpperCase());
+            getTableInfo();
+        }
+    }//GEN-LAST:event_btnRenameTableActionPerformed
+
     public JButton getButton(String s) {
-            switch(s) {
-                case "annuler":
+        switch (s) {
+            case "annuler":
                     return btnDiscard;
                 case "rename":
                     return btnRenameTable;
@@ -244,7 +273,6 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnSave;
     private javax.swing.JButton buttonAddColonne;
     private javax.swing.JButton buttonDropColonne;
-    private javax.swing.JComboBox<String> comboBoxListeColonnes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelTableName;

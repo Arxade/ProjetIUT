@@ -162,6 +162,20 @@ public abstract class DatabaseConnection {
             return false;
         }
     }
+    
+        public boolean addColonne(String nomTable, String nomColonne, String typeColonne, int longueurColonne) {
+        try {
+            statement = connection.createStatement();
+            String dropQuery = "ALTER TABLE " + nomTable + " ADD " + nomColonne + " " + typeColonne + "(" + longueurColonne + ")";
+            System.out.println(dropQuery);
+            statement.executeQuery(dropQuery);
+            javax.swing.JOptionPane.showMessageDialog(null, "Colonne ajoutée.");
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Echec de l'ajout de la colonne.");
+            return false;
+        }
+    }
 
 
     public void query (String requete) throws SQLException {
