@@ -30,30 +30,27 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         this.table = table;
         getTableInfo();
         labelTableName.setText(table.getName());
-    }
-    
-    private void getTableInfo(){
         
+        
+    }
+
+    private void getTableInfo() {
+
         DefaultTableModel tableModel = (DefaultTableModel) tableModif.getModel();
-        tableModel.setRowCount(0);
         
-        /*try {
-            connexion.tableColumns(tableN);
-            connexion.getTables().get(tableN).attributes().forEach((unAttribute) -> {
-                tableModel.addRow(unAttribute.getAttribute());
-            });
-            tSave = connexion.getTables().get(tableN);
-        } catch (SQLException e) {
-            javax.swing.JOptionPane.showMessageDialog(null, e);
-        }*/
+        Object[] tab = {"test", "test", 10, true, true, true, "test"};
+        tableModel.addRow(tab);
+        
+        table.attributes().forEach((unAttribute) -> {
+            tableModel.addRow(unAttribute.toObject());
+            System.out.println(unAttribute.getName());
+        });
     }
-    
+     
+
     
     public void modifTable(){
-        
-        
-        
-        
+
         
     }
 
@@ -73,6 +70,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         btnRenameTable = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         labelTableName = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         tableModif.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -83,11 +81,18 @@ public class TableAlterationPanel extends javax.swing.JPanel {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tableModif.setPreferredSize(new java.awt.Dimension(1000, 0));
@@ -108,23 +113,36 @@ public class TableAlterationPanel extends javax.swing.JPanel {
 
         labelTableName.setText("TABLE_NAME");
 
+        jButton1.setText("getinfos");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 17, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(labelTableName)
-                        .addGap(20, 20, 20))
-                    .addComponent(btnRenameTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDiscard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 17, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(labelTableName)
+                                .addGap(20, 20, 20))
+                            .addComponent(btnRenameTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDiscard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1025, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -138,6 +156,8 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                     .addComponent(labelTableName))
                 .addGap(18, 18, 18)
                 .addComponent(btnRenameTable)
+                .addGap(102, 102, 102)
+                .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
@@ -156,6 +176,10 @@ public class TableAlterationPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnRenameTableActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        getTableInfo();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public JButton getButton(String s) {
             switch(s) {
                 case "annuler":
@@ -173,6 +197,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnDiscard;
     private javax.swing.JButton btnRenameTable;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelTableName;
