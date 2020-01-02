@@ -148,6 +148,21 @@ public abstract class DatabaseConnection {
     public String[] getTypesList() {
         return typesList;
     }
+  
+    public boolean dropColonne(String nomTable, String nomColonne) {
+        try {
+            statement = connection.createStatement();
+            String dropQuery = "ALTER TABLE " + nomTable + " DROP COLUMN " + nomColonne;
+            System.out.println(dropQuery);
+            statement.executeQuery(dropQuery);
+            javax.swing.JOptionPane.showMessageDialog(null, "Colonne supprimée.");
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Echec de suppression de la colonne.");
+            return false;
+        }
+    }
+
 
     public void query (String requete) throws SQLException {
         statement = connection.createStatement();

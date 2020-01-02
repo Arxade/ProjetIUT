@@ -61,8 +61,12 @@ public class Controller {
         connection.close();
     }
 
-    public boolean tryDropTable(String table, boolean cascadeConstraints) {
+    public boolean dropTable(String table, boolean cascadeConstraints) {
         return connection.dropTable(table, cascadeConstraints);
+    }
+
+    public boolean dropColonne(String nomTable, String nomColonne) {
+        return connection.dropColonne(nomTable, nomColonne);
     }
     
     public ResultSet getResultSetFromTable(Table table) throws Exception

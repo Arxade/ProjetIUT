@@ -26,6 +26,10 @@ public class Table {
     public ArrayList<Attribute> attributes() {
         return attributes;
     }
+
+    public void setAttributes(ArrayList<Attribute> attributes) {
+        this.attributes = attributes;
+    }
     
     @Override
     public String toString() {

@@ -372,7 +372,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         Object[] params = {message, ckbCascadeConstraints};
         int dialog = JOptionPane.showConfirmDialog(null, params, "Suppression d'une table", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
         if (dialog == JOptionPane.YES_OPTION) {
-            if (controller.tryDropTable(lstTables.getSelectedValue(), ckbCascadeConstraints.isSelected()) == true) {
+            if (controller.dropTable(lstTables.getSelectedValue(), ckbCascadeConstraints.isSelected()) == true) {
                 ((DefaultListModel) lstTables.getModel()).removeElement(tableToDrop);
                 DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
                 tableModel.setRowCount(0);
@@ -487,7 +487,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         Object[] params = {message, ckbCascadeConstraints};
         int dialog = JOptionPane.showConfirmDialog(null, params, "Suppression d'une table", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
         if (dialog == JOptionPane.YES_OPTION) {
-            if (controller.tryDropTable(lstTables.getSelectedValue(), ckbCascadeConstraints.isSelected()) == true) {
+            if (controller.dropTable(lstTables.getSelectedValue(), ckbCascadeConstraints.isSelected()) == true) {
                 ((DefaultListModel) lstTables.getModel()).removeElement(tableToDrop);
                 DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
                 tableModel.setRowCount(0);
