@@ -169,8 +169,15 @@ public abstract class DatabaseConnection {
         }
     }
     
-    //METHODE INUTILISEE POUR LINSTANT
-    public abstract ResultSet getResultSetFromTable(Table table) throws Exception;
+    
+   public ResultSet getResultSetFromTable(Table table) throws Exception{
+                statement = connection.createStatement();
+
+            preparedStatement = connection.prepareStatement("SELECT * FROM "+ table.getName());
+            resultSet = preparedStatement.executeQuery();
+            return resultSet;
+   
+    }
     
      /*
     METHODE SELECT PAR NOM DE TABLE JE LA LAISSE ON VA SUREMENT SEN SERVIR PLUS TARD
@@ -211,4 +218,38 @@ public abstract class DatabaseConnection {
     resultSet = statement.executeQuery(query);
     return resultSet;
     }*/
+    
+    public void deleteRow(String requete , ArrayList<String> valeurs) throws SQLException
+    {
+        statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+        resultSet = statement.executeQuery(requete);
+        boolean valeursDeLaLigneCherche = true;
+        while(resultSet.next())
+        {
+            valeursDeLaLigneCherche = true;
+            for(int i = 1 ; i < resultSet.getMetaData().getColumnCount()+1 ; i++)
+            {
+                if(valeurs.get(i-1) == null)
+                {
+                    valeurs.set(i - 1, "null") ;
+                }
+                System.out.println("Dans le for de deleterow de connection i = " + i);
+                if(!resultSet.getString(i).equals(valeurs.get(i-1)))
+                {
+                    System.out.println("Dans le if du for resultSet = " + resultSet.getString(i) + " ET valeurs.get = " + valeurs.get(i-1));
+                    valeursDeLaLigneCherche = false;
+                    System.out.println("Valeur de valeursDeLaLigneCherche: " + valeursDeLaLigneCherche);
+                }
+                
+            }
+            if(valeursDeLaLigneCherche)
+            {
+                System.err.println("Dans le deleteRow de DataBaseConnection: Dans le if(valeursDeLaLigneCherche)");
+                resultSet.deleteRow();
+            }
+            
+        }
+        
+        
+    }
 }

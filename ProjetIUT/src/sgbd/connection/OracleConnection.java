@@ -193,16 +193,5 @@ public class OracleConnection extends DatabaseConnection {
         }
     }
     
-    //VOIR DANS "Connexion.java"
-    
-    @Override
-    public ResultSet getResultSetFromTable(Table table) throws Exception{
-                statement = connection.createStatement();
-
-            preparedStatement = connection.prepareStatement("SELECT * FROM "+ table.getName());
-            resultSet = preparedStatement.executeQuery();
-            return resultSet;
-   
-    }
     
 }

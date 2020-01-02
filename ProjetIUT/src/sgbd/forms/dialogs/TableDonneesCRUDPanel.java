@@ -69,6 +69,7 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
         labelSelectFromWhere = new java.awt.Label();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextAreaSelectNomsDesAttributs = new javax.swing.JTextArea();
+        jButtonEffacerLigneCRUD = new javax.swing.JButton();
 
         labelNomDeLaTable.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         labelNomDeLaTable.setText("Nom de la table:");
@@ -111,6 +112,13 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
         jTextAreaSelectNomsDesAttributs.setRows(5);
         jScrollPane2.setViewportView(jTextAreaSelectNomsDesAttributs);
 
+        jButtonEffacerLigneCRUD.setText("Effacer ligne");
+        jButtonEffacerLigneCRUD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEffacerLigneCRUDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,13 +144,18 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonEffacerLigneCRUD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonEffacerLigneCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +173,7 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
                             .addComponent(labelTableName2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(labelSelectFromWhere, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 308, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 406, Short.MAX_VALUE)
                         .addComponent(jButtonLancerSELECT, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -235,9 +248,42 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButtonLancerSELECTActionPerformed
 
+    private void jButtonEffacerLigneCRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEffacerLigneCRUDActionPerformed
+        int id = jTableDonneesCRUD.getSelectedRow();
+        if(id > -1)
+        {
+            try 
+            {
+                ArrayList<String> lesValeurs = new ArrayList<>();
+                ArrayList<String> lesAttributs = new ArrayList<>();
+                for(int col = 0 ; col < jTableDonneesCRUD.getModel().getColumnCount() ; col ++)
+                {
+                    lesAttributs.add(jTableDonneesCRUD.getColumnName(col));
+                    if(jTableDonneesCRUD.getModel().getValueAt(id, col) != null)
+                    {
+                        lesValeurs.add(jTableDonneesCRUD.getModel().getValueAt(id, col).toString());
+                    }
+                }
+                controllerCRUD.deleteRow(tableCRUD, lesAttributs, lesValeurs, this);
+                
+                
+            }
+            catch (Exception e) 
+            {
+                JOptionPane.showMessageDialog(TableDonneesCRUDPanel.this, "Erreur lors de la suppression " + e);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(TableDonneesCRUDPanel.this, "Veuillez selectionner une ligne.");
+        }
+        
+    }//GEN-LAST:event_jButtonEffacerLigneCRUDActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Checkbox checkboxSelectAll;
+    private javax.swing.JButton jButtonEffacerLigneCRUD;
     private javax.swing.JButton jButtonLancerSELECT;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

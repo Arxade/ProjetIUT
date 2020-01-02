@@ -96,9 +96,4 @@ public class MySQLConnection extends DatabaseConnection {
     public String getDatabaseName() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public ResultSet getResultSetFromTable(Table table) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
