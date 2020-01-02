@@ -5,9 +5,13 @@
  */
 package sgbd.controllers;
 
+import java.awt.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import sgbd.connection.DatabaseConnection;
 import sgbd.database.Attribute;
 import sgbd.database.Table;
@@ -105,4 +109,27 @@ public class Controller {
         
         return tabAttributs;
     }
+    
+    public void deleteRow(Table laTable , ArrayList<String> lesAttributs, ArrayList<String> lesValeurs, Component panel) throws SQLException
+    {
+        String requete = "SELECT ";
+        for(int x = 0 ; x < lesAttributs.size() ; x++)
+        {
+            if(x>0)
+            {
+                requete = requete + ", " + lesAttributs.get(x) + " ";
+            }
+            else
+            {
+                requete = requete + lesAttributs.get(x) + " ";
+            }
+            
+            System.err.println("La requete: " + requete);
+        }
+        requete = requete + "FROM " + laTable.getName();
+        System.err.println("La requete: " + requete);
+        
+        connection.deleteRow(requete , lesValeurs);
+    }
+    
 }
