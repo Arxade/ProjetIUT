@@ -65,10 +65,18 @@ public class Controller {
         connection.close();
     }
 
-    public boolean tryDropTable(String table, boolean cascadeConstraints) {
+    public boolean dropTable(String table, boolean cascadeConstraints) {
         return connection.dropTable(table, cascadeConstraints);
     }
-    
+
+    public boolean dropColonne(String nomTable, String nomColonne) {
+        return connection.dropColonne(nomTable, nomColonne);
+    }
+
+    public boolean addColonne(String nomTable, String nomColonne, String typeColonne, int longueurColonne) {
+        return connection.addColonne(nomTable, nomColonne, typeColonne, longueurColonne);
+    }
+
     public ResultSet getResultSetFromTable(Table table) throws Exception
     {
         return connection.getResultSetFromTable(table);
@@ -111,7 +119,6 @@ public class Controller {
         String requete = "SELECT ";
         for(int x = 0 ; x < lesAttributs.size() ; x++)
         {
-            
             if(x>0)
             {
                 requete = requete + ", " + lesAttributs.get(x) + " ";

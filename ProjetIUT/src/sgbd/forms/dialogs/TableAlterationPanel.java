@@ -5,11 +5,15 @@
  */
 package sgbd.forms.dialogs;
 
+import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import sgbd.controllers.Controller;
 import sgbd.database.Table;
+import sgbd.database.Attribute;
 
 /**
  *
@@ -18,7 +22,9 @@ import sgbd.database.Table;
 public class TableAlterationPanel extends javax.swing.JPanel {
     private Table table;
     private Controller controller;
-    
+    private ArrayList<String> nomsColonnes;
+    private ArrayList<ArrayList<Object>> listeAttributs;
+
     /**
      * Creates new form TableModifPanel
      * @param controller
@@ -30,27 +36,42 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         this.table = table;
         getTableInfo();
         labelTableName.setText(table.getName());
-        
-        
+  
     }
 
     private void getTableInfo() {
-
         DefaultTableModel tableModel = (DefaultTableModel) tableModif.getModel();
-        
-        Object[] tab = {"test", "test", 10, true, true, true, "test"};
-        tableModel.addRow(tab);
-        
+        tableModel.setRowCount(0);
+        ArrayList<Attribute> vide = new ArrayList<>();
+        table.setAttributes(vide);
+        controller.getAttributesList(table);
+        nomsColonnes = new ArrayList<>();
+
         table.attributes().forEach((unAttribute) -> {
             tableModel.addRow(unAttribute.toObject());
-            System.out.println(unAttribute.getName());
+            nomsColonnes.add(unAttribute.getName());
         });
+        
+        remplirListesAttributs();
+
     }
-     
 
-    
-    public void modifTable(){
+    public void remplirListesAttributs() {
+    listeAttributs = new ArrayList<ArrayList<Object>>();
+        for (int row = 0; row < tableModif.getRowCount(); row++) {
+            ArrayList<Object> proprietesAttribut = new ArrayList<>();
+            for (int column = 0; column < tableModif.getColumnCount(); column++) {
+                proprietesAttribut.add(tableModif.getValueAt(row, column));
+            }
+            listeAttributs.add(proprietesAttribut);
+        }
 
+        listeAttributs.forEach(value -> System.out.println(value));
+
+    }
+
+    public void modifTable(Object ancienAttribut, Object nouvelAttribut){
+        
         
     }
 
@@ -63,14 +84,40 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableModif = new javax.swing.JTable();
-        btnSave = new javax.swing.JButton();
-        btnDiscard = new javax.swing.JButton();
+        btnModif = new javax.swing.JButton();
+        btnAnnuler = new javax.swing.JButton();
         btnRenameTable = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         labelTableName = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableModif = new javax.swing.JTable();
+        buttonAddColonne = new javax.swing.JButton();
+        buttonDropColonne = new javax.swing.JButton();
+
+        btnModif.setText("Commencer les modifications");
+        btnModif.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModifActionPerformed(evt);
+            }
+        });
+
+        btnAnnuler.setText("Fermer");
+        btnAnnuler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnnulerActionPerformed(evt);
+            }
+        });
+
+        btnRenameTable.setText("Changer le nom de la table");
+        btnRenameTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRenameTableActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Nom de la table : ");
+
+        labelTableName.setText("TABLE_NAME");
 
         tableModif.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -84,7 +131,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                 java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                true, true, true, true, true, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -95,28 +142,34 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tableModif.setPreferredSize(new java.awt.Dimension(1000, 0));
-        jScrollPane1.setViewportView(tableModif);
+        tableModif.setEnabled(false);
+        jScrollPane2.setViewportView(tableModif);
+        if (tableModif.getColumnModel().getColumnCount() > 0) {
+            tableModif.getColumnModel().getColumn(2).setMinWidth(80);
+            tableModif.getColumnModel().getColumn(2).setPreferredWidth(80);
+            tableModif.getColumnModel().getColumn(2).setMaxWidth(80);
+            tableModif.getColumnModel().getColumn(3).setMinWidth(80);
+            tableModif.getColumnModel().getColumn(3).setPreferredWidth(80);
+            tableModif.getColumnModel().getColumn(3).setMaxWidth(80);
+            tableModif.getColumnModel().getColumn(4).setMinWidth(80);
+            tableModif.getColumnModel().getColumn(4).setPreferredWidth(80);
+            tableModif.getColumnModel().getColumn(4).setMaxWidth(80);
+            tableModif.getColumnModel().getColumn(5).setMinWidth(80);
+            tableModif.getColumnModel().getColumn(5).setPreferredWidth(80);
+            tableModif.getColumnModel().getColumn(5).setMaxWidth(80);
+        }
 
-        btnSave.setText("Sauvegarder");
-
-        btnDiscard.setText("Annuler");
-
-        btnRenameTable.setText("Changer le nom de la table");
-        btnRenameTable.addActionListener(new java.awt.event.ActionListener() {
+        buttonAddColonne.setText("Ajouter une colonne");
+        buttonAddColonne.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRenameTableActionPerformed(evt);
+                buttonAddColonneActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("Nom de la table : ");
-
-        labelTableName.setText("TABLE_NAME");
-
-        jButton1.setText("getinfos");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonDropColonne.setText("Supprimer une colonne");
+        buttonDropColonne.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                buttonDropColonneActionPerformed(evt);
             }
         });
 
@@ -126,80 +179,142 @@ public class TableAlterationPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buttonAddColonne, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 17, Short.MAX_VALUE)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(labelTableName)
-                                .addGap(20, 20, 20))
-                            .addComponent(btnRenameTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnDiscard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1025, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(labelTableName))
+                                .addComponent(btnModif, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                                .addComponent(btnAnnuler, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnRenameTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(buttonDropColonne, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(labelTableName))
-                .addGap(18, 18, 18)
-                .addComponent(btnRenameTable)
-                .addGap(102, 102, 102)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(btnDiscard, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(labelTableName))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRenameTable)
+                        .addGap(86, 86, 86)
+                        .addComponent(buttonAddColonne, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonDropColonne, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnModif, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnModifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifActionPerformed
+        //modifTable();
+        if (btnModif.getText().equals("Commencer les modifications")) {
+            tableModif.setEnabled(true);
+            btnModif.setText("Valider les modifications");
+            btnAnnuler.setText("Annuler les modifications");
+        } else {
+            btnModif.setText("Commencer les modifications");
+            btnAnnuler.setText("Fermer");
+            tableModif.setEnabled(false);
+        }
+
+    }//GEN-LAST:event_btnModifActionPerformed
+
+    private void buttonDropColonneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDropColonneActionPerformed
+        String [] colonnesCB = nomsColonnes.toArray(new String[nomsColonnes.size()]);
+        String droppedColonne;
+        
+        droppedColonne = (String) JOptionPane.showInputDialog(null, "Choisissez la colonne à supprimer : ", "Suppression d'une colonne", JOptionPane.QUESTION_MESSAGE, null, colonnesCB, colonnesCB[0]);
+        if (droppedColonne != null)
+        {
+            int dialogConfirmation = JOptionPane.showConfirmDialog(null, "Êtes-vous sûr de vouloir supprimer la colonne " + droppedColonne + " ?", "Confirmation", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
+            if (dialogConfirmation == JOptionPane.YES_OPTION)
+            {            
+            controller.dropColonne(table.getName(), droppedColonne);
+            getTableInfo();
+            }
+        }
+    }//GEN-LAST:event_buttonDropColonneActionPerformed
+
+    private void buttonAddColonneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddColonneActionPerformed
+        JTextField txtboxNomColonne = new JTextField();
+        JTextField txtboxLongueur = new JTextField();
+        JComboBox comboboxTypes = new JComboBox();
+        String[] types = controller.getTypesList();
+        
+        for(String type : types) {
+            comboboxTypes.addItem(type);
+        }
+        
+        Object[] message = {
+            "Nom de la colonne : ", txtboxNomColonne,
+            "Type de données : ", comboboxTypes,
+            "Longueur : ", txtboxLongueur
+        };
+
+        int option = JOptionPane.showConfirmDialog(null, message, "Ajouter une colonne", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            controller.addColonne(table.getName(), txtboxNomColonne.getText(), comboboxTypes.getSelectedItem().toString(), Integer.parseInt(txtboxLongueur.getText()));
+            getTableInfo();
+        } 
+    }//GEN-LAST:event_buttonAddColonneActionPerformed
 
     private void btnRenameTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenameTableActionPerformed
         String inputNom;
         inputNom = JOptionPane.showInputDialog(null, "Entre le nouveau nom de la table : ", "Renommage de la table", JOptionPane.QUESTION_MESSAGE);
         if(controller.renameTable(table.getName(), inputNom.toUpperCase()) == true)
         {
-
+            table.setName(inputNom);
+            labelTableName.setText(table.getName().toUpperCase());
+            getTableInfo();
         }
-
     }//GEN-LAST:event_btnRenameTableActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        getTableInfo();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
+        if (btnAnnuler.getText().equals("Annuler les modifications")) {
+            btnModif.setText("Commencer les modifications");
+            btnAnnuler.setText("Fermer");
+            tableModif.setEnabled(false);
+        }
+
+
+    }//GEN-LAST:event_btnAnnulerActionPerformed
 
     public JButton getButton(String s) {
-            switch(s) {
-                case "annuler":
-                    return btnDiscard;
+        switch (s) {
+            case "annuler":
+                    return btnAnnuler;
                 case "rename":
                     return btnRenameTable;
                 default:
-                    return btnSave;
+                    return btnModif;
             }
         }
 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDiscard;
+    private javax.swing.JButton btnAnnuler;
+    private javax.swing.JButton btnModif;
     private javax.swing.JButton btnRenameTable;
-    private javax.swing.JButton btnSave;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton buttonAddColonne;
+    private javax.swing.JButton buttonDropColonne;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelTableName;
     private javax.swing.JTable tableModif;
     // End of variables declaration//GEN-END:variables

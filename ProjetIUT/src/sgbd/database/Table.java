@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Kazed
  */
 public class Table {
-    private final String name;
+    private String name;
     private ArrayList<Attribute> attributes = new ArrayList<>();
     
     public Table(String name) {
@@ -22,9 +22,17 @@ public class Table {
     public String getName() {
         return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     
     public ArrayList<Attribute> attributes() {
         return attributes;
+    }
+
+    public void setAttributes(ArrayList<Attribute> attributes) {
+        this.attributes = attributes;
     }
     
     @Override

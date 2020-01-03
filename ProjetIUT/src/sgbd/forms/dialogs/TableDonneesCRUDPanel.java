@@ -7,7 +7,6 @@ package sgbd.forms.dialogs;
 
 import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -263,20 +262,13 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
                     if(jTableDonneesCRUD.getModel().getValueAt(id, col) != null)
                     {
                         lesValeurs.add(jTableDonneesCRUD.getModel().getValueAt(id, col).toString());
-                        System.out.println("col = " + col + " Et lesValeurs.get(" + col + ") = " + lesValeurs.get(col));
                     }
-                    else
-                    {
-                        lesValeurs.add("null");
-                        System.out.println("col = " + col + " Et lesValeurs.get(" + col + ") = " + lesValeurs.get(col));
-                    }
-                    
                 }
                 controllerCRUD.deleteRow(tableCRUD, lesAttributs, lesValeurs, this);
                 
                 
             }
-            catch (SQLException e) 
+            catch (Exception e) 
             {
                 JOptionPane.showMessageDialog(TableDonneesCRUDPanel.this, "Erreur lors de la suppression " + e);
             }

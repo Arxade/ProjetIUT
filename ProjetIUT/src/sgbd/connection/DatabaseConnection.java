@@ -148,6 +148,35 @@ public abstract class DatabaseConnection {
     public String[] getTypesList() {
         return typesList;
     }
+  
+    public boolean dropColonne(String nomTable, String nomColonne) {
+        try {
+            statement = connection.createStatement();
+            String dropQuery = "ALTER TABLE " + nomTable + " DROP COLUMN " + nomColonne;
+            System.out.println(dropQuery);
+            statement.executeQuery(dropQuery);
+            javax.swing.JOptionPane.showMessageDialog(null, "Colonne supprimée.");
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Echec de suppression de la colonne.");
+            return false;
+        }
+    }
+    
+        public boolean addColonne(String nomTable, String nomColonne, String typeColonne, int longueurColonne) {
+        try {
+            statement = connection.createStatement();
+            String dropQuery = "ALTER TABLE " + nomTable + " ADD " + nomColonne + " " + typeColonne + "(" + longueurColonne + ")";
+            System.out.println(dropQuery);
+            statement.executeQuery(dropQuery);
+            javax.swing.JOptionPane.showMessageDialog(null, "Colonne ajoutée.");
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Echec de l'ajout de la colonne.");
+            return false;
+        }
+    }
+
 
     public void query (String requete) throws SQLException {
         statement = connection.createStatement();
@@ -223,24 +252,20 @@ public abstract class DatabaseConnection {
     {
         statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
         resultSet = statement.executeQuery(requete);
-        boolean valeursDeLaLigneCherche;
-        while( resultSet.next() )
+        boolean valeursDeLaLigneCherche = true;
+        while(resultSet.next())
         {
             valeursDeLaLigneCherche = true;
             for(int i = 1 ; i < resultSet.getMetaData().getColumnCount()+1 ; i++)
             {
-                String valeurDeGetStringDuResultSet = resultSet.getString(i);
-                if(resultSet.wasNull())
+                if(valeurs.get(i-1) == null)
                 {
-                    valeurDeGetStringDuResultSet = "null";
-                    System.out.println("EST NULL !");
+                    valeurs.set(i - 1, "null") ;
                 }
-                
-                System.out.println("Dans le for de deleterow de connection i = " + i + " ET resultSet.getString = " + resultSet.getString(i));
-                
-                if(!valeurDeGetStringDuResultSet.equals(valeurs.get(i-1)))
+                System.out.println("Dans le for de deleterow de connection i = " + i);
+                if(!resultSet.getString(i).equals(valeurs.get(i-1)))
                 {
-                    System.out.println("Dans le if du for resultSet = " + valeurDeGetStringDuResultSet + " ET valeurs.get = " + valeurs.get(i-1));
+                    System.out.println("Dans le if du for resultSet = " + resultSet.getString(i) + " ET valeurs.get = " + valeurs.get(i-1));
                     valeursDeLaLigneCherche = false;
                     System.out.println("Valeur de valeursDeLaLigneCherche: " + valeursDeLaLigneCherche);
                 }
