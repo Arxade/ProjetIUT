@@ -111,6 +111,7 @@ public class Controller {
         String requete = "SELECT ";
         for(int x = 0 ; x < lesAttributs.size() ; x++)
         {
+            
             if(x>0)
             {
                 requete = requete + ", " + lesAttributs.get(x) + " ";

@@ -223,7 +223,7 @@ public abstract class DatabaseConnection {
     {
         statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
         resultSet = statement.executeQuery(requete);
-        boolean valeursDeLaLigneCherche = true;
+        boolean valeursDeLaLigneCherche;
         while(resultSet.next())
         {
             valeursDeLaLigneCherche = true;
