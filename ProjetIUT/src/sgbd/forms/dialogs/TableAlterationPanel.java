@@ -22,7 +22,8 @@ import sgbd.database.Attribute;
 public class TableAlterationPanel extends javax.swing.JPanel {
     private Table table;
     private Controller controller;
-    private ArrayList<String> colonnes;
+    private ArrayList<String> nomsColonnes;
+    private ArrayList<ArrayList<Object>> listeAttributs;
 
     /**
      * Creates new form TableModifPanel
@@ -44,18 +45,31 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         ArrayList<Attribute> vide = new ArrayList<>();
         table.setAttributes(vide);
         controller.getAttributesList(table);
-        colonnes = new ArrayList<>();
+        nomsColonnes = new ArrayList<>();
 
         table.attributes().forEach((unAttribute) -> {
             tableModel.addRow(unAttribute.toObject());
-            colonnes.add(unAttribute.getName());
-            System.out.println(unAttribute.getName());
+            nomsColonnes.add(unAttribute.getName());
         });
+        
+        remplirListesAttributs();
 
     }
-     
 
-    
+    public void remplirListesAttributs() {
+    listeAttributs = new ArrayList<ArrayList<Object>>();
+        for (int row = 0; row < tableModif.getRowCount(); row++) {
+            ArrayList<Object> proprietesAttribut = new ArrayList<>();
+            for (int column = 0; column < tableModif.getColumnCount(); column++) {
+                proprietesAttribut.add(tableModif.getValueAt(row, column));
+            }
+            listeAttributs.add(proprietesAttribut);
+        }
+
+        listeAttributs.forEach(value -> System.out.println(value));
+
+    }
+
     public void modifTable(Object ancienAttribut, Object nouvelAttribut){
         
         
@@ -70,8 +84,8 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnSave = new javax.swing.JButton();
-        btnDiscard = new javax.swing.JButton();
+        btnModif = new javax.swing.JButton();
+        btnAnnuler = new javax.swing.JButton();
         btnRenameTable = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         labelTableName = new javax.swing.JLabel();
@@ -80,14 +94,19 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         buttonAddColonne = new javax.swing.JButton();
         buttonDropColonne = new javax.swing.JButton();
 
-        btnSave.setText("Confirmer les modifications");
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
+        btnModif.setText("Commencer les modifications");
+        btnModif.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
+                btnModifActionPerformed(evt);
             }
         });
 
-        btnDiscard.setText("Annuler");
+        btnAnnuler.setText("Fermer");
+        btnAnnuler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnnulerActionPerformed(evt);
+            }
+        });
 
         btnRenameTable.setText("Changer le nom de la table");
         btnRenameTable.addActionListener(new java.awt.event.ActionListener() {
@@ -123,6 +142,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tableModif.setEnabled(false);
         jScrollPane2.setViewportView(tableModif);
         if (tableModif.getColumnModel().getColumnCount() > 0) {
             tableModif.getColumnModel().getColumn(2).setMinWidth(80);
@@ -168,8 +188,8 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                                     .addComponent(jLabel1)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(labelTableName))
-                                .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-                                .addComponent(btnDiscard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnModif, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                                .addComponent(btnAnnuler, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnRenameTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(buttonDropColonne, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -192,20 +212,30 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(buttonDropColonne, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnModif, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnDiscard, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+    private void btnModifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifActionPerformed
         //modifTable();
-    }//GEN-LAST:event_btnSaveActionPerformed
+        if (btnModif.getText().equals("Commencer les modifications")) {
+            tableModif.setEnabled(true);
+            btnModif.setText("Valider les modifications");
+            btnAnnuler.setText("Annuler les modifications");
+        } else {
+            btnModif.setText("Commencer les modifications");
+            btnAnnuler.setText("Fermer");
+            tableModif.setEnabled(false);
+        }
+
+    }//GEN-LAST:event_btnModifActionPerformed
 
     private void buttonDropColonneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDropColonneActionPerformed
-        String [] colonnesCB = colonnes.toArray(new String[colonnes.size()]);
+        String [] colonnesCB = nomsColonnes.toArray(new String[nomsColonnes.size()]);
         String droppedColonne;
         
         droppedColonne = (String) JOptionPane.showInputDialog(null, "Choisissez la colonne à supprimer : ", "Suppression d'une colonne", JOptionPane.QUESTION_MESSAGE, null, colonnesCB, colonnesCB[0]);
@@ -254,23 +284,33 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnRenameTableActionPerformed
 
+    private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
+        if (btnAnnuler.getText().equals("Annuler les modifications")) {
+            btnModif.setText("Commencer les modifications");
+            btnAnnuler.setText("Fermer");
+            tableModif.setEnabled(false);
+        }
+
+
+    }//GEN-LAST:event_btnAnnulerActionPerformed
+
     public JButton getButton(String s) {
         switch (s) {
             case "annuler":
-                    return btnDiscard;
+                    return btnAnnuler;
                 case "rename":
                     return btnRenameTable;
                 default:
-                    return btnSave;
+                    return btnModif;
             }
         }
 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDiscard;
+    private javax.swing.JButton btnAnnuler;
+    private javax.swing.JButton btnModif;
     private javax.swing.JButton btnRenameTable;
-    private javax.swing.JButton btnSave;
     private javax.swing.JButton buttonAddColonne;
     private javax.swing.JButton buttonDropColonne;
     private javax.swing.JLabel jLabel1;

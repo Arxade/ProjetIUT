@@ -507,6 +507,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         content.getButton("confirmer").addActionListener((ActionEvent e) -> {
         });
         content.getButton("annuler").addActionListener((ActionEvent e) -> {
+            if (content.getButton("annuler").getText() == "Fermer")
             dialog.dispose();
         });
         content.getButton("rename").addActionListener((ActionEvent e) -> {
