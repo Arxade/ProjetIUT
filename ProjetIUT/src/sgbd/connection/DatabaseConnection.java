@@ -240,7 +240,7 @@ public abstract class DatabaseConnection {
                 
                 if(!valeurDeGetStringDuResultSet.equals(valeurs.get(i-1)))
                 {
-                    System.out.println("Dans le if du for resultSet = " + valeurDeGetStringDuResultSet+ " ET valeurs.get = " + valeurs.get(i-1));
+                    System.out.println("Dans le if du for resultSet = " + valeurDeGetStringDuResultSet + " ET valeurs.get = " + valeurs.get(i-1));
                     valeursDeLaLigneCherche = false;
                     System.out.println("Valeur de valeursDeLaLigneCherche: " + valeursDeLaLigneCherche);
                 }
