@@ -177,6 +177,19 @@ public abstract class DatabaseConnection {
         }
     }
 
+    public boolean renameColonne(String nomTable, String nomColonneActuel, String nomColonneNew) {
+        try {
+            statement = connection.createStatement();
+            String renameQuery = "ALTER TABLE " + nomTable + " RENAME COLUMN " + nomColonneActuel + " TO " + nomColonneNew;
+            System.out.println(renameQuery);
+            statement.executeQuery(renameQuery);
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
+            return false;
+        }
+    }
+
 
     public void query (String requete) throws SQLException {
         statement = connection.createStatement();

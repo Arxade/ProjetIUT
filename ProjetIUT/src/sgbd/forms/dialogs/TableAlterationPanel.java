@@ -84,6 +84,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        comboboxTypes = new javax.swing.JComboBox<>();
         btnModif = new javax.swing.JButton();
         btnAnnuler = new javax.swing.JButton();
         btnRenameTable = new javax.swing.JButton();
@@ -93,6 +94,8 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         tableModif = new javax.swing.JTable();
         buttonAddColonne = new javax.swing.JButton();
         buttonDropColonne = new javax.swing.JButton();
+
+        comboboxTypes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnModif.setText("Commencer les modifications");
         btnModif.addActionListener(new java.awt.event.ActionListener() {
@@ -226,7 +229,16 @@ public class TableAlterationPanel extends javax.swing.JPanel {
             tableModif.setEnabled(true);
             btnModif.setText("Valider les modifications");
             btnAnnuler.setText("Annuler les modifications");
-        } else {
+        } else if (btnModif.getText().equals("Valider les modifications")) {
+            for (int row = 0; row < tableModif.getRowCount(); row++) {
+                String ancienNomColonne = listeAttributs.get(row).get(0).toString().toUpperCase();
+                String nouveauNomColonne = tableModif.getValueAt(row, 0).toString();
+                if (!nouveauNomColonne.equals(ancienNomColonne)) {
+                    controller.renameColonne(table.getName(), ancienNomColonne, nouveauNomColonne);
+                }
+
+            }
+            getTableInfo();
             btnModif.setText("Commencer les modifications");
             btnAnnuler.setText("Fermer");
             tableModif.setEnabled(false);
@@ -313,6 +325,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnRenameTable;
     private javax.swing.JButton buttonAddColonne;
     private javax.swing.JButton buttonDropColonne;
+    private javax.swing.JComboBox<String> comboboxTypes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelTableName;

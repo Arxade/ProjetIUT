@@ -77,6 +77,10 @@ public class Controller {
         return connection.addColonne(nomTable, nomColonne, typeColonne, longueurColonne);
     }
 
+    public boolean renameColonne(String nomTable, String nomColonneActuel, String nomColonneNew) {
+        return connection.renameColonne(nomTable, nomColonneActuel, nomColonneNew);
+    }
+
     public ResultSet getResultSetFromTable(Table table) throws Exception
     {
         return connection.getResultSetFromTable(table);
