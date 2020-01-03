@@ -265,6 +265,11 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
                         lesValeurs.add(jTableDonneesCRUD.getModel().getValueAt(id, col).toString());
                         System.out.println("col = " + col + " Et lesValeurs.get(" + col + ") = " + lesValeurs.get(col));
                     }
+                    else
+                    {
+                        lesValeurs.add("null");
+                        System.out.println("col = " + col + " Et lesValeurs.get(" + col + ") = " + lesValeurs.get(col));
+                    }
                     
                 }
                 controllerCRUD.deleteRow(tableCRUD, lesAttributs, lesValeurs, this);

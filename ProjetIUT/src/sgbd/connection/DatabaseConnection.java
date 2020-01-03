@@ -224,19 +224,23 @@ public abstract class DatabaseConnection {
         statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
         resultSet = statement.executeQuery(requete);
         boolean valeursDeLaLigneCherche;
-        while(resultSet.next())
+        while( resultSet.next() )
         {
             valeursDeLaLigneCherche = true;
             for(int i = 1 ; i < resultSet.getMetaData().getColumnCount()+1 ; i++)
             {
-                if(valeurs.get(i-1) == null)
+                String valeurDeGetStringDuResultSet = resultSet.getString(i);
+                if(resultSet.wasNull())
                 {
-                    valeurs.set(i - 1, "null") ;
+                    valeurDeGetStringDuResultSet = "null";
+                    System.out.println("EST NULL !");
                 }
-                System.out.println("Dans le for de deleterow de connection i = " + i);
-                if(!resultSet.getString(i).equals(valeurs.get(i-1)))
+                
+                System.out.println("Dans le for de deleterow de connection i = " + i + " ET resultSet.getString = " + resultSet.getString(i));
+                
+                if(!valeurDeGetStringDuResultSet.equals(valeurs.get(i-1)))
                 {
-                    System.out.println("Dans le if du for resultSet = " + resultSet.getString(i) + " ET valeurs.get = " + valeurs.get(i-1));
+                    System.out.println("Dans le if du for resultSet = " + valeurDeGetStringDuResultSet+ " ET valeurs.get = " + valeurs.get(i-1));
                     valeursDeLaLigneCherche = false;
                     System.out.println("Valeur de valeursDeLaLigneCherche: " + valeursDeLaLigneCherche);
                 }
