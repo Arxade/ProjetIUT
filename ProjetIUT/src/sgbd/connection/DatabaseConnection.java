@@ -258,12 +258,13 @@ public abstract class DatabaseConnection {
             valeursDeLaLigneCherche = true;
             for(int i = 1 ; i < resultSet.getMetaData().getColumnCount()+1 ; i++)
             {
-                if(valeurs.get(i-1) == null)
+                String valDuResultSet = resultSet.getString(i);
+                if(resultSet.wasNull())
                 {
-                    valeurs.set(i - 1, "null") ;
+                    valDuResultSet = "null";
                 }
                 System.out.println("Dans le for de deleterow de connection i = " + i);
-                if(!resultSet.getString(i).equals(valeurs.get(i-1)))
+                if(!valDuResultSet.equals(valeurs.get(i-1)))
                 {
                     System.out.println("Dans le if du for resultSet = " + resultSet.getString(i) + " ET valeurs.get = " + valeurs.get(i-1));
                     valeursDeLaLigneCherche = false;
