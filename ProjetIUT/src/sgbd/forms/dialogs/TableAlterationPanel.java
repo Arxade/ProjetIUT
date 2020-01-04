@@ -400,7 +400,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
 
         int option = JOptionPane.showConfirmDialog(null, message, "Ajouter une clé étrangère", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
-            controller.createForeignyKey(table.getName(), comboboxColonnes.getSelectedItem().toString(), comboboxTables.getSelectedItem().toString(), comboboxRef.getSelectedItem().toString());
+            controller.createForeignKey(table.getName(), comboboxColonnes.getSelectedItem().toString(), comboboxTables.getSelectedItem().toString(), comboboxRef.getSelectedItem().toString());
             getTableInfo();
         } 
     }//GEN-LAST:event_buttonAddFKActionPerformed
@@ -419,7 +419,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
 
         int option = JOptionPane.showConfirmDialog(null, message, "Supprimer une clé étrangère", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
-            controller.dropForeignyKey(table.getName(), comboboxFK.getSelectedItem().toString());
+            controller.dropForeignKey(table.getName(), comboboxFK.getSelectedItem().toString());
             getTableInfo();
         }
     }//GEN-LAST:event_buttonDropFKActionPerformed
