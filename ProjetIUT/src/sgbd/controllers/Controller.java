@@ -81,6 +81,10 @@ public class Controller {
         return connection.renameColonne(nomTable, nomColonneActuel, nomColonneNew);
     }
 
+    public boolean alterDatatypeColonne(String nomTable, String nomColonne, String typeColonne, int longueurColonne) {
+        return connection.alterDatatypeColonne(nomTable, nomColonne, typeColonne, longueurColonne);
+    }
+
     public ResultSet getResultSetFromTable(Table table) throws Exception
     {
         return connection.getResultSetFromTable(table);

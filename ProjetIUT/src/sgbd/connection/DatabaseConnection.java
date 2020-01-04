@@ -190,6 +190,18 @@ public abstract class DatabaseConnection {
         }
     }
 
+    public boolean alterDatatypeColonne(String nomTable, String nomColonne, String datatype, int longueurColonne) {
+        try {
+            statement = connection.createStatement();
+            String query = "ALTER TABLE " + nomTable + " MODIFY " + nomColonne + " " + datatype + "(" + longueurColonne + ")";
+            System.out.println(query);
+            statement.executeQuery(query);
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
+            return false;
+        }
+    }
 
     public void query (String requete) throws SQLException {
         statement = connection.createStatement();

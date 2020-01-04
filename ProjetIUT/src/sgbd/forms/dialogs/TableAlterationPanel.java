@@ -6,11 +6,13 @@
 package sgbd.forms.dialogs;
 
 import java.util.ArrayList;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import sgbd.controllers.Controller;
 import sgbd.database.Table;
 import sgbd.database.Attribute;
@@ -36,7 +38,14 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         this.table = table;
         getTableInfo();
         labelTableName.setText(table.getName());
-  
+        String[] types = controller.getTypesList();
+        TableColumn typeColumn = tableModif.getColumnModel().getColumn(1);
+        for (String type : types) {
+            comboboxTypes.addItem(type);
+        }
+
+        typeColumn.setCellEditor(new DefaultCellEditor(comboboxTypes));
+
     }
 
     private void getTableInfo() {
@@ -94,8 +103,6 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         tableModif = new javax.swing.JTable();
         buttonAddColonne = new javax.swing.JButton();
         buttonDropColonne = new javax.swing.JButton();
-
-        comboboxTypes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnModif.setText("Commencer les modifications");
         btnModif.addActionListener(new java.awt.event.ActionListener() {
@@ -229,12 +236,25 @@ public class TableAlterationPanel extends javax.swing.JPanel {
             tableModif.setEnabled(true);
             btnModif.setText("Valider les modifications");
             btnAnnuler.setText("Annuler les modifications");
+  
         } else if (btnModif.getText().equals("Valider les modifications")) {
+
             for (int row = 0; row < tableModif.getRowCount(); row++) {
-                String ancienNomColonne = listeAttributs.get(row).get(0).toString().toUpperCase();
-                String nouveauNomColonne = tableModif.getValueAt(row, 0).toString();
+                String ancienNomColonne = listeAttributs.get(row).get(0).toString();
+                String nouveauNomColonne = tableModif.getValueAt(row, 0).toString().toUpperCase();
+
+                String ancienDatatype = listeAttributs.get(row).get(1).toString();
+                String nouveauDatatype = tableModif.getValueAt(row, 1).toString();
+
+                int ancienneLongueur = Integer.parseInt(listeAttributs.get(row).get(2).toString());
+                int nouvelleLongueur = Integer.parseInt(tableModif.getValueAt(row, 2).toString());
+
                 if (!nouveauNomColonne.equals(ancienNomColonne)) {
                     controller.renameColonne(table.getName(), ancienNomColonne, nouveauNomColonne);
+                }
+
+                if (!ancienDatatype.equals(nouveauDatatype) || ancienneLongueur != nouvelleLongueur) {
+                    controller.alterDatatypeColonne(table.getName(), nouveauNomColonne, nouveauDatatype, nouvelleLongueur);
                 }
 
             }
@@ -265,13 +285,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     private void buttonAddColonneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddColonneActionPerformed
         JTextField txtboxNomColonne = new JTextField();
         JTextField txtboxLongueur = new JTextField();
-        JComboBox comboboxTypes = new JComboBox();
-        String[] types = controller.getTypesList();
-        
-        for(String type : types) {
-            comboboxTypes.addItem(type);
-        }
-        
+
         Object[] message = {
             "Nom de la colonne : ", txtboxNomColonne,
             "Type de données : ", comboboxTypes,
@@ -301,6 +315,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
             btnModif.setText("Commencer les modifications");
             btnAnnuler.setText("Fermer");
             tableModif.setEnabled(false);
+            getTableInfo();
         }
 
 
