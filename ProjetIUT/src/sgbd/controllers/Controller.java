@@ -93,11 +93,11 @@ public class Controller {
         return connection.createPrimaryKey(nomTable, nomColonnesPK);
     }
 
-    public boolean createForeignKey(String nomTable, String nomColonne, String nomTableRef, String nomColonneRef) {
+    public boolean createForeignyKey(String nomTable, String nomColonne, String nomTableRef, String nomColonneRef) {
         return connection.createForeignKey(nomTable, nomColonne, nomTableRef, nomColonneRef);
     }
 
-    public boolean dropForeignKey(String nomTable, String nomFK) {
+    public boolean dropForeignyKey(String nomTable, String nomFK) {
         return connection.dropForeignKey(nomTable, nomFK);
     }
     
