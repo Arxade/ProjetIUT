@@ -242,11 +242,10 @@ public abstract class DatabaseConnection {
         }
     }
     
-        public boolean createPrimaryKey(String nomTable, ArrayList<String> nomColonnesPK) {
+    public boolean createPrimaryKey(String nomTable, ArrayList<String> nomColonnesPK) {
         try {
             String colonnesPK = "";
-            for (String uneColonne : nomColonnesPK)
-            {
+            for (String uneColonne : nomColonnesPK) {
                 colonnesPK = colonnesPK + uneColonne + ",";
             }
             colonnesPK = colonnesPK.substring(0, colonnesPK.length() - 1);
@@ -260,6 +259,52 @@ public abstract class DatabaseConnection {
             return false;
         }
     }
+        
+    public boolean createForeignKey(String nomTable, String nomColonne, String nomTableRef, String nomColonneRef) {
+        try {
+            statement = connection.createStatement();
+            String query = "ALTER TABLE " + nomTable + " ADD CONSTRAINT fk_" + nomColonne + " FOREIGN KEY " + "(" + nomColonne + ")" 
+                    + " REFERENCES " + nomTableRef + "(" + nomColonneRef + ")";
+            System.out.println(query);
+            statement.executeQuery(query);
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
+            return false;
+        }
+    }
+
+    public boolean dropForeignKey(String nomTable, String nomFK) {
+        try {
+            statement = connection.createStatement();
+            String query = "ALTER TABLE " + nomTable + " DROP CONSTRAINT " + nomFK;
+            System.out.println(query);
+            statement.executeQuery(query);
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
+            return false;
+        }
+    }
+    
+    public String[] getForeignKeyNames(String nomTable){
+       ArrayList<String> lesFK = new ArrayList<>();    
+        try {
+            dbMetadata = connection.getMetaData();
+            resultSet = dbMetadata.getImportedKeys(connection.getCatalog(), connection.getSchema(), nomTable);
+            while (resultSet.next())
+            {
+                lesFK.add(resultSet.getString("FK_NAME"));
+            }
+            String[] array = lesFK.toArray(new String[lesFK.size()]);
+            return array;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
+            String[] array;
+            return array = new String[1];
+        }
+    }
+    
 
 
     public void query (String requete) throws SQLException {

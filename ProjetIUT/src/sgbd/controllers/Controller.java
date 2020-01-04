@@ -92,9 +92,22 @@ public class Controller {
     public boolean createPrimaryKey(String nomTable, ArrayList<String> nomColonnesPK){
         return connection.createPrimaryKey(nomTable, nomColonnesPK);
     }
+
+    public boolean createForeignyKey(String nomTable, String nomColonne, String nomTableRef, String nomColonneRef) {
+        return connection.createForeignKey(nomTable, nomColonne, nomTableRef, nomColonneRef);
+    }
+
+    public boolean dropForeignyKey(String nomTable, String nomFK) {
+        return connection.dropForeignKey(nomTable, nomFK);
+    }
     
     public String[] getPKList(String nomTable){
         return connection.getPKTab(nomTable);
+    }
+    
+    public String[] getFKNames(String nomTable)
+    {
+        return connection.getForeignKeyNames(nomTable);
     }
 
     public ResultSet getResultSetFromTable(Table table) throws Exception

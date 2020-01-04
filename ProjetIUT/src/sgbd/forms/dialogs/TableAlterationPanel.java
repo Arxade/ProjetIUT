@@ -6,6 +6,7 @@
 package sgbd.forms.dialogs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -57,6 +58,8 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         {
             comboboxColonnes.addItem(laColonne);
         }
+        
+
     }
 
     private void getTableInfo() {
@@ -101,6 +104,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         comboboxTables = new javax.swing.JComboBox<>();
         comboboxRef = new javax.swing.JComboBox<>();
         comboboxColonnes = new javax.swing.JComboBox<>();
+        comboboxFK = new javax.swing.JComboBox<>();
         btnModif = new javax.swing.JButton();
         btnAnnuler = new javax.swing.JButton();
         btnRenameTable = new javax.swing.JButton();
@@ -388,10 +392,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void buttonAddFKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddFKActionPerformed
-        JTextField txtboxNomColonne = new JTextField();
-        JTextField txtboxLongueur = new JTextField();
-
-        Object[] message = {
+       Object[] message = {
             "Nom de la colonne affectée : ", comboboxColonnes,
             "Table à référencer : ", comboboxTables,
             "Clé primaire / contrainte unique à référencer : ", comboboxRef
@@ -399,13 +400,28 @@ public class TableAlterationPanel extends javax.swing.JPanel {
 
         int option = JOptionPane.showConfirmDialog(null, message, "Ajouter une clé étrangère", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
-            controller.addColonne(table.getName(), txtboxNomColonne.getText(), comboboxTypes.getSelectedItem().toString(), Integer.parseInt(txtboxLongueur.getText()));
+            controller.createForeignyKey(table.getName(), comboboxColonnes.getSelectedItem().toString(), comboboxTables.getSelectedItem().toString(), comboboxRef.getSelectedItem().toString());
             getTableInfo();
         } 
     }//GEN-LAST:event_buttonAddFKActionPerformed
 
     private void buttonDropFKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDropFKActionPerformed
-        // TODO add your handling code here:
+        comboboxFK.removeAllItems();
+        String[] lesFK = controller.getFKNames(table.getName());
+        for (String laFK : lesFK)
+        {
+            comboboxFK.addItem(laFK);
+        }
+        
+        Object[] message = {
+            "Nom de la clé étrangère à supprimer : ", comboboxFK
+        };
+
+        int option = JOptionPane.showConfirmDialog(null, message, "Supprimer une clé étrangère", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            controller.dropForeignyKey(table.getName(), comboboxFK.getSelectedItem().toString());
+            getTableInfo();
+        }
     }//GEN-LAST:event_buttonDropFKActionPerformed
 
     private void comboboxTablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxTablesActionPerformed
@@ -438,6 +454,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     private javax.swing.JButton buttonDropColonne;
     private javax.swing.JButton buttonDropFK;
     private javax.swing.JComboBox<String> comboboxColonnes;
+    private javax.swing.JComboBox<String> comboboxFK;
     private javax.swing.JComboBox<String> comboboxRef;
     private javax.swing.JComboBox<String> comboboxTables;
     private javax.swing.JComboBox<String> comboboxTypes;
