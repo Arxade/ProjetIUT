@@ -37,15 +37,26 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         this.controller = controller;
         this.table = table;
         getTableInfo();
+        tableModif.getTableHeader().setReorderingAllowed(false);
         labelTableName.setText(table.getName());
+        
         String[] types = controller.getTypesList();
         TableColumn typeColumn = tableModif.getColumnModel().getColumn(1);
         for (String type : types) {
             comboboxTypes.addItem(type);
         }
-
         typeColumn.setCellEditor(new DefaultCellEditor(comboboxTypes));
-
+        
+        String[] tables = controller.getTablesList();
+        for (String laTable : tables){
+            comboboxTables.addItem(laTable);
+        }
+        
+        String[] colonnes = nomsColonnes.toArray(new String[nomsColonnes.size()]);
+        for (String laColonne : colonnes)
+        {
+            comboboxColonnes.addItem(laColonne);
+        }
     }
 
     private void getTableInfo() {
@@ -74,14 +85,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
             }
             listeAttributs.add(proprietesAttribut);
         }
-
         listeAttributs.forEach(value -> System.out.println(value));
-
-    }
-
-    public void modifTable(Object ancienAttribut, Object nouvelAttribut){
-        
-        
     }
 
     /**
@@ -94,6 +98,9 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         comboboxTypes = new javax.swing.JComboBox<>();
+        comboboxTables = new javax.swing.JComboBox<>();
+        comboboxRef = new javax.swing.JComboBox<>();
+        comboboxColonnes = new javax.swing.JComboBox<>();
         btnModif = new javax.swing.JButton();
         btnAnnuler = new javax.swing.JButton();
         btnRenameTable = new javax.swing.JButton();
@@ -104,6 +111,13 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         buttonAddColonne = new javax.swing.JButton();
         buttonDropColonne = new javax.swing.JButton();
         buttonAddFK = new javax.swing.JButton();
+        buttonDropFK = new javax.swing.JButton();
+
+        comboboxTables.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboboxTablesActionPerformed(evt);
+            }
+        });
 
         btnModif.setText("Commencer les modifications");
         btnModif.addActionListener(new java.awt.event.ActionListener() {
@@ -119,7 +133,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
             }
         });
 
-        btnRenameTable.setText("Changer le nom de la table");
+        btnRenameTable.setText("Renommer la table");
         btnRenameTable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRenameTableActionPerformed(evt);
@@ -191,6 +205,13 @@ public class TableAlterationPanel extends javax.swing.JPanel {
             }
         });
 
+        buttonDropFK.setText("Supprimer une clé étrangère");
+        buttonDropFK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDropFKActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -207,7 +228,8 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                     .addComponent(btnRenameTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buttonDropColonne, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
                     .addComponent(buttonAddFK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonAddColonne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(buttonAddColonne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonDropFK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE)
                 .addContainerGap())
@@ -223,15 +245,17 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                             .addComponent(labelTableName))
                         .addGap(18, 18, 18)
                         .addComponent(btnRenameTable)
-                        .addGap(86, 86, 86)
-                        .addComponent(buttonAddColonne, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonDropColonne, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonAddFK, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addComponent(buttonAddColonne, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(buttonDropColonne, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57)
+                        .addComponent(buttonAddFK, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(buttonDropFK, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnModif, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE))
                 .addContainerGap())
@@ -253,6 +277,8 @@ public class TableAlterationPanel extends javax.swing.JPanel {
             Boolean PKexistante = false;
 
             for (int row = 0; row < tableModif.getRowCount(); row++) {
+                
+                //Enregistrement des anciennes données et nouvelles données
                 String ancienNomColonne = listeAttributs.get(row).get(0).toString();
                 String nouveauNomColonne = tableModif.getValueAt(row, 0).toString().toUpperCase();
 
@@ -264,25 +290,30 @@ public class TableAlterationPanel extends javax.swing.JPanel {
 
                 anciennesPK.add(Boolean.parseBoolean(listeAttributs.get(row).get(3).toString()));
                 nouvellesPK.add(Boolean.parseBoolean(tableModif.getValueAt(row, 3).toString()));
-
-                if (Boolean.parseBoolean(tableModif.getValueAt(row, 3).toString()) == true) {
-                    colonnesPK.add(nouveauNomColonne);
-                }
-
+                
+                //Détermine si la table possedait déjà une clé primaire
                 if (Boolean.parseBoolean(listeAttributs.get(row).get(3).toString()) == true) {
                     PKexistante = true;
                 }
-
+                
+                //remplissage de la liste des colonnes de la nouvelle clé primaire
+                if (Boolean.parseBoolean(tableModif.getValueAt(row, 3).toString()) == true) {
+                    colonnesPK.add(nouveauNomColonne);
+                }
+                
+                //Renommage des colonnes
                 if (!nouveauNomColonne.equals(ancienNomColonne)) {
                     controller.renameColonne(table.getName(), ancienNomColonne, nouveauNomColonne);
                 }
 
+                //changement du type de données des colonnes
                 if (!ancienDatatype.equals(nouveauDatatype) || ancienneLongueur != nouvelleLongueur) {
                     controller.alterDatatypeColonne(table.getName(), nouveauNomColonne, nouveauDatatype, nouvelleLongueur);
                 }
-
+                
             }
 
+            //gestion de la clé primaire
             if (anciennesPK != nouvellesPK && colonnesPK.isEmpty() && PKexistante == true) {
                 controller.dropPrimaryKey(table.getName());
             } else {
@@ -354,12 +385,36 @@ public class TableAlterationPanel extends javax.swing.JPanel {
             getTableInfo();
         }
 
-
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void buttonAddFKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddFKActionPerformed
-        // TODO add your handling code here:
+        JTextField txtboxNomColonne = new JTextField();
+        JTextField txtboxLongueur = new JTextField();
+
+        Object[] message = {
+            "Nom de la colonne affectée : ", comboboxColonnes,
+            "Table à référencer : ", comboboxTables,
+            "Clé primaire / contrainte unique à référencer : ", comboboxRef
+        };
+
+        int option = JOptionPane.showConfirmDialog(null, message, "Ajouter une clé étrangère", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            controller.addColonne(table.getName(), txtboxNomColonne.getText(), comboboxTypes.getSelectedItem().toString(), Integer.parseInt(txtboxLongueur.getText()));
+            getTableInfo();
+        } 
     }//GEN-LAST:event_buttonAddFKActionPerformed
+
+    private void buttonDropFKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDropFKActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonDropFKActionPerformed
+
+    private void comboboxTablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxTablesActionPerformed
+        String[] refs = controller.getPKList(comboboxTables.getSelectedItem().toString());
+        comboboxRef.removeAllItems();
+        for (String laRef : refs) {
+            comboboxRef.addItem(laRef);
+        }
+    }//GEN-LAST:event_comboboxTablesActionPerformed
 
     public JButton getButton(String s) {
         switch (s) {
@@ -381,6 +436,10 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     private javax.swing.JButton buttonAddColonne;
     private javax.swing.JButton buttonAddFK;
     private javax.swing.JButton buttonDropColonne;
+    private javax.swing.JButton buttonDropFK;
+    private javax.swing.JComboBox<String> comboboxColonnes;
+    private javax.swing.JComboBox<String> comboboxRef;
+    private javax.swing.JComboBox<String> comboboxTables;
     private javax.swing.JComboBox<String> comboboxTypes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;

@@ -95,15 +95,41 @@ public abstract class DatabaseConnection {
             return false;
         }
     }
-    
+
     public String[] getTablesList() {
-        String[] tblLst = new String[tablesList.size()];
-        int i = 0;
-        for(String table : tablesList) {
-            tblLst[i] = table;
-            i++;
+        try {
+            ArrayList<String> lesTables = new ArrayList<>();
+            dbMetadata = connection.getMetaData();
+            String[] types = {"TABLE"};
+            resultSet = dbMetadata.getTables(connection.getCatalog(), connection.getSchema(), "%", types);
+            while (resultSet.next()) {
+                String laPK = resultSet.getString("TABLE_NAME");
+                lesTables.add(laPK);
+            }
+            String[] tblLst = lesTables.toArray(new String[lesTables.size()]);
+            return tblLst;
+        } catch (SQLException e) {
+            String[] array;
+            return array = new String[1];
         }
-        return tblLst;
+
+    }
+
+    public String[] getPKTab(String table) {
+        try {
+            ArrayList<String> listePK = new ArrayList<>(2);
+            dbMetadata = connection.getMetaData();
+            resultSet = dbMetadata.getPrimaryKeys(connection.getCatalog(), connection.getSchema(), table);
+            while (resultSet.next()) {
+                String laPK = resultSet.getString("COLUMN_NAME");
+                listePK.add(laPK);
+            }
+            String[] array = listePK.toArray(new String[listePK.size()]);
+            return array;
+        } catch (SQLException ex) {
+            String[] array;
+            return array = new String[1];
+        }
     }
     
     public ArrayList<Attribute> getTableColumns(Table table) {

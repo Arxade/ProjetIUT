@@ -92,6 +92,10 @@ public class Controller {
     public boolean createPrimaryKey(String nomTable, ArrayList<String> nomColonnesPK){
         return connection.createPrimaryKey(nomTable, nomColonnesPK);
     }
+    
+    public String[] getPKList(String nomTable){
+        return connection.getPKTab(nomTable);
+    }
 
     public ResultSet getResultSetFromTable(Table table) throws Exception
     {
