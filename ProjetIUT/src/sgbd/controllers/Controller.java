@@ -85,6 +85,14 @@ public class Controller {
         return connection.alterDatatypeColonne(nomTable, nomColonne, typeColonne, longueurColonne);
     }
 
+    public boolean dropPrimaryKey(String nomTable) {
+        return connection.dropPrimaryKey(nomTable);
+    }
+    
+    public boolean createPrimaryKey(String nomTable, ArrayList<String> nomColonnesPK){
+        return connection.createPrimaryKey(nomTable, nomColonnesPK);
+    }
+
     public ResultSet getResultSetFromTable(Table table) throws Exception
     {
         return connection.getResultSetFromTable(table);

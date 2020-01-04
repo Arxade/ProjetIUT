@@ -103,6 +103,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         tableModif = new javax.swing.JTable();
         buttonAddColonne = new javax.swing.JButton();
         buttonDropColonne = new javax.swing.JButton();
+        buttonAddFK = new javax.swing.JButton();
 
         btnModif.setText("Commencer les modifications");
         btnModif.addActionListener(new java.awt.event.ActionListener() {
@@ -183,25 +184,30 @@ public class TableAlterationPanel extends javax.swing.JPanel {
             }
         });
 
+        buttonAddFK.setText("Ajouter une clé étrangère");
+        buttonAddFK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAddFKActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonAddColonne, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(labelTableName))
-                                .addComponent(btnModif, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-                                .addComponent(btnAnnuler, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnRenameTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(buttonDropColonne, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelTableName))
+                    .addComponent(btnModif, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                    .addComponent(btnAnnuler, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRenameTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonDropColonne, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                    .addComponent(buttonAddFK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonAddColonne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE)
                 .addContainerGap())
@@ -221,6 +227,8 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                         .addComponent(buttonAddColonne, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(buttonDropColonne, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonAddFK, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnModif, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -238,6 +246,11 @@ public class TableAlterationPanel extends javax.swing.JPanel {
             btnAnnuler.setText("Annuler les modifications");
   
         } else if (btnModif.getText().equals("Valider les modifications")) {
+            
+            ArrayList<Boolean> anciennesPK = new ArrayList<>();
+            ArrayList<Boolean> nouvellesPK = new ArrayList<>();
+            ArrayList<String> colonnesPK = new ArrayList<>();
+            Boolean PKexistante = false;
 
             for (int row = 0; row < tableModif.getRowCount(); row++) {
                 String ancienNomColonne = listeAttributs.get(row).get(0).toString();
@@ -249,6 +262,17 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                 int ancienneLongueur = Integer.parseInt(listeAttributs.get(row).get(2).toString());
                 int nouvelleLongueur = Integer.parseInt(tableModif.getValueAt(row, 2).toString());
 
+                anciennesPK.add(Boolean.parseBoolean(listeAttributs.get(row).get(3).toString()));
+                nouvellesPK.add(Boolean.parseBoolean(tableModif.getValueAt(row, 3).toString()));
+
+                if (Boolean.parseBoolean(tableModif.getValueAt(row, 3).toString()) == true) {
+                    colonnesPK.add(nouveauNomColonne);
+                }
+
+                if (Boolean.parseBoolean(listeAttributs.get(row).get(3).toString()) == true) {
+                    PKexistante = true;
+                }
+
                 if (!nouveauNomColonne.equals(ancienNomColonne)) {
                     controller.renameColonne(table.getName(), ancienNomColonne, nouveauNomColonne);
                 }
@@ -258,6 +282,18 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                 }
 
             }
+
+            if (anciennesPK != nouvellesPK && colonnesPK.isEmpty() && PKexistante == true) {
+                controller.dropPrimaryKey(table.getName());
+            } else {
+                if (anciennesPK != nouvellesPK && !colonnesPK.isEmpty()) {
+                    if (PKexistante == true) {
+                        controller.dropPrimaryKey(table.getName());
+                    }
+                    controller.createPrimaryKey(table.getName(), colonnesPK);
+                }
+            }
+
             getTableInfo();
             btnModif.setText("Commencer les modifications");
             btnAnnuler.setText("Fermer");
@@ -321,6 +357,10 @@ public class TableAlterationPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
+    private void buttonAddFKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddFKActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonAddFKActionPerformed
+
     public JButton getButton(String s) {
         switch (s) {
             case "annuler":
@@ -339,6 +379,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnModif;
     private javax.swing.JButton btnRenameTable;
     private javax.swing.JButton buttonAddColonne;
+    private javax.swing.JButton buttonAddFK;
     private javax.swing.JButton buttonDropColonne;
     private javax.swing.JComboBox<String> comboboxTypes;
     private javax.swing.JLabel jLabel1;

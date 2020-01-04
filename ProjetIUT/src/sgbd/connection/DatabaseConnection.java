@@ -202,6 +202,39 @@ public abstract class DatabaseConnection {
             return false;
         }
     }
+    
+    public boolean dropPrimaryKey(String nomTable) {
+        try {
+            statement = connection.createStatement();
+            String query = "ALTER TABLE " + nomTable + " DROP PRIMARY KEY";
+            System.out.println(query);
+            statement.executeQuery(query);
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
+            return false;
+        }
+    }
+    
+        public boolean createPrimaryKey(String nomTable, ArrayList<String> nomColonnesPK) {
+        try {
+            String colonnesPK = "";
+            for (String uneColonne : nomColonnesPK)
+            {
+                colonnesPK = colonnesPK + uneColonne + ",";
+            }
+            colonnesPK = colonnesPK.substring(0, colonnesPK.length() - 1);
+            statement = connection.createStatement();
+            String query = "ALTER TABLE " + nomTable + " ADD CONSTRAINT pk_" + nomTable + " PRIMARY KEY " + "(" + colonnesPK + ")";
+            System.out.println(query);
+            statement.executeQuery(query);
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
+            return false;
+        }
+    }
+
 
     public void query (String requete) throws SQLException {
         statement = connection.createStatement();
