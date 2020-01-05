@@ -274,10 +274,49 @@ public abstract class DatabaseConnection {
         }
     }
 
-    public boolean dropForeignKey(String nomTable, String nomFK) {
+    public boolean dropConstraint(String nomTable, String nomConstraint) {
         try {
             statement = connection.createStatement();
-            String query = "ALTER TABLE " + nomTable + " DROP CONSTRAINT " + nomFK;
+            String query = "ALTER TABLE " + nomTable + " DROP CONSTRAINT " + nomConstraint;
+            System.out.println(query);
+            statement.executeQuery(query);
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
+            return false;
+        }
+    }
+
+    public boolean addConstraintUnique(String nomTable, String nomColonne) {
+        try {
+            statement = connection.createStatement();
+            String query = "ALTER TABLE " + nomTable + " ADD CONSTRAINT un_" + nomColonne + " UNIQUE("+nomColonne+")";
+            System.out.println(query);
+            statement.executeQuery(query);
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
+            return false;
+        }
+    }
+
+    public boolean addConstraintNotNull(String nomTable, String nomColonne) {
+        try {
+            statement = connection.createStatement();
+            String query = "ALTER TABLE " + nomTable + " MODIFY " + nomColonne + " NOT NULL";
+            System.out.println(query);
+            statement.executeQuery(query);
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
+            return false;
+        }
+    }
+    
+        public boolean dropNotNull(String nomTable, String nomColonne) {
+        try {
+            statement = connection.createStatement();
+            String query = "ALTER TABLE " + nomTable + " MODIFY " + nomColonne + " NULL";
             System.out.println(query);
             statement.executeQuery(query);
             return true;

@@ -97,8 +97,20 @@ public class Controller {
         return connection.createForeignKey(nomTable, nomColonne, nomTableRef, nomColonneRef);
     }
 
-    public boolean dropForeignKey(String nomTable, String nomFK) {
-        return connection.dropForeignKey(nomTable, nomFK);
+    public boolean dropConstraint(String nomTable, String nomConstraint) {
+        return connection.dropConstraint(nomTable, nomConstraint);
+    }
+    
+    public boolean addConstraintUnique(String nomTable, String nomColonne) {
+        return connection.addConstraintUnique(nomTable, nomColonne);
+    }
+    
+     public boolean addConstraintNotNull(String nomTable, String nomColonne) {
+         return connection.addConstraintNotNull(nomTable, nomColonne);
+     }
+    
+    public boolean dropNotNull(String nomTable, String nomColonne){
+        return connection.dropNotNull(nomTable, nomColonne);
     }
     
     public String[] getPKList(String nomTable){

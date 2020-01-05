@@ -295,6 +295,12 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                 anciennesPK.add(Boolean.parseBoolean(listeAttributs.get(row).get(3).toString()));
                 nouvellesPK.add(Boolean.parseBoolean(tableModif.getValueAt(row, 3).toString()));
                 
+                Boolean ancienNotNull = Boolean.parseBoolean(listeAttributs.get(row).get(4).toString());
+                Boolean nouveauNotNull = Boolean.parseBoolean(tableModif.getValueAt(row, 4).toString());
+                
+                Boolean ancienUnique = Boolean.parseBoolean(listeAttributs.get(row).get(5).toString());
+                Boolean nouveauUnique = Boolean.parseBoolean(tableModif.getValueAt(row, 5).toString());
+                
                 //Détermine si la table possedait déjà une clé primaire
                 if (Boolean.parseBoolean(listeAttributs.get(row).get(3).toString()) == true) {
                     PKexistante = true;
@@ -315,13 +321,31 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                     controller.alterDatatypeColonne(table.getName(), nouveauNomColonne, nouveauDatatype, nouvelleLongueur);
                 }
                 
+                if (ancienNotNull != nouveauNotNull) {
+                    if (nouveauNotNull == true) {
+                        controller.addConstraintNotNull(table.getName(), nouveauNomColonne);
+                    } else {
+                        controller.dropNotNull(table.getName(), nouveauNomColonne);
+                    }
+                }
+ 
+                if (ancienUnique != nouveauUnique) {
+                    if (nouveauUnique == true) {
+                        controller.addConstraintUnique(table.getName(), nouveauNomColonne);
+                    } else {
+                        controller.dropConstraint(table.getName(), "un_" + nouveauNomColonne);
+                    }
+                }
+
             }
 
             //gestion de la clé primaire
-            if (anciennesPK != nouvellesPK && colonnesPK.isEmpty() && PKexistante == true) {
+            System.out.println(anciennesPK + " " + nouvellesPK);
+            System.out.println(anciennesPK.equals(nouvellesPK));
+            if (!(anciennesPK.equals(nouvellesPK)) && colonnesPK.isEmpty() && PKexistante == true) {
                 controller.dropPrimaryKey(table.getName());
             } else {
-                if (anciennesPK != nouvellesPK && !colonnesPK.isEmpty()) {
+                if (!(anciennesPK.equals(nouvellesPK)) && !colonnesPK.isEmpty()) {
                     if (PKexistante == true) {
                         controller.dropPrimaryKey(table.getName());
                     }
@@ -419,7 +443,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
 
         int option = JOptionPane.showConfirmDialog(null, message, "Supprimer une clé étrangère", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
-            controller.dropForeignKey(table.getName(), comboboxFK.getSelectedItem().toString());
+            controller.dropConstraint(table.getName(), comboboxFK.getSelectedItem().toString());
             getTableInfo();
         }
     }//GEN-LAST:event_buttonDropFKActionPerformed
