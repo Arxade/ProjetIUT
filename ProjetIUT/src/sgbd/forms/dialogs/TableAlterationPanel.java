@@ -321,6 +321,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                     controller.alterDatatypeColonne(table.getName(), nouveauNomColonne, nouveauDatatype, nouvelleLongueur);
                 }
                 
+                //gestion de la contrainte not null
                 if (ancienNotNull != nouveauNotNull) {
                     if (nouveauNotNull == true) {
                         controller.addConstraintNotNull(table.getName(), nouveauNomColonne);
@@ -329,6 +330,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                     }
                 }
  
+                //gestion de la contrainte unique
                 if (ancienUnique != nouveauUnique) {
                     if (nouveauUnique == true) {
                         controller.addConstraintUnique(table.getName(), nouveauNomColonne);
@@ -340,10 +342,12 @@ public class TableAlterationPanel extends javax.swing.JPanel {
             }
 
             //gestion de la clé primaire
-            System.out.println(anciennesPK + " " + nouvellesPK);
-            System.out.println(anciennesPK.equals(nouvellesPK));
+            
+            //cas suppresion de la clé primaire
             if (!(anciennesPK.equals(nouvellesPK)) && colonnesPK.isEmpty() && PKexistante == true) {
                 controller.dropPrimaryKey(table.getName());
+                
+            //cas changement ou création de clé primaire
             } else {
                 if (!(anciennesPK.equals(nouvellesPK)) && !colonnesPK.isEmpty()) {
                     if (PKexistante == true) {
@@ -432,20 +436,24 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     private void buttonDropFKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDropFKActionPerformed
         comboboxFK.removeAllItems();
         String[] lesFK = controller.getFKNames(table.getName());
-        for (String laFK : lesFK)
-        {
+        for (String laFK : lesFK) {
             comboboxFK.addItem(laFK);
         }
-        
-        Object[] message = {
-            "Nom de la clé étrangère à supprimer : ", comboboxFK
-        };
 
-        int option = JOptionPane.showConfirmDialog(null, message, "Supprimer une clé étrangère", JOptionPane.OK_CANCEL_OPTION);
-        if (option == JOptionPane.OK_OPTION) {
-            controller.dropConstraint(table.getName(), comboboxFK.getSelectedItem().toString());
-            getTableInfo();
+        if (lesFK.length == 0) {
+            JOptionPane.showMessageDialog(null, "Aucune clé étrangère sur cettre table", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else {
+            Object[] message = {
+                "Nom de la clé étrangère à supprimer : ", comboboxFK
+            };
+
+            int option = JOptionPane.showConfirmDialog(null, message, "Supprimer une clé étrangère", JOptionPane.OK_CANCEL_OPTION);
+            if (option == JOptionPane.OK_OPTION) {
+                controller.dropConstraint(table.getName(), comboboxFK.getSelectedItem().toString());
+                getTableInfo();
+            }
         }
+
     }//GEN-LAST:event_buttonDropFKActionPerformed
 
     private void comboboxTablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxTablesActionPerformed
