@@ -11,6 +11,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -410,5 +412,38 @@ public abstract class DatabaseConnection {
         }
         
         
+        
+    }
+    
+    public void updateRows(Object[][] valDeBase , TableModel modelNouveau, String laRequete, ArrayList<Attribute> lesAttributs) throws SQLException
+    {
+            statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+            resultSet = statement.executeQuery(laRequete);
+            int row = 0;
+            while(resultSet.next())
+            {
+                System.out.println("Dans le while de updateRows de DataBaseConnection: row = " + row);
+                for(int col = 0 ; col < valDeBase.length ; col++)
+                {
+                    System.err.println("les vals " + modelNouveau.getValueAt(row, col) + "   " + valDeBase[col][row]);
+                    if(!modelNouveau.getValueAt(row, col).equals(valDeBase[col][row]))
+                    {
+                        System.err.println("Dans le if row=" + row + " col=" + col);
+                        if("VARCHAR2".equals(lesAttributs.get(col).getType()))
+                        {
+                            resultSet.updateString(col+1, modelNouveau.getValueAt(row, col).toString() );
+                            resultSet.updateRow();
+                        }
+                        else if("NUMBER".equals(lesAttributs.get(col).getType()))
+                        {
+                            resultSet.updateInt(col+1, (int) modelNouveau.getValueAt(row, col));
+                            resultSet.updateRow();
+                        }
+                    }
+                }
+                    
+                row++;
+            }
+            
     }
 }

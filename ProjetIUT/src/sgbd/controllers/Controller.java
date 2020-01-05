@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import sgbd.connection.DatabaseConnection;
 import sgbd.database.Attribute;
 import sgbd.database.Table;
@@ -169,4 +171,29 @@ public class Controller {
         connection.deleteRow(requete , lesValeurs);
     }
     
+    public void updateRows(Object[][] valDeBase , TableModel modelNouveau , ArrayList<String> attributesNames, Table laTable) throws SQLException
+    {
+        String requete = "SELECT ";
+        ArrayList<Attribute> listAttributs = new ArrayList<>();
+        for(int i = 0 ; i < attributesNames.size() ; i++)
+        {
+            if(laTable.attributes().get(i).getName().equals(attributesNames.get(i)) )
+            {
+               listAttributs.add(laTable.attributes().get(i));
+            }
+            
+            if(i>0)
+            {
+                requete = requete + ", " + attributesNames.get(i) + " ";
+            }
+            else
+            {
+                requete = requete + attributesNames.get(i) + " ";
+            }
+            System.err.println(requete);
+        }
+        requete = requete + "FROM " + laTable.getName();
+        System.out.println(requete);
+        connection.updateRows(valDeBase , modelNouveau ,requete, listAttributs);
+    }
 }
