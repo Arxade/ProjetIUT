@@ -230,6 +230,7 @@ public class ConnectionPanel extends javax.swing.JPanel {
         //Si la connexion est effectuée, sauvegarde le SGBD dans le JSON
         //et switche sur le JPanel VisualizationPanel
         if(controller.tryConnect(json, txtUser.getText(), String.valueOf(txtPassword.getPassword()))) {
+            txtPassword.setText("");
             json.setParam("SGBD", sgbd);
             json.save();
             VisualizationPanel panel = (VisualizationPanel)((MainFrame)SwingUtilities.getWindowAncestor(this)).getCardPanel("next");
