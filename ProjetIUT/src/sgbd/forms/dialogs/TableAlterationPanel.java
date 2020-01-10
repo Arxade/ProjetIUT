@@ -112,7 +112,6 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         comboboxFK = new javax.swing.JComboBox<>();
         btnModif = new javax.swing.JButton();
         btnAnnuler = new javax.swing.JButton();
-        btnRenameTable = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         labelTableName = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -139,13 +138,6 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         btnAnnuler.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAnnulerActionPerformed(evt);
-            }
-        });
-
-        btnRenameTable.setText("Renommer la table");
-        btnRenameTable.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRenameTableActionPerformed(evt);
             }
         });
 
@@ -234,7 +226,6 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                         .addComponent(labelTableName))
                     .addComponent(btnModif, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
                     .addComponent(btnAnnuler, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnRenameTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buttonDropColonne, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
                     .addComponent(buttonAddFK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buttonAddColonne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -252,15 +243,13 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(labelTableName))
-                        .addGap(18, 18, 18)
-                        .addComponent(btnRenameTable)
-                        .addGap(60, 60, 60)
+                        .addGap(70, 70, 70)
                         .addComponent(buttonAddColonne, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(buttonDropColonne, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57)
+                        .addGap(72, 72, 72)
                         .addComponent(buttonAddFK, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(buttonDropFK, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnModif, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -399,16 +388,6 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_buttonAddColonneActionPerformed
 
-    private void btnRenameTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenameTableActionPerformed
-        String inputNom;
-        inputNom = JOptionPane.showInputDialog(null, "Entre le nouveau nom de la table : ", "Renommage de la table", JOptionPane.QUESTION_MESSAGE);
-        if (controller.renameTable(table.getName(), inputNom.toUpperCase()) == true) {
-            table.setName(inputNom);
-            labelTableName.setText(table.getName().toUpperCase());
-            getTableInfo();
-        }
-    }//GEN-LAST:event_btnRenameTableActionPerformed
-
     private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
         if (btnAnnuler.getText().equals("Annuler les modifications")) {
             btnModif.setText("Commencer les modifications");
@@ -495,7 +474,6 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnnuler;
     private javax.swing.JButton btnModif;
-    private javax.swing.JButton btnRenameTable;
     private javax.swing.JButton buttonAddColonne;
     private javax.swing.JButton buttonAddFK;
     private javax.swing.JButton buttonDropColonne;

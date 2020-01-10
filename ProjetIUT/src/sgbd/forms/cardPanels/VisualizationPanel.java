@@ -524,8 +524,15 @@ public class VisualizationPanel extends javax.swing.JPanel {
         content.getButton("confirmer").addActionListener((ActionEvent e) -> {
         });
         content.getButton("annuler").addActionListener((ActionEvent e) -> {
-            if (content.getButton("annuler").getText() == "Fermer")
-            dialog.dispose();
+            if (content.getButton("annuler").getText() == "Fermer") {
+                DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
+                tableModel.setRowCount(0);
+                dialog.dispose();
+                            recentTables[0].attributes().forEach((a) -> {
+                tableModel.addRow(a.toObject());
+            });
+            resizeColumnWidth(tblAttributes);
+            }
         });
         content.getButton("rename").addActionListener((ActionEvent e) -> {
         });
