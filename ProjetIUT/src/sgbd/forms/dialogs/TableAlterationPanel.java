@@ -447,8 +447,6 @@ public class TableAlterationPanel extends javax.swing.JPanel {
         switch (s) {
             case "annuler":
                 return btnAnnuler;
-            case "rename":
-                return btnRenameTable;
             default:
                 return btnModif;
         }
