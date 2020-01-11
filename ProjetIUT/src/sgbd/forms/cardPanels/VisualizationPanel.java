@@ -8,6 +8,7 @@ package sgbd.forms.cardPanels;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import sgbd.forms.dialogs.TableCreationPanel;
 import sgbd.database.Table;
 import java.awt.event.ActionEvent;
@@ -130,6 +131,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
     public void setTablesList() {
         DefaultListModel listModel = (DefaultListModel) lstTables.getModel();
         String[] tablesList = controller.getTablesList();
+        listModel.removeAllElements();
         for (String table : tablesList) {
             listModel.addElement(table);
         }
@@ -415,20 +417,31 @@ public class VisualizationPanel extends javax.swing.JPanel {
     }
 
     private void btnCreateTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateTableActionPerformed
-        final JDialog dialog = new JDialog();
-        dialog.setTitle("Nouvelle table");
-        dialog.setModal(true);
-        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        TableCreationPanel content = new TableCreationPanel(controller);
-        content.getButton("confirm").addActionListener((ActionEvent e) -> {
-            String name = content.getTableName().getText();
+        int columns = 0;
+        //set du nbr de lignes de la table 
+        try {
+            String strNbCol = JOptionPane.showInputDialog("Entrer le nombre de colonnes : ");
+            if (strNbCol != null){ 
+                columns = Integer.parseInt(strNbCol);            
+            final JDialog dialog = new JDialog();
+            dialog.setTitle("Nouvelle table");
+            dialog.setModal(true);
+            dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            TableCreationPanel content = new TableCreationPanel(controller, columns);
+            content.getButton("confirm").addActionListener((ActionEvent e) -> {
+                String name = content.getTableName().getText();
+                dialog.dispose();
+            });
+            dialog.setContentPane(content);
+            dialog.setResizable(true);
+            dialog.pack();
+            dialog.setVisible(true);
             setTablesList();
-            dialog.dispose();
-        });
-        dialog.setContentPane(content);
-        dialog.setResizable(false);
-        dialog.pack();
-        dialog.setVisible(true);
+            }
+        } 
+        catch (HeadlessException | NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "erreur lors de la saisie du nombre de colonnes.");
+        }
     }//GEN-LAST:event_btnCreateTableActionPerformed
 
     private void showSelectedListItem(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showSelectedListItem
