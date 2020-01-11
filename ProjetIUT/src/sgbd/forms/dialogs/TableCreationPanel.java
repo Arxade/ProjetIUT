@@ -312,7 +312,7 @@ public class TableCreationPanel extends javax.swing.JPanel {
         TableModel model = tblAttributes.getModel();
         remplirCkbxNewColumns(true, model);
         if(ckbxNewColumns.getItemCount() != 0){
-            Object[] message = {"nom de la ccolonne affectée: ", ckbxNewColumns};
+            Object[] message = {"Nom de la colonne affectée: ", ckbxNewColumns};
             int option = JOptionPane.showConfirmDialog(null, message, "Supprimer une clé étrangère", JOptionPane.OK_CANCEL_OPTION);
             if (option == JOptionPane.OK_OPTION) {
                 boolean trouve = false;
