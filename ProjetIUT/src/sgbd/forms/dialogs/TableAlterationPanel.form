@@ -81,7 +81,6 @@
                   </Group>
                   <Component id="btnModif" alignment="0" pref="211" max="32767" attributes="0"/>
                   <Component id="btnAnnuler" alignment="0" max="32767" attributes="0"/>
-                  <Component id="btnRenameTable" alignment="0" max="32767" attributes="0"/>
                   <Component id="buttonDropColonne" pref="211" max="32767" attributes="0"/>
                   <Component id="buttonAddFK" max="32767" attributes="0"/>
                   <Component id="buttonAddColonne" max="32767" attributes="0"/>
@@ -103,15 +102,13 @@
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="labelTableName" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnRenameTable" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                       <Component id="buttonAddColonne" min="-2" pref="40" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="buttonDropColonne" min="-2" pref="40" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
                       <Component id="buttonAddFK" min="-2" pref="40" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="buttonDropFK" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnModif" min="-2" pref="60" max="-2" attributes="0"/>
@@ -140,14 +137,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAnnulerActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnRenameTable">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Renommer la table"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRenameTableActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">

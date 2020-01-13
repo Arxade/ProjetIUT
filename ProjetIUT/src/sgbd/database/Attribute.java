@@ -24,11 +24,17 @@ public class Attribute {
         }
     }
     
-    public Attribute(String n, String t, int l) {
+    public Attribute(String n, String t, int le) {
         name = n;
         type = t;
-        length = l;
+        length = le;
     }
+    
+    public Attribute(String n, String t){
+        name = n;
+        type = t;
+    }
+    
     
     public Object[] toObject() {
         String fk = "";
@@ -49,6 +55,12 @@ public class Attribute {
     public int getLength() {
         return length;
     }
+
+    public void setLength(int le){
+        length = le;
+    }
+    
+
     
     public boolean isNullable() {
         return isNullable;
@@ -70,6 +82,11 @@ public class Attribute {
         }
     }
     
+    public void isPrimaryKeyJustBool(boolean b){
+        isPrimaryKey = b;
+    }
+    
+    
      public boolean isUnique() {
         return isUnique;
     }
@@ -80,5 +97,12 @@ public class Attribute {
     
     public void foreignKey(String rT, String rA) {
         foreignKey = new FK(rT, rA);
+    }
+    
+    public String[] isForeignKey(){
+        
+        if(foreignKey != null) return new String[]{foreignKey.rTable, foreignKey.rAttribute};
+        else return new String[] {"NOTFOREIGNKEY"};
+        
     }
 }

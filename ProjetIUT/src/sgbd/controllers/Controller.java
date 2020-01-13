@@ -67,6 +67,32 @@ public class Controller {
         connection.close();
     }
 
+    
+    public void tryCreateTable(String nomTable, TableModel model) throws SQLException{
+        ArrayList<Attribute> lstAt = new ArrayList<>();       
+        for(int i = 0; i < model.getRowCount(); i++){           
+            Attribute at = new Attribute((String) model.getValueAt(i, 0), (String) model.getValueAt(i, 1));   
+            //lenght
+            if(model.getValueAt(i, 2) != null && (int) model.getValueAt(i, 2) > 0) at.setLength((int) model.getValueAt(i, 2)); 
+            //primarykey
+            if(model.getValueAt(i,3) != null && (boolean) model.getValueAt(i, 3)) at.isPrimaryKeyJustBool(true);    
+            //not null
+            if(model.getValueAt(i,4) != null && (boolean) model.getValueAt(i, 4)) at.isNullable(false);
+            //unique
+            if(model.getValueAt(i, 5) != null && (boolean) model.getValueAt(i,5)) at.isUnique(true);  
+            //foreign key
+            if(model.getValueAt(i, 6) != null && (boolean) model.getValueAt(i, 6)) {               
+                if(model.getValueAt(i, 7) != null && model.getValueAt(i, 8) != null)
+                    at.foreignKey((String) model.getValueAt(i, 7), (String) model.getValueAt(i, 8));
+            }      
+            lstAt.add(at);
+        }   
+
+        connection.createTable(nomTable, lstAt);
+    }
+    
+    
+    
     public boolean dropTable(String table, boolean cascadeConstraints) {
         return connection.dropTable(table, cascadeConstraints);
     }
