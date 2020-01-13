@@ -468,7 +468,7 @@ public abstract class DatabaseConnection {
                     if(!modelNouveau.getValueAt(row, col).equals(valDeBase[col][row]))
                     {
                         System.err.println("Dans le if row=" + row + " col=" + col);
-                        if("VARCHAR2".equals(lesAttributs.get(col).getType()))
+                        if("VARCHAR2".equals(lesAttributs.get(col).getType())  || "CHAR".equals(lesAttributs.get(col).getType()))
                         {
                             resultSet.updateString(col+1, modelNouveau.getValueAt(row, col).toString() );
                             resultSet.updateRow();
@@ -478,11 +478,77 @@ public abstract class DatabaseConnection {
                             resultSet.updateInt(col+1, (int) modelNouveau.getValueAt(row, col));
                             resultSet.updateRow();
                         }
+                        else if("FLOAT".equals(lesAttributs.get(col).getType()) || "REAL".equals(lesAttributs.get(col).getType()))
+                        {
+                            resultSet.updateFloat(col+1, (float) modelNouveau.getValueAt(row, col));
+                            resultSet.updateRow();
+                        }
+                        else if("LONG".equals(lesAttributs.get(col).getType()))
+                        {
+                            resultSet.updateLong(col+1, (long) modelNouveau.getValueAt(row, col));
+                            resultSet.updateRow();
+                        }
+                        else if("DATE".equals(lesAttributs.get(col).getType()))
+                        {
+                            resultSet.updateDate(col+1, (Date) modelNouveau.getValueAt(row, col));
+                            resultSet.updateRow();
+                        }
                     }
                 }
                     
                 row++;
             }
             
+    }
+    
+    public void addRow(Object[][] listeDesValeurs, Table laTable, int nbrow) throws SQLException
+    {
+        resultSet = connection.getMetaData().getPrimaryKeys(null, null, laTable.getName());
+        resultSet.next();
+        String pk = resultSet.getString(4);
+        
+        String requete = "INSERT INTO " + laTable.getName() + " ("+ pk +") VALUES(?)";
+        preparedStatement = connection.prepareStatement(requete);
+        String type = "";
+        
+        for(Attribute attribut: laTable.attributes())
+        {
+            if(attribut.getName().equals(pk))
+            {
+                type = attribut.getType();
+                System.out.println(type);
+            }
+        }
+        
+        System.out.println("Dans addRow de DataBaseConnection.java \n " + requete);
+        
+        for(int row = 0 ; row < nbrow  ; row++)
+        {
+            /*for(int col = 0 ; col < laTable.attributes().size() ; col++)
+            {*/
+                if("VARCHAR2".equals(type)  || "CHAR".equals(type))
+                {
+                    preparedStatement.setString(1, listeDesValeurs[row][1].toString() );
+                }
+                else if("NUMBER".equals(type))
+                {
+                    preparedStatement.setInt(1, (int) listeDesValeurs[row][1]);
+                }
+                else if("FLOAT".equals((type)) || "REAL".equals(type))
+                {
+                    preparedStatement.setFloat(1, (float) listeDesValeurs[row][1]);
+                }
+                else if("LONG".equals(type))
+                {
+                    preparedStatement.setLong(1, (long) listeDesValeurs[row][1]);
+                }
+                else if("DATE".equals(type))
+                {
+                    preparedStatement.setDate(1, (Date) listeDesValeurs[row][1]);
+                }
+            //}
+        }
+        
+        preparedStatement.execute();
     }
 }

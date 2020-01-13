@@ -76,6 +76,7 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
         jTextAreaSelectNomsDesAttributs = new javax.swing.JTextArea();
         jButtonEffacerLigneCRUD = new javax.swing.JButton();
         jButtonModifierLigneCRUD = new javax.swing.JButton();
+        jButtonInsertCRUD = new javax.swing.JButton();
 
         labelNomDeLaTable.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         labelNomDeLaTable.setText("Nom de la table:");
@@ -132,6 +133,13 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
             }
         });
 
+        jButtonInsertCRUD.setText("Ajouter ligne");
+        jButtonInsertCRUD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInsertCRUDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -160,7 +168,8 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonEffacerLigneCRUD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonModifierLigneCRUD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonModifierLigneCRUD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonInsertCRUD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -172,6 +181,8 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
                         .addComponent(jButtonEffacerLigneCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonModifierLigneCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonInsertCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
@@ -309,28 +320,14 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonEffacerLigneCRUDActionPerformed
 
     private void jButtonModifierLigneCRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModifierLigneCRUDActionPerformed
-        /*String laLigne = "Pas cliqué";
         
-        for(int i = 0 ; i < jTableDonneesCRUD.getModel().getRowCount() ; i++)
-        {
-        System.out.println("i = " + i);
-        if(jTableDonneesCRUD.getSelectedRow() == i)
-        {
-        laLigne = "";
-        for(int y = 0 ; y < jTableDonneesCRUD.getColumnCount() ; y ++)
-        {
-        laLigne = laLigne + jTableDonneesCRUD.getValueAt(i, y).toString();
-        }
-        }
-        
-        }
-        JOptionPane.showMessageDialog(this, laLigne);*/
         ArrayList<String> lesAttributs = new ArrayList<>();
         for(int i = 0 ; i < jTableDonneesCRUD.getColumnCount() ; i++)
         {
             lesAttributs.add(jTableDonneesCRUD.getColumnName(i));
         }
-        try {
+        try 
+        {
             controllerCRUD.updateRows(valeursDeRechercheDeBase, jTableDonneesCRUD.getModel(), lesAttributs, tableCRUD);
         } catch (SQLException ex) {
             Logger.getLogger(TableDonneesCRUDPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -340,10 +337,29 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButtonModifierLigneCRUDActionPerformed
 
+    private void jButtonInsertCRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsertCRUDActionPerformed
+        
+        final JDialog dialog = new JDialog();
+        dialog.setTitle("Insertion de données dans la table " + tableCRUD.getName());
+        dialog.setModal(true);
+        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        TableDonneesInsertPanel content = new TableDonneesInsertPanel(tableCRUD , controllerCRUD);
+        //content.getButton("confirm").addActionListener((ActionEvent e) -> {
+        //    setTablesList();
+        //    dialog.dispose();
+        //});
+        dialog.setContentPane(content);
+        dialog.setResizable(true);
+        dialog.pack();
+        dialog.setVisible(true);
+    }//GEN-LAST:event_jButtonInsertCRUDActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Checkbox checkboxSelectAll;
     private javax.swing.JButton jButtonEffacerLigneCRUD;
+    private javax.swing.JButton jButtonInsertCRUD;
     private javax.swing.JButton jButtonLancerSELECT;
     private javax.swing.JButton jButtonModifierLigneCRUD;
     private javax.swing.JScrollPane jScrollPane1;

@@ -46,6 +46,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jButtonEffacerLigneCRUD" max="32767" attributes="0"/>
                   <Component id="jButtonModifierLigneCRUD" max="32767" attributes="0"/>
+                  <Component id="jButtonInsertCRUD" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -60,6 +61,8 @@
                       <Component id="jButtonEffacerLigneCRUD" min="-2" pref="99" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jButtonModifierLigneCRUD" min="-2" pref="100" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jButtonInsertCRUD" min="-2" pref="100" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
@@ -204,6 +207,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonModifierLigneCRUDActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonInsertCRUD">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ajouter ligne"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonInsertCRUDActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

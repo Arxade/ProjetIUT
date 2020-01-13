@@ -208,4 +208,9 @@ public class Controller {
         System.out.println(requete);
         connection.updateRows(valDeBase , modelNouveau ,requete, listAttributs);
     }
+    
+    public void addRows(Object[][] listeDesValeurs , Table laTable, int nbRows) throws SQLException
+    {
+        connection.addRow(listeDesValeurs, laTable, nbRows);
+    }
 }
