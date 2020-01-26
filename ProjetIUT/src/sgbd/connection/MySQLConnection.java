@@ -5,7 +5,6 @@
  */
 package sgbd.connection;
 
-
 import java.awt.HeadlessException;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -16,7 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import sgbd.database.Attribute;
 import sgbd.database.Table;
-
 
 /**
  *
@@ -36,9 +34,9 @@ public class MySQLConnection extends DatabaseConnection {
 
             // setup connexion avec la BD
             connection = DriverManager
-                    .getConnection(url 
+                    .getConnection(url
                             + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
-                            + "&user=" + user 
+                            + "&user=" + user
                             + "&password=" + password);
             javax.swing.JOptionPane.showMessageDialog(null, "Connexion réussie");
             return true;
@@ -63,8 +61,7 @@ public class MySQLConnection extends DatabaseConnection {
         return resultSet;
 
     }
-    */
-
+     */
     @Override
     public boolean prepareStatements() {
         return true;
@@ -93,7 +90,6 @@ public class MySQLConnection extends DatabaseConnection {
 
     }
 
-
     @Override
     public boolean dropTable(String table, boolean cascadeConstraints) {
         try {
@@ -104,8 +100,7 @@ public class MySQLConnection extends DatabaseConnection {
             statement.executeUpdate(dropQuery);
             tablesList.remove(table);
             return true;
-        }
-        catch(SQLException e) {
+        } catch (SQLException e) {
             javax.swing.JOptionPane.showMessageDialog(null, "Echec de suppression de la table. " + e);
             return false;
         }
@@ -113,15 +108,28 @@ public class MySQLConnection extends DatabaseConnection {
 
     @Override
     public String getDatabaseName() {
-       try {
+        try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT DATABASE()");
             resultSet.next();
             return resultSet.getString("DATABASE()");
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération du nom de la base de données.");
+            return null;
         }
-        catch(SQLException e) {
-             javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération du nom de la base de données.");
-             return null;
+    }
+
+    @Override
+    public boolean renameColonne(String nomTable, String nomColonneActuel, String nomColonneNew, String datatype, int longueur) {
+        try {
+            statement = connection.createStatement();
+            String renameQuery = "ALTER TABLE " + nomTable + " CHANGE " + nomColonneActuel + " " + nomColonneNew + " " + datatype + "(" + longueur + ")";
+            System.out.println(renameQuery);
+            statement.executeUpdate(renameQuery);
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
+            return false;
         }
     }
 }

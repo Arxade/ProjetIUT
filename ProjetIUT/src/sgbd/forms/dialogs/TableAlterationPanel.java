@@ -285,9 +285,9 @@ public class TableAlterationPanel extends javax.swing.JPanel {
 
                 int ancienneLongueur = Integer.parseInt(listeAttributs.get(row).get(2).toString());
                 int nouvelleLongueur = -1;
-                if (tableModif.getValueAt(row, 2) != null)
+                if (tableModif.getValueAt(row, 2) != null) {
                     nouvelleLongueur = Integer.parseInt(tableModif.getValueAt(row, 2).toString());
-
+                }
 
                 anciennesPK.add(Boolean.parseBoolean(listeAttributs.get(row).get(3).toString()));
                 nouvellesPK.add(Boolean.parseBoolean(tableModif.getValueAt(row, 3).toString()));
@@ -310,20 +310,15 @@ public class TableAlterationPanel extends javax.swing.JPanel {
 
                 //Renommage des colonnes
                 if (!nouveauNomColonne.equals(ancienNomColonne)) {
-                    controller.renameColonne(table.getName(), ancienNomColonne, nouveauNomColonne);
-                }
-
-                //changement du type de données des colonnes
-                if (!ancienDatatype.equals(nouveauDatatype) || ancienneLongueur != nouvelleLongueur) {
-                    controller.alterDatatypeColonne(table.getName(), nouveauNomColonne, nouveauDatatype, nouvelleLongueur);
+                    controller.renameColonne(table.getName(), ancienNomColonne, nouveauNomColonne, ancienDatatype, ancienneLongueur);
                 }
 
                 //gestion de la contrainte not null
                 if (ancienNotNull != nouveauNotNull) {
                     if (nouveauNotNull == true) {
-                        controller.addConstraintNotNull(table.getName(), nouveauNomColonne);
+                        controller.addConstraintNotNull(table.getName(), nouveauNomColonne, ancienDatatype, ancienneLongueur);
                     } else {
-                        controller.dropNotNull(table.getName(), nouveauNomColonne);
+                        controller.dropNotNull(table.getName(), nouveauNomColonne, ancienDatatype, ancienneLongueur);
                     }
                 }
 
@@ -334,6 +329,11 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                     } else {
                         controller.dropConstraint(table.getName(), "un_" + nouveauNomColonne);
                     }
+                }
+
+                //changement du type de données des colonnes
+                if (!ancienDatatype.equals(nouveauDatatype) || ancienneLongueur != nouvelleLongueur) {
+                    controller.alterDatatypeColonne(table.getName(), nouveauNomColonne, nouveauDatatype, nouvelleLongueur);
                 }
             }
 
