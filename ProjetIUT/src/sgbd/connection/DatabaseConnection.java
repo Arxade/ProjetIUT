@@ -249,18 +249,7 @@ public abstract class DatabaseConnection {
         }
     }
 
-    public boolean renameColonne(String nomTable, String nomColonneActuel, String nomColonneNew) {
-        try {
-            statement = connection.createStatement();
-            String renameQuery = "ALTER TABLE " + nomTable + " RENAME COLUMN " + nomColonneActuel + " TO " + nomColonneNew;
-            System.out.println(renameQuery);
-            statement.executeUpdate(renameQuery);
-            return true;
-        } catch (SQLException e) {
-            javax.swing.JOptionPane.showMessageDialog(null, e);
-            return false;
-        }
-    }
+    public abstract boolean renameColonne(String nomTable, String nomColonneActuel, String nomColonneNew, String dataType, int longueur);
 
     public boolean alterDatatypeColonne(String nomTable, String nomColonne, String datatype, int longueurColonne) {
         try {
@@ -351,10 +340,10 @@ public abstract class DatabaseConnection {
         }
     }
 
-    public boolean addConstraintNotNull(String nomTable, String nomColonne) {
+    public boolean addConstraintNotNull(String nomTable, String nomColonne, String dataType, int longueur) {
         try {
             statement = connection.createStatement();
-            String query = "ALTER TABLE " + nomTable + " MODIFY " + nomColonne + " NOT NULL";
+            String query = "ALTER TABLE " + nomTable + " MODIFY " + nomColonne + " " + dataType + "(" + longueur + ")" + " NOT NULL";
             System.out.println(query);
             statement.executeUpdate(query);
             return true;
@@ -364,10 +353,10 @@ public abstract class DatabaseConnection {
         }
     }
     
-        public boolean dropNotNull(String nomTable, String nomColonne) {
+        public boolean dropNotNull(String nomTable, String nomColonne, String dataType, int longueur) {
         try {
             statement = connection.createStatement();
-            String query = "ALTER TABLE " + nomTable + " MODIFY " + nomColonne + " NULL";
+            String query = "ALTER TABLE " + nomTable + " MODIFY " + nomColonne + " " + dataType + "(" + longueur + ")" + " NULL";
             System.out.println(query);
             statement.executeUpdate(query);
             return true;

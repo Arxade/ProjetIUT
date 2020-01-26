@@ -105,8 +105,8 @@ public class Controller {
         return connection.addColonne(nomTable, nomColonne, typeColonne, longueurColonne);
     }
 
-    public boolean renameColonne(String nomTable, String nomColonneActuel, String nomColonneNew) {
-        return connection.renameColonne(nomTable, nomColonneActuel, nomColonneNew);
+    public boolean renameColonne(String nomTable, String nomColonneActuel, String nomColonneNew, String dataType, int longueur) {
+        return connection.renameColonne(nomTable, nomColonneActuel, nomColonneNew, dataType, longueur);
     }
 
     public boolean alterDatatypeColonne(String nomTable, String nomColonne, String typeColonne, int longueurColonne) {
@@ -133,12 +133,12 @@ public class Controller {
         return connection.addConstraintUnique(nomTable, nomColonne);
     }
     
-     public boolean addConstraintNotNull(String nomTable, String nomColonne) {
-         return connection.addConstraintNotNull(nomTable, nomColonne);
+     public boolean addConstraintNotNull(String nomTable, String nomColonne, String dataType, int longueur) {
+         return connection.addConstraintNotNull(nomTable, nomColonne, dataType, longueur);
      }
     
-    public boolean dropNotNull(String nomTable, String nomColonne){
-        return connection.dropNotNull(nomTable, nomColonne);
+    public boolean dropNotNull(String nomTable, String nomColonne, String dataType, int longueur){
+        return connection.dropNotNull(nomTable, nomColonne, dataType, longueur);
     }
     
     public String[] getPKList(String nomTable){
