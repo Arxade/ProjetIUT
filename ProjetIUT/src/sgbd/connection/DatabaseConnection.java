@@ -551,9 +551,20 @@ public abstract class DatabaseConnection {
         resultSet.next();
         String pk = resultSet.getString(4);
         
-        String requete = "INSERT INTO " + laTable.getName() + " ("+ pk +") VALUES(" +listeDesValeurs[0][0] + ")";
-        statement = connection.createStatement();
-        statement.executeUpdate(requete);
+        //Je commence d'abord avec le premier attribut pour pouvoir mettre plus aisement les virgules
+        String requete = "INSERT INTO " + laTable.getName() + " ( " + laTable.attributes().get(0).getName();
+        for(int i = 1 ; i < laTable.attributes().size() ; i++)
+        {
+            requete = requete + ", "+ laTable.attributes().get(i).getName();
+            System.out.println(requete);
+        }
+        requete = requete + ")";
+        
+        for(int i = 0 ; i < laTable.attributes().size() ; i ++)
+        {
+            
+        }
+        
         // String type = "";
         
         /*for(Attribute attribut: laTable.attributes())
