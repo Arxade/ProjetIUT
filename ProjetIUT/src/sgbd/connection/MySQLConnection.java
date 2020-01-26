@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sgbd.database.Attribute;
 import sgbd.database.Table;
 
 
@@ -86,8 +87,12 @@ public class MySQLConnection extends DatabaseConnection {
 
     @Override
     public boolean setTableColumns(Table table) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Attribute> columns = getTableColumns(table);
+        table.attributes().addAll(columns);
+        return true;
+
     }
+
 
     @Override
     public boolean dropTable(String table, boolean cascadeConstraints) {
