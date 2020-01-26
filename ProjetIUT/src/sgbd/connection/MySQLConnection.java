@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sgbd.database.Table;
 
 
@@ -64,7 +66,7 @@ public class MySQLConnection extends DatabaseConnection {
 
     @Override
     public boolean prepareStatements() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
     @Override
@@ -89,11 +91,31 @@ public class MySQLConnection extends DatabaseConnection {
 
     @Override
     public boolean dropTable(String table, boolean cascadeConstraints) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            statement = connection.createStatement();
+            String dropQuery = "DROP TABLE " + table;
+            //if(cascadeConstraints) dropQuery += " CASCADE CONSTRAINTS";
+            statement.executeQuery(dropQuery);
+            tablesList.remove(table);
+            return true;
+        }
+        catch(SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Echec de suppression de la table.");
+            return false;
+        }
     }
 
     @Override
     public String getDatabaseName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT DATABASE()");
+            resultSet.next();
+            return resultSet.getString("DATABASE()");
+        }
+        catch(SQLException e) {
+             javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération du nom de la base de données.");
+             return null;
+        }
     }
 }
