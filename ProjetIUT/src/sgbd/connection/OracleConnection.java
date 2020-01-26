@@ -183,7 +183,7 @@ public class OracleConnection extends DatabaseConnection {
             statement = connection.createStatement();
             String dropQuery = "DROP TABLE " + table;
             if(cascadeConstraints) dropQuery += " CASCADE CONSTRAINTS";
-            statement.executeQuery(dropQuery);
+            statement.executeUpdate(dropQuery);
             tablesList.remove(table);
             return true;
         }

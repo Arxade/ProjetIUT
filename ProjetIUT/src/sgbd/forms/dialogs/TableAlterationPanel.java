@@ -284,7 +284,10 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                 String nouveauDatatype = tableModif.getValueAt(row, 1).toString();
 
                 int ancienneLongueur = Integer.parseInt(listeAttributs.get(row).get(2).toString());
-                int nouvelleLongueur = Integer.parseInt(tableModif.getValueAt(row, 2).toString());
+                int nouvelleLongueur = -1;
+                if (tableModif.getValueAt(row, 2) != null)
+                    nouvelleLongueur = Integer.parseInt(tableModif.getValueAt(row, 2).toString());
+
 
                 anciennesPK.add(Boolean.parseBoolean(listeAttributs.get(row).get(3).toString()));
                 nouvellesPK.add(Boolean.parseBoolean(tableModif.getValueAt(row, 3).toString()));
