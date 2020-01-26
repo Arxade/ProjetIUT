@@ -99,13 +99,14 @@ public class MySQLConnection extends DatabaseConnection {
         try {
             statement = connection.createStatement();
             String dropQuery = "DROP TABLE " + table;
+            System.out.println(dropQuery);
             //if(cascadeConstraints) dropQuery += " CASCADE CONSTRAINTS";
-            statement.executeQuery(dropQuery);
+            statement.executeUpdate(dropQuery);
             tablesList.remove(table);
             return true;
         }
         catch(SQLException e) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Echec de suppression de la table.");
+            javax.swing.JOptionPane.showMessageDialog(null, "Echec de suppression de la table. " + e);
             return false;
         }
     }

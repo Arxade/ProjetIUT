@@ -226,7 +226,7 @@ public abstract class DatabaseConnection {
             statement = connection.createStatement();
             String dropQuery = "ALTER TABLE " + nomTable + " DROP COLUMN " + nomColonne;
             System.out.println(dropQuery);
-            statement.executeQuery(dropQuery);
+            statement.executeUpdate(dropQuery);
             javax.swing.JOptionPane.showMessageDialog(null, "Colonne supprimée.");
             return true;
         } catch (SQLException e) {
@@ -238,9 +238,9 @@ public abstract class DatabaseConnection {
         public boolean addColonne(String nomTable, String nomColonne, String typeColonne, int longueurColonne) {
         try {
             statement = connection.createStatement();
-            String dropQuery = "ALTER TABLE " + nomTable + " ADD " + nomColonne + " " + typeColonne + "(" + longueurColonne + ")";
-            System.out.println(dropQuery);
-            statement.executeQuery(dropQuery);
+            String addQuery = "ALTER TABLE " + nomTable + " ADD " + nomColonne + " " + typeColonne + "(" + longueurColonne + ")";
+            System.out.println(addQuery);
+            statement.executeUpdate(addQuery);
             javax.swing.JOptionPane.showMessageDialog(null, "Colonne ajoutée.");
             return true;
         } catch (SQLException e) {
@@ -254,7 +254,7 @@ public abstract class DatabaseConnection {
             statement = connection.createStatement();
             String renameQuery = "ALTER TABLE " + nomTable + " RENAME COLUMN " + nomColonneActuel + " TO " + nomColonneNew;
             System.out.println(renameQuery);
-            statement.executeQuery(renameQuery);
+            statement.executeUpdate(renameQuery);
             return true;
         } catch (SQLException e) {
             javax.swing.JOptionPane.showMessageDialog(null, e);
@@ -265,9 +265,14 @@ public abstract class DatabaseConnection {
     public boolean alterDatatypeColonne(String nomTable, String nomColonne, String datatype, int longueurColonne) {
         try {
             statement = connection.createStatement();
-            String query = "ALTER TABLE " + nomTable + " MODIFY " + nomColonne + " " + datatype + "(" + longueurColonne + ")";
+            String query = "";
+            if (longueurColonne != -1) {
+                query = "ALTER TABLE " + nomTable + " MODIFY " + nomColonne + " " + datatype + "(" + longueurColonne + ")";
+            } else {
+                query = "ALTER TABLE " + nomTable + " MODIFY " + nomColonne + " " + datatype;
+            }
             System.out.println(query);
-            statement.executeQuery(query);
+            statement.executeUpdate(query);
             return true;
         } catch (SQLException e) {
             javax.swing.JOptionPane.showMessageDialog(null, e);
@@ -280,7 +285,7 @@ public abstract class DatabaseConnection {
             statement = connection.createStatement();
             String query = "ALTER TABLE " + nomTable + " DROP PRIMARY KEY";
             System.out.println(query);
-            statement.executeQuery(query);
+            statement.executeUpdate(query);
             return true;
         } catch (SQLException e) {
             javax.swing.JOptionPane.showMessageDialog(null, e);
@@ -298,7 +303,7 @@ public abstract class DatabaseConnection {
             statement = connection.createStatement();
             String query = "ALTER TABLE " + nomTable + " ADD CONSTRAINT pk_" + nomTable + " PRIMARY KEY " + "(" + colonnesPK + ")";
             System.out.println(query);
-            statement.executeQuery(query);
+            statement.executeUpdate(query);
             return true;
         } catch (SQLException e) {
             javax.swing.JOptionPane.showMessageDialog(null, e);
@@ -312,7 +317,7 @@ public abstract class DatabaseConnection {
             String query = "ALTER TABLE " + nomTable + " ADD CONSTRAINT fk_" + nomColonne + " FOREIGN KEY " + "(" + nomColonne + ")" 
                     + " REFERENCES " + nomTableRef + "(" + nomColonneRef + ")";
             System.out.println(query);
-            statement.executeQuery(query);
+            statement.executeUpdate(query);
             return true;
         } catch (SQLException e) {
             javax.swing.JOptionPane.showMessageDialog(null, e);
@@ -325,7 +330,7 @@ public abstract class DatabaseConnection {
             statement = connection.createStatement();
             String query = "ALTER TABLE " + nomTable + " DROP CONSTRAINT " + nomConstraint;
             System.out.println(query);
-            statement.executeQuery(query);
+            statement.executeUpdate(query);
             return true;
         } catch (SQLException e) {
             javax.swing.JOptionPane.showMessageDialog(null, e);
@@ -338,7 +343,7 @@ public abstract class DatabaseConnection {
             statement = connection.createStatement();
             String query = "ALTER TABLE " + nomTable + " ADD CONSTRAINT un_" + nomColonne + " UNIQUE("+nomColonne+")";
             System.out.println(query);
-            statement.executeQuery(query);
+            statement.executeUpdate(query);
             return true;
         } catch (SQLException e) {
             javax.swing.JOptionPane.showMessageDialog(null, e);
@@ -351,7 +356,7 @@ public abstract class DatabaseConnection {
             statement = connection.createStatement();
             String query = "ALTER TABLE " + nomTable + " MODIFY " + nomColonne + " NOT NULL";
             System.out.println(query);
-            statement.executeQuery(query);
+            statement.executeUpdate(query);
             return true;
         } catch (SQLException e) {
             javax.swing.JOptionPane.showMessageDialog(null, e);
@@ -364,7 +369,7 @@ public abstract class DatabaseConnection {
             statement = connection.createStatement();
             String query = "ALTER TABLE " + nomTable + " MODIFY " + nomColonne + " NULL";
             System.out.println(query);
-            statement.executeQuery(query);
+            statement.executeUpdate(query);
             return true;
         } catch (SQLException e) {
             javax.swing.JOptionPane.showMessageDialog(null, e);
@@ -402,9 +407,9 @@ public abstract class DatabaseConnection {
             if(statement != null) statement.close();
             if(preparedStatement != null) preparedStatement.close();
             if(resultSet != null) resultSet.close();
-            findColumnByID.close();
-            foreignKeysList.close();
-            constraintsList.close();
+            if (findColumnByID != null) findColumnByID.close();
+            if (foreignKeysList != null) foreignKeysList.close();
+            if (constraintsList != null) constraintsList.close();
             connection.close();
         } 
         catch (SQLException e) {
