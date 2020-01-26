@@ -550,11 +550,10 @@ public abstract class DatabaseConnection {
             
     }
     
-    public void addRow(Object[][] listeDesValeurs, Table laTable, int nbrow) throws SQLException
+    public void addRow(String[][] listeDesValeurs, Table laTable, int nbrow) throws SQLException
     {
-        resultSet = connection.getMetaData().getPrimaryKeys(null, null, laTable.getName());
-        resultSet.next();
-        String pk = resultSet.getString(4);
+     
+        
         
         //Je commence d'abord avec le premier attribut pour pouvoir mettre plus aisement les virgules
         String requete = "INSERT INTO " + laTable.getName() + " ( " + laTable.attributes().get(0).getName();
@@ -585,7 +584,7 @@ public abstract class DatabaseConnection {
         String type = "";
         
         System.out.println("Dans addRow de DataBaseConnection.java \n " + requete);
-        
+        preparedStatement = connection.prepareStatement(requete);
         for(int row = 0 ; row < nbrow  ; row++)
         {
             for(int col = 0 ; col < laTable.attributes().size() ; col++)
@@ -593,23 +592,23 @@ public abstract class DatabaseConnection {
                 type = laTable.attributes().get(col).getType();
                 if("VARCHAR2".equals(type)  || "CHAR".equals(type))
                 {
-                    preparedStatement.setString(col, listeDesValeurs[row][col].toString() );
+                    preparedStatement.setString(col+1, listeDesValeurs[row][col].toString() );
                 }
                 else if("NUMBER".equals(type))
                 {
-                    preparedStatement.setInt(col, (int) listeDesValeurs[row][col]);
+                    preparedStatement.setInt(col+1, Integer.parseInt(listeDesValeurs[row][col]));
                 }
                 else if("FLOAT".equals((type)) || "REAL".equals(type))
                 {
-                    preparedStatement.setFloat(col, (float) listeDesValeurs[row][col]);
+                    preparedStatement.setFloat(col+1, Float.parseFloat(listeDesValeurs[row][col]));
                 }
                 else if("LONG".equals(type))
                 {
-                    preparedStatement.setLong(col, (long) listeDesValeurs[row][col]);
+                    preparedStatement.setLong(col+1, Long.parseLong(listeDesValeurs[row][col]));
                 }
                 else if("DATE".equals(type))
                 {
-                    preparedStatement.setDate(col, (Date) listeDesValeurs[row][col]);
+                    preparedStatement.setDate(col+1, Date.valueOf(listeDesValeurs[row][col]));
                 }
             }
         }

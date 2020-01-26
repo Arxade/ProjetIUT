@@ -29,7 +29,7 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
     private Controller controllerInsert;
     private int nbRows = 0;
     private Table laTableInsert;
-    private Object[][] listeDesValeurs;
+    private String[][] listeDesValeurs;
     
     public TableDonneesInsertPanel(Table laTable, Controller ctr) 
     {
@@ -108,12 +108,12 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
 
     private void jButtonConfirmerInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmerInsertActionPerformed
         
-        listeDesValeurs = new Object[jTableDonneesInsert.getRowCount()][jTableDonneesInsert.getColumnCount()];
+        listeDesValeurs = new String[jTableDonneesInsert.getRowCount()][jTableDonneesInsert.getColumnCount()];
         for(int col = 0 ; col < jTableDonneesInsert.getColumnCount() ; col++)
         {
             for(int row = 0 ; row < jTableDonneesInsert.getRowCount() ; row++)
             {
-                listeDesValeurs[row][col] = jTableDonneesInsert.getValueAt(row, col);
+                listeDesValeurs[row][col] = jTableDonneesInsert.getValueAt(row, col).toString();
             }
         }
         

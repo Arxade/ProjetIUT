@@ -235,7 +235,7 @@ public class Controller {
         connection.updateRows(valDeBase , modelNouveau ,requete, listAttributs);
     }
     
-    public void addRows(Object[][] listeDesValeurs , Table laTable, int nbRows) throws SQLException
+    public void addRows(String[][] listeDesValeurs , Table laTable, int nbRows) throws SQLException
     {
         connection.addRow(listeDesValeurs, laTable, nbRows);
     }
