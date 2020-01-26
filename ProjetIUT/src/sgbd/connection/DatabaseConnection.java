@@ -588,23 +588,23 @@ public abstract class DatabaseConnection {
                 type = laTable.attributes().get(col).getType();
                 if("VARCHAR2".equals(type)  || "CHAR".equals(type))
                 {
-                    preparedStatement.setString(1, listeDesValeurs[row][col].toString() );
+                    preparedStatement.setString(col, listeDesValeurs[row][col].toString() );
                 }
                 else if("NUMBER".equals(type))
                 {
-                    preparedStatement.setInt(1, (int) listeDesValeurs[row][col]);
+                    preparedStatement.setInt(col, (int) listeDesValeurs[row][col]);
                 }
                 else if("FLOAT".equals((type)) || "REAL".equals(type))
                 {
-                    preparedStatement.setFloat(1, (float) listeDesValeurs[row][col]);
+                    preparedStatement.setFloat(col, (float) listeDesValeurs[row][col]);
                 }
                 else if("LONG".equals(type))
                 {
-                    preparedStatement.setLong(1, (long) listeDesValeurs[row][col]);
+                    preparedStatement.setLong(col, (long) listeDesValeurs[row][col]);
                 }
                 else if("DATE".equals(type))
                 {
-                    preparedStatement.setDate(1, (Date) listeDesValeurs[row][col]);
+                    preparedStatement.setDate(col, (Date) listeDesValeurs[row][col]);
                 }
             }
         }
