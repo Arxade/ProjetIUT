@@ -9,10 +9,6 @@ import java.awt.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import sgbd.connection.DatabaseConnection;
 import sgbd.database.Attribute;
@@ -74,6 +70,7 @@ public class Controller {
             Attribute at = new Attribute((String) model.getValueAt(i, 0), (String) model.getValueAt(i, 1));   
             //lenght
             if(model.getValueAt(i, 2) != null && (int) model.getValueAt(i, 2) > 0) at.setLength((int) model.getValueAt(i, 2)); 
+            else at.setLength(-1);
             //primarykey
             if(model.getValueAt(i,3) != null && (boolean) model.getValueAt(i, 3)) at.isPrimaryKeyJustBool(true);    
             //not null
