@@ -1,1 +1,1 @@
-{"SGBD":"Oracle","Port":"1521","Database":"iut","Host":"gloin"}
+{"SGBD":"MySQL","Port":"3306","Database":"feedback","Host":"localhost"}
