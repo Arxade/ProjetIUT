@@ -85,6 +85,14 @@ public class MySQLConnection extends DatabaseConnection {
     @Override
     public boolean setTableColumns(Table table) {
         ArrayList<Attribute> columns = getTableColumns(table);
+        String[] lesPK = getPKTab(table.getName());
+        for (String laPK : lesPK) {
+            for (Attribute column : columns) {
+                if (column.getName().equals(laPK)) {
+                    column.isPrimaryKey(true);
+                }
+            }
+        }
         table.attributes().addAll(columns);
         return true;
 
