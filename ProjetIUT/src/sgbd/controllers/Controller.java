@@ -138,6 +138,11 @@ public class Controller {
         return connection.dropNotNull(nomTable, nomColonne, dataType, longueur);
     }
     
+    public boolean dropFK(String nomTable, String nomFK)
+    {
+        return connection.dropForeignKey(nomTable, nomFK);
+    }
+    
     public String[] getPKList(String nomTable){
         return connection.getPKTab(nomTable);
     }

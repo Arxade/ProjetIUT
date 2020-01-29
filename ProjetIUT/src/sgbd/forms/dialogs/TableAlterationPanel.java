@@ -431,7 +431,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
 
             int option = JOptionPane.showConfirmDialog(null, message, "Supprimer une clé étrangère", JOptionPane.OK_CANCEL_OPTION);
             if (option == JOptionPane.OK_OPTION) {
-                controller.dropConstraint(table.getName(), comboboxFK.getSelectedItem().toString());
+                controller.dropFK(table.getName(), comboboxFK.getSelectedItem().toString());
                 getTableInfo();
             }
         }

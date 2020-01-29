@@ -6,11 +6,16 @@
 package sgbd.connection;
 
 import java.awt.HeadlessException;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sgbd.database.Attribute;
 import sgbd.database.Table;
 
@@ -122,43 +127,87 @@ public class OracleConnection extends DatabaseConnection {
 
     @Override
     public boolean setTableColumns(Table table) {
-        if (prepareStatements()) {
-            ArrayList<HashMap> fk = getForeignKeys(table.getName());
-            ArrayList<HashMap> cons = getConstraints(table.getName());
-            ArrayList<Attribute> columns = getTableColumns(table);
-            if (fk != null && cons != null && columns != null) {
+//        if (prepareStatements()) {
+//            ArrayList<HashMap> fk = getForeignKeys(table.getName());
+//            ArrayList<HashMap> cons = getConstraints(table.getName());
+//            ArrayList<Attribute> columns = getTableColumns(table);
+//            if (fk != null && cons != null && columns != null) {
+//
+//                //Ajout des clefs étrangères et des autres contraintes
+//                fk.forEach((c) -> {
+//                    String columnName = findColumnByID(c.get("R_TABLE_NAME").toString(), (int) c.get("R_COLUMN_ID"));
+//                    columns.get((int) c.get("COLUMN_ID") - 1).foreignKey(c.get("R_TABLE_NAME").toString(), columnName);
+//                });
+//                cons.forEach((c) -> {
+//                    int attr = (int) c.get("COLUMN_ID") - 1;
+//                    switch ((char) c.get("CONSTRAINT_TYPE")) {
+//                        case 'C':
+//                            if (c.get("SEARCH_CONDITION").toString().contains("IS NOT NULL")) {
+//                                columns.get(attr).isNullable(false);
+//                            }
+//                            break;
+//                        case 'P':
+//                            columns.get(attr).isPrimaryKey(true);
+//                            break;
+//                        case 'U':
+//                            columns.get(attr).isUnique(true);
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                });
+//                table.attributes().addAll(columns);
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        } else {
+//            return false;
+//        }
 
-                //Ajout des clefs étrangères et des autres contraintes
-                fk.forEach((c) -> {
-                    String columnName = findColumnByID(c.get("R_TABLE_NAME").toString(), (int) c.get("R_COLUMN_ID"));
-                    columns.get((int) c.get("COLUMN_ID") - 1).foreignKey(c.get("R_TABLE_NAME").toString(), columnName);
-                });
-                cons.forEach((c) -> {
-                    int attr = (int) c.get("COLUMN_ID") - 1;
-                    switch ((char) c.get("CONSTRAINT_TYPE")) {
-                        case 'C':
-                            if (c.get("SEARCH_CONDITION").toString().contains("IS NOT NULL")) {
-                                columns.get(attr).isNullable(false);
-                            }
-                            break;
-                        case 'P':
-                            columns.get(attr).isPrimaryKey(true);
-                            break;
-                        case 'U':
-                            columns.get(attr).isUnique(true);
-                            break;
-                        default:
-                            break;
+        try {
+            ArrayList<Attribute> columns = getTableColumns(table);
+            String[] lesPK = getPKTab(table.getName());
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM " + table.getName());
+            ResultSetMetaData rsmd = rs.getMetaData();;
+            DatabaseMetaData dm = connection.getMetaData();
+
+
+            //Obtention des PK
+            for (String laPK : lesPK) {
+                for (Attribute column : columns) {
+                    if (column.getName().equals(laPK)) {
+                        column.isPrimaryKey(true);
                     }
-                });
-                table.attributes().addAll(columns);
-                return true;
-            } else {
-                return false;
+                }
             }
-        } else {
+
+            int i = 1;
+            for (Attribute column : columns) {
+                //Obtention des not null
+                int nullable = rsmd.isNullable(i);
+                if (nullable == ResultSetMetaData.columnNoNulls) {
+                    column.isNullable(false);
+                }
+                i++;
+
+                //Obtention des FK
+                ResultSet rs2 = dm.getImportedKeys(null, null, table.getName());
+                while (rs2.next()) {
+                    if (rs2.getString("FKCOLUMN_NAME").equals(column.getName())) {
+                        column.foreignKey(rs2.getString("PKTABLE_NAME"), rs2.getString("PKCOLUMN_NAME"));
+                    }
+                }
+            }
+            table.attributes().addAll(columns);
+            return true;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(MySQLConnection.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+
     }
 
     @Override
@@ -205,5 +254,12 @@ public class OracleConnection extends DatabaseConnection {
             return false;
         }
     }
+
+    @Override
+    public boolean dropForeignKey(String nomTable, String nomFK) {
+        return dropConstraint(nomTable, nomFK);
+    }
+       
+       
 
 }
