@@ -59,11 +59,6 @@ public class TableAlterationPanel extends javax.swing.JPanel {
             comboboxTables.addItem(laTable);
         }
 
-        String[] colonnes = nomsColonnes.toArray(new String[nomsColonnes.size()]);
-        for (String laColonne : colonnes) {
-            comboboxColonnes.addItem(laColonne);
-        }
-
     }
 
     private void getTableInfo() {
@@ -81,6 +76,12 @@ public class TableAlterationPanel extends javax.swing.JPanel {
 
         remplirListesAttributs();
         resizeColumnWidth(tableModif);
+        
+        comboboxColonnes.removeAllItems();
+        String[] colonnes = nomsColonnes.toArray(new String[nomsColonnes.size()]);
+        for (String laColonne : colonnes) {
+            comboboxColonnes.addItem(laColonne);
+        }
 
     }
 
@@ -351,13 +352,12 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                     controller.createPrimaryKey(table.getName(), colonnesPK);
                 }
             }
-
             getTableInfo();
             btnModif.setText("Commencer les modifications");
             btnAnnuler.setText("Fermer");
             tableModif.setEnabled(false);
-        }
 
+        }
     }//GEN-LAST:event_btnModifActionPerformed
 
     private void buttonDropColonneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDropColonneActionPerformed
@@ -386,7 +386,11 @@ public class TableAlterationPanel extends javax.swing.JPanel {
 
         int option = JOptionPane.showConfirmDialog(null, message, "Ajouter une colonne", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
-            controller.addColonne(table.getName(), txtboxNomColonne.getText(), comboboxTypes.getSelectedItem().toString(), Integer.parseInt(txtboxLongueur.getText()));
+            if (!txtboxLongueur.getText().trim().equals("")) {
+                controller.addColonne(table.getName(), txtboxNomColonne.getText(), comboboxTypes.getSelectedItem().toString(), Integer.parseInt(txtboxLongueur.getText()));
+            } else {
+                controller.addColonne(table.getName(), txtboxNomColonne.getText(), comboboxTypes.getSelectedItem().toString(), -1 );
+            }
             getTableInfo();
         }
     }//GEN-LAST:event_buttonAddColonneActionPerformed
@@ -402,6 +406,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void buttonAddFKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddFKActionPerformed
+
         Object[] message = {
             "Nom de la colonne affectée : ", comboboxColonnes,
             "Table à référencer : ", comboboxTables,
@@ -435,7 +440,6 @@ public class TableAlterationPanel extends javax.swing.JPanel {
                 getTableInfo();
             }
         }
-
     }//GEN-LAST:event_buttonDropFKActionPerformed
 
     private void comboboxTablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxTablesActionPerformed

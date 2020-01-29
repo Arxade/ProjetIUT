@@ -236,8 +236,12 @@ public abstract class DatabaseConnection {
     
         public boolean addColonne(String nomTable, String nomColonne, String typeColonne, int longueurColonne) {
         try {
+            String addQuery;
             statement = connection.createStatement();
-            String addQuery = "ALTER TABLE " + nomTable + " ADD " + nomColonne + " " + typeColonne + "(" + longueurColonne + ")";
+            if (longueurColonne == -1)
+                addQuery = "ALTER TABLE " + nomTable + " ADD " + nomColonne + " " + typeColonne;
+            else
+                addQuery = "ALTER TABLE " + nomTable + " ADD " + nomColonne + " " + typeColonne + "(" + longueurColonne + ")";
             System.out.println(addQuery);
             statement.executeUpdate(addQuery);
             javax.swing.JOptionPane.showMessageDialog(null, "Colonne ajoutée.");
