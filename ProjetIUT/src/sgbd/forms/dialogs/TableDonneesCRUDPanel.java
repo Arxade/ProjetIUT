@@ -207,8 +207,7 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lancerRecherche()
-    {
+    private void jButtonLancerSELECTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLancerSELECTActionPerformed
         ResultSet rs;
         try {
             rs = controllerCRUD.getResultSetFromTable(tableCRUD);
@@ -282,10 +281,6 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
             Logger.getLogger(TableDonneesCRUDPanel.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Erreur lors du SELECT " + ex);
         }
-    }
-    
-    private void jButtonLancerSELECTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLancerSELECTActionPerformed
-        lancerRecherche();
     }//GEN-LAST:event_jButtonLancerSELECTActionPerformed
 
     private void jButtonEffacerLigneCRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEffacerLigneCRUDActionPerformed
