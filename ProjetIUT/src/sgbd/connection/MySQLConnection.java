@@ -6,11 +6,14 @@
 package sgbd.connection;
 
 import java.awt.HeadlessException;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sgbd.database.Attribute;
@@ -84,17 +87,51 @@ public class MySQLConnection extends DatabaseConnection {
 
     @Override
     public boolean setTableColumns(Table table) {
-        ArrayList<Attribute> columns = getTableColumns(table);
-        String[] lesPK = getPKTab(table.getName());
-        for (String laPK : lesPK) {
-            for (Attribute column : columns) {
-                if (column.getName().equals(laPK)) {
-                    column.isPrimaryKey(true);
+        try {
+            ArrayList<Attribute> columns = getTableColumns(table);
+            String[] lesPK = getPKTab(table.getName());
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM " + table.getName());
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            DatabaseMetaData dm = connection.getMetaData();
+            ResultSet rs2 = dm.getImportedKeys(null, null, table.getName());
+
+            //Obtention des PK
+            for (String laPK : lesPK) {
+                for (Attribute column : columns) {
+                    if (column.getName().equals(laPK)) {
+                        column.isPrimaryKey(true);
+                    }
                 }
             }
+
+            int i = 1;
+            for (Attribute column : columns) {
+                
+                //Obtention des not null
+                int nullable = rsmd.isNullable(i);
+                if (nullable == ResultSetMetaData.columnNoNulls) {
+                    column.isNullable(false);
+                }
+                i++;
+
+                //Obtention des FK
+                rs2.beforeFirst();
+                while (rs2.next()) {
+                    if (rs2.getString("FKCOLUMN_NAME").equals(column.getName())) {
+                        column.foreignKey(rs2.getString("PKTABLE_NAME"), rs2.getString("PKCOLUMN_NAME"));
+                    }
+                }
+            }
+
+            table.attributes().addAll(columns);
+            return true;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(MySQLConnection.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        table.attributes().addAll(columns);
-        return true;
 
     }
 
@@ -140,4 +177,23 @@ public class MySQLConnection extends DatabaseConnection {
             return false;
         }
     }
+
+    @Override
+    public boolean dropForeignKey(String nomTable, String nomFK) {
+        try {
+            statement = connection.createStatement();
+            String query = "ALTER TABLE " + nomTable + " DROP FOREIGN KEY " + nomFK;
+            System.out.println(query);
+            statement.executeUpdate(query);
+            String query2 = "ALTER TABLE " + nomTable + " DROP INDEX " + nomFK;
+            System.out.println(query2);
+            statement.executeUpdate(query2);
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
+            return false;
+        }
+    }
+    
+    
 }

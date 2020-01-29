@@ -325,6 +325,8 @@ public abstract class DatabaseConnection {
             return false;
         }
     }
+    
+    public abstract boolean dropForeignKey(String nomTable, String nomFK);
 
     public boolean addConstraintUnique(String nomTable, String nomColonne) {
         try {
