@@ -559,12 +559,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         nomActuel = lstTables.getSelectedValue();
         inputNom = JOptionPane.showInputDialog(null, "Entrer le nouveau nom de la table : ", "Renommage de la table", JOptionPane.QUESTION_MESSAGE).toUpperCase();
         if (controller.renameTable(nomActuel, inputNom) == true) {
-            //setTablesList();  il faut fix cette méthode
-            //le code qui suit est une solution temporaire pas géniale
-
-            DefaultListModel listModel = (DefaultListModel) lstTables.getModel();
-            listModel.removeElement(nomActuel);
-            listModel.addElement(inputNom);
+            setTablesList();
         }
 
     }//GEN-LAST:event_btnRenameTableActionPerformed
