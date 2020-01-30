@@ -49,39 +49,14 @@ public class MySQLConnection extends DatabaseConnection {
             return false;
         }
     }
-
-    /*
-    VOIR DANS "Connexion.java"
     
-    @Override
-    public ResultSet getResultSetFromTable(String table) throws Exception {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        statement = connect.createStatement();
-
-        preparedStatement = connect
-                .prepareStatement("SELECT * from " + table);
-        resultSet = preparedStatement.executeQuery();
-        return resultSet;
-
-    }
-     */
     @Override
     public boolean prepareStatements() {
         return true;
     }
 
     @Override
-    public ArrayList<HashMap> getForeignKeys(String table) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public ArrayList<HashMap> getConstraints(String table) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String findColumnByID(String rTable, int columnID) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
