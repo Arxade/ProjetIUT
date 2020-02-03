@@ -18,9 +18,19 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jButtonConfirmerInsert" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="837" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jButtonConfirmerInsert" min="-2" pref="179" max="-2" attributes="0"/>
+                  <Component id="jButtonAjouterNbLignesInsert" max="32767" attributes="0"/>
+                  <Component id="jButtonEnleverNbLignesSelectionneeInsert" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="29" pref="29" max="-2" attributes="0"/>
+                      <Component id="jLabelNombreDeLignesInsert" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTextFieldNbLignesInsert" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="769" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -31,7 +41,15 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabelNombreDeLignesInsert" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldNbLignesInsert" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButtonAjouterNbLignesInsert" min="-2" pref="50" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jButtonEnleverNbLignesSelectionneeInsert" min="-2" pref="50" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jButtonConfirmerInsert" min="-2" pref="100" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" pref="431" max="32767" attributes="0"/>
@@ -70,6 +88,32 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonConfirmerInsertActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTextFieldNbLignesInsert">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="nbLignes"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabelNombreDeLignesInsert">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nombre de lignes:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonAjouterNbLignesInsert">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ajouter ce nombre de lignes"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAjouterNbLignesInsertActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonEnleverNbLignesSelectionneeInsert">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Effacer ligne selectionn&#xe9;e"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEnleverNbLignesSelectionneeInsertActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

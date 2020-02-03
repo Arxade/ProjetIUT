@@ -409,9 +409,11 @@ public abstract class DatabaseConnection {
     
     
    public ResultSet getResultSetFromTable(Table table) throws Exception{
-                statement = connection.createStatement();
+            statement = connection.createStatement();
 
-            preparedStatement = connection.prepareStatement("SELECT * FROM "+ table.getName());
+            ResultSet rsPk = connection.getMetaData().getPrimaryKeys(null, null, table.getName());
+            rsPk.next();
+            preparedStatement = connection.prepareStatement("SELECT * FROM "+ table.getName() + " ORDER BY " +rsPk.getString(4));
             resultSet = preparedStatement.executeQuery();
             return resultSet;
    
