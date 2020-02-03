@@ -47,9 +47,9 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
             jTableDonneesCRUD.addColumn(col);
         }
         labelTableName.setText(laTable.getName());
-        labelTableName2.setText(laTable.getName());
         controllerCRUD = ctr;
         tableCRUD = laTable;
+        lancerRecherche();
         
     }
 
@@ -66,14 +66,6 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
         labelTableName = new java.awt.Label();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableDonneesCRUD = new javax.swing.JTable();
-        labelFiltreSELECT = new java.awt.Label();
-        jButtonLancerSELECT = new javax.swing.JButton();
-        checkboxSelectAll = new java.awt.Checkbox();
-        labelSelectFrom = new java.awt.Label();
-        labelTableName2 = new java.awt.Label();
-        labelSelectFromWhere = new java.awt.Label();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextAreaSelectNomsDesAttributs = new javax.swing.JTextArea();
         jButtonEffacerLigneCRUD = new javax.swing.JButton();
         jButtonModifierLigneCRUD = new javax.swing.JButton();
         jButtonInsertCRUD = new javax.swing.JButton();
@@ -93,31 +85,6 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
             }
         ));
         jScrollPane1.setViewportView(jTableDonneesCRUD);
-
-        labelFiltreSELECT.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        labelFiltreSELECT.setText("Select");
-
-        jButtonLancerSELECT.setText("Lancer Recherche");
-        jButtonLancerSELECT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonLancerSELECTActionPerformed(evt);
-            }
-        });
-
-        checkboxSelectAll.setLabel("*  (tous les attributs) OU");
-
-        labelSelectFrom.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        labelSelectFrom.setText("From");
-
-        labelTableName2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        labelTableName2.setText("TABLE_NAME");
-
-        labelSelectFromWhere.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        labelSelectFromWhere.setText("Where");
-
-        jTextAreaSelectNomsDesAttributs.setColumns(20);
-        jTextAreaSelectNomsDesAttributs.setRows(5);
-        jScrollPane2.setViewportView(jTextAreaSelectNomsDesAttributs);
 
         jButtonEffacerLigneCRUD.setText("Effacer ligne");
         jButtonEffacerLigneCRUD.addActionListener(new java.awt.event.ActionListener() {
@@ -146,23 +113,9 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(labelNomDeLaTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(labelTableName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(labelFiltreSELECT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(checkboxSelectAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jButtonLancerSELECT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelSelectFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelTableName2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(labelSelectFromWhere, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(labelNomDeLaTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelTableName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -177,37 +130,24 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonEffacerLigneCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonModifierLigneCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonInsertCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonEffacerLigneCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonModifierLigneCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonInsertCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(labelTableName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelNomDeLaTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(labelFiltreSELECT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(checkboxSelectAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(labelSelectFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelTableName2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelSelectFromWhere, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 406, Short.MAX_VALUE)
-                        .addComponent(jButtonLancerSELECT, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonLancerSELECTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLancerSELECTActionPerformed
+    private void lancerRecherche()
+    {
         ResultSet rs;
         try {
             rs = controllerCRUD.getResultSetFromTable(tableCRUD);
@@ -216,8 +156,8 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
             ArrayList<String> nomsDeColonnes = new ArrayList<>();
            
             //Obligation de recréer les colonnes dans le nouveau model//
-            if(checkboxSelectAll.getState() || (!checkboxSelectAll.getState() && jTextAreaSelectNomsDesAttributs.getText().isEmpty()))
-            {
+            /*if(checkboxSelectAll.getState() || (!checkboxSelectAll.getState() && jTextAreaSelectNomsDesAttributs.getText().isEmpty()))
+            {*/
                 nomsDeColonnes = controllerCRUD.getAttributesNames(tableCRUD);
                 for(String nomCol : nomsDeColonnes)
                 {
@@ -231,40 +171,39 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
                     for(y=1 ; y<rs.getMetaData().getColumnCount()+1 ; y++)
                     {
                         valeurs[y-1] = rs.getString(y);
-
                     }
                     model.addRow(valeurs);
                 }
-            }
-            else if(!checkboxSelectAll.getState())
+            //}
+            /*else if(!checkboxSelectAll.getState())
             {
-                String[] lesAttributs = controllerCRUD.getAttributesFromJTextArea(jTextAreaSelectNomsDesAttributs.getText());
-                for(int i = 0 ; i < lesAttributs.length ; i++)
-                {
-                    nomsDeColonnes.add(lesAttributs[i]); 
-                }
-                for(String nomCol : nomsDeColonnes)
-                {
-                    model.addColumn(nomCol);
-                }
-                while(rs.next())
-                {
-                    String valeurs[] = new String[nomsDeColonnes.size()];
-                    for(y=1 ; y<rs.getMetaData().getColumnCount()+1 ; y++)
-                    {
-                        for(int x = 0 ; x < nomsDeColonnes.size() ; x++)
-                        {
-                            if(nomsDeColonnes.get(x).equals(rs.getMetaData().getColumnName(y)))
-                            {
-                                valeurs[x] = rs.getString(y);
-                            }
-                        }
-                    }
-                    model.addRow(valeurs);
-                }
-                System.out.println(nomsDeColonnes.toString());
+            String[] lesAttributs = controllerCRUD.getAttributesFromJTextArea(jTextAreaSelectNomsDesAttributs.getText());
+            for(int i = 0 ; i < lesAttributs.length ; i++)
+            {
+            nomsDeColonnes.add(lesAttributs[i]);
             }
-            
+            for(String nomCol : nomsDeColonnes)
+            {
+            model.addColumn(nomCol);
+            }
+            while(rs.next())
+            {
+            String valeurs[] = new String[nomsDeColonnes.size()];
+            for(y=1 ; y<rs.getMetaData().getColumnCount()+1 ; y++)
+            {
+            for(int x = 0 ; x < nomsDeColonnes.size() ; x++)
+            {
+            if(nomsDeColonnes.get(x).equals(rs.getMetaData().getColumnName(y)))
+            {
+            valeurs[x] = rs.getString(y);
+            }
+            }
+            }
+            model.addRow(valeurs);
+            }
+            System.out.println(nomsDeColonnes.toString());
+            }
+            */
             
             jTableDonneesCRUD.setModel(model);
             Object[][] nouvelleValeurs = new Object[jTableDonneesCRUD.getColumnCount()][jTableDonneesCRUD.getRowCount()];
@@ -281,8 +220,7 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
             Logger.getLogger(TableDonneesCRUDPanel.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Erreur lors du SELECT " + ex);
         }
-    }//GEN-LAST:event_jButtonLancerSELECTActionPerformed
-
+    }
     private void jButtonEffacerLigneCRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEffacerLigneCRUDActionPerformed
         int id = jTableDonneesCRUD.getSelectedRow();
         if(id > -1)
@@ -345,10 +283,11 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
         dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         TableDonneesInsertPanel content = new TableDonneesInsertPanel(tableCRUD , controllerCRUD);
-        //content.getButton("confirm").addActionListener((ActionEvent e) -> {
-        //    setTablesList();
-        //    dialog.dispose();
-        //});
+        content.fermerTableDonneesInsertPanel().addActionListener((ActionEvent e) -> {
+            content.insert();
+            dialog.dispose();
+            lancerRecherche();
+        });
         dialog.setContentPane(content);
         dialog.setResizable(true);
         dialog.pack();
@@ -357,20 +296,12 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Checkbox checkboxSelectAll;
     private javax.swing.JButton jButtonEffacerLigneCRUD;
     private javax.swing.JButton jButtonInsertCRUD;
-    private javax.swing.JButton jButtonLancerSELECT;
     private javax.swing.JButton jButtonModifierLigneCRUD;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableDonneesCRUD;
-    private javax.swing.JTextArea jTextAreaSelectNomsDesAttributs;
-    private java.awt.Label labelFiltreSELECT;
     private java.awt.Label labelNomDeLaTable;
-    private java.awt.Label labelSelectFrom;
-    private java.awt.Label labelSelectFromWhere;
     private java.awt.Label labelTableName;
-    private java.awt.Label labelTableName2;
     // End of variables declaration//GEN-END:variables
 }

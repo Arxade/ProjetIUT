@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sgbd.controllers.Controller;
@@ -106,8 +107,13 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonConfirmerInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmerInsertActionPerformed
-        
+    public JButton fermerTableDonneesInsertPanel()
+    { 
+        return jButtonConfirmerInsert;
+    }
+    
+    public void insert()
+    {
         listeDesValeurs = new String[jTableDonneesInsert.getRowCount()][jTableDonneesInsert.getColumnCount()];
         for(int col = 0 ; col < jTableDonneesInsert.getColumnCount() ; col++)
         {
@@ -123,6 +129,11 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
             Logger.getLogger(TableDonneesInsertPanel.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(TableDonneesInsertPanel.this, "Erreur lors de l'insertion de donnéées: " + ex);
         }
+    }
+    
+    private void jButtonConfirmerInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmerInsertActionPerformed
+        
+        
     }//GEN-LAST:event_jButtonConfirmerInsertActionPerformed
 
 
@@ -131,4 +142,8 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableDonneesInsert;
     // End of variables declaration//GEN-END:variables
+
+    Object getButton(String confirm) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
