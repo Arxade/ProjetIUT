@@ -33,14 +33,8 @@ public abstract class DatabaseConnection {
     public abstract boolean connect(String user, String password);
     public abstract boolean prepareStatements();
     
-    //methode retournant un tableau de Hashtable contenant pour chacun des éléments : 
-    //le nom de la colonne , la clé primaire sur laquelle elle pointe et la table sur laqelle elle pointe.
-    public abstract ArrayList<HashMap> getForeignKeys(String table);
-    
     //méthode qui retourne un tableau listant toutes les contraintes PRIMARY KEY, UNIQUE et CHECK des colonnes d'une table 
     public abstract ArrayList<HashMap> getConstraints(String table);
-    
-    public abstract String findColumnByID(String rTable, int columnID);
     public abstract boolean setTableColumns(Table table);
     
     public void prepareConnection() {
@@ -49,7 +43,7 @@ public abstract class DatabaseConnection {
             prepareStatements();
         }
         catch(SQLException e) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération du nom d'utilisateur.");
+            javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération du nom d'utilisateur. " + e);
         }
     }
     
@@ -58,7 +52,7 @@ public abstract class DatabaseConnection {
             return dbMetadata.getUserName();
         }
         catch(SQLException e) {
-             javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération du nom d'utilisateur.");
+             javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération du nom d'utilisateur. " + e );
              return null;
         }
     }
@@ -75,7 +69,7 @@ public abstract class DatabaseConnection {
             return true;
         }
         catch(SQLException e){
-            javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération de la liste des tables.");
+            javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération de la liste des tables. " + e);
             return false;
         }
         
@@ -92,7 +86,7 @@ public abstract class DatabaseConnection {
             statement.executeQuery(renameQuery);
             return true;
         } catch (SQLException e) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Impossible de renommer la table.");
+            javax.swing.JOptionPane.showMessageDialog(null, "Impossible de renommer la table : " + e);
             return false;
         }
     }
@@ -189,7 +183,7 @@ public abstract class DatabaseConnection {
             }
         }
         catch(SQLException e) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération de la liste des colonnes.");
+            javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération de la liste des colonnes. " + e);
         }
         return columns;
     }
@@ -199,7 +193,9 @@ public abstract class DatabaseConnection {
             ArrayList<String> lst = new ArrayList<>();
             resultSet = dbMetadata.getTypeInfo();
             while (resultSet.next()) {
-                lst.add(resultSet.getString("TYPE_NAME"));
+                if (!lst.contains(resultSet.getString("TYPE_NAME"))) {
+                    lst.add(resultSet.getString("TYPE_NAME"));
+                }
             }
             Collections.sort(tablesList);
             typesList = new String[lst.size()];
@@ -211,7 +207,7 @@ public abstract class DatabaseConnection {
             return true;
         }
         catch(SQLException e) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération de la liste des types.");
+            javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération de la liste des types." + e);
             return false;
         }
     }
@@ -236,8 +232,12 @@ public abstract class DatabaseConnection {
     
         public boolean addColonne(String nomTable, String nomColonne, String typeColonne, int longueurColonne) {
         try {
+            String addQuery;
             statement = connection.createStatement();
-            String addQuery = "ALTER TABLE " + nomTable + " ADD " + nomColonne + " " + typeColonne + "(" + longueurColonne + ")";
+            if (longueurColonne == -1)
+                addQuery = "ALTER TABLE " + nomTable + " ADD " + nomColonne + " " + typeColonne;
+            else
+                addQuery = "ALTER TABLE " + nomTable + " ADD " + nomColonne + " " + typeColonne + "(" + longueurColonne + ")";
             System.out.println(addQuery);
             statement.executeUpdate(addQuery);
             javax.swing.JOptionPane.showMessageDialog(null, "Colonne ajoutée.");

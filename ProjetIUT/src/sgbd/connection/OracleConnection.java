@@ -57,18 +57,6 @@ public class OracleConnection extends DatabaseConnection {
     @Override
     public boolean prepareStatements() {
         try {
-            findColumnByID = connection.prepareStatement("SELECT column_name "
-                    + "FROM all_tab_columns "
-                    + "WHERE table_name = ? "
-                    + "AND column_id = ?");
-            foreignKeysList = connection.prepareStatement("SELECT t1.column_id COLUMN_ID, c2.table_name R_TABLE_NAME, t2.column_id R_COLUMN_ID "
-                    + "FROM all_constraints c "
-                    + "JOIN all_cons_columns c1 ON(c1.constraint_name = c.constraint_name) "
-                    + "JOIN all_cons_columns c2 ON(c.r_constraint_name = c2.constraint_name) "
-                    + "LEFT OUTER JOIN all_tab_columns t1 ON(t1.table_name = c1.table_name AND t1.column_name = c1.column_name) "
-                    + "LEFT OUTER JOIN all_tab_columns t2 ON(t2.table_name = c2.table_name AND t2.column_name = c2.column_name) "
-                    + "WHERE c.table_name = ? "
-                    + "ORDER BY t1.column_id");
             constraintsList = connection.prepareStatement("SELECT column_id, constraint_type, search_condition "
                     + "FROM all_cons_columns "
                     + "NATURAL JOIN all_tab_columns "
@@ -81,28 +69,6 @@ public class OracleConnection extends DatabaseConnection {
             javax.swing.JOptionPane.showMessageDialog(null, "Echec de préparation des requêtes.");
             return false;
         }
-    }
-
-    @Override
-    public ArrayList<HashMap> getForeignKeys(String table) {
-        ArrayList<HashMap> fkList = null;
-        try {
-            fkList = new ArrayList<>();
-            foreignKeysList.setString(1, table);
-            resultSet = foreignKeysList.executeQuery();
-
-            //on rempli l'arraylist des hashtable des foreign keys
-            while (resultSet.next()) {
-                HashMap<String, Object> h = new HashMap<>();
-                h.put("COLUMN_ID", resultSet.getInt("COLUMN_ID"));
-                h.put("R_TABLE_NAME", resultSet.getString("R_TABLE_NAME"));
-                h.put("R_COLUMN_ID", resultSet.getInt("R_COLUMN_ID"));
-                fkList.add(h);
-            }
-        } catch (SQLException e) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération de la liste des clés étrangères.");
-        }
-        return fkList;
     }
 
     @Override
@@ -127,44 +93,6 @@ public class OracleConnection extends DatabaseConnection {
 
     @Override
     public boolean setTableColumns(Table table) {
-//        if (prepareStatements()) {
-//            ArrayList<HashMap> fk = getForeignKeys(table.getName());
-//            ArrayList<HashMap> cons = getConstraints(table.getName());
-//            ArrayList<Attribute> columns = getTableColumns(table);
-//            if (fk != null && cons != null && columns != null) {
-//
-//                //Ajout des clefs étrangères et des autres contraintes
-//                fk.forEach((c) -> {
-//                    String columnName = findColumnByID(c.get("R_TABLE_NAME").toString(), (int) c.get("R_COLUMN_ID"));
-//                    columns.get((int) c.get("COLUMN_ID") - 1).foreignKey(c.get("R_TABLE_NAME").toString(), columnName);
-//                });
-//                cons.forEach((c) -> {
-//                    int attr = (int) c.get("COLUMN_ID") - 1;
-//                    switch ((char) c.get("CONSTRAINT_TYPE")) {
-//                        case 'C':
-//                            if (c.get("SEARCH_CONDITION").toString().contains("IS NOT NULL")) {
-//                                columns.get(attr).isNullable(false);
-//                            }
-//                            break;
-//                        case 'P':
-//                            columns.get(attr).isPrimaryKey(true);
-//                            break;
-//                        case 'U':
-//                            columns.get(attr).isUnique(true);
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                });
-//                table.attributes().addAll(columns);
-//                return true;
-//            } else {
-//                return false;
-//            }
-//        } else {
-//            return false;
-//        }
-
         try {
             ArrayList<Attribute> columns = getTableColumns(table);
             String[] lesPK = getPKTab(table.getName());
@@ -172,7 +100,30 @@ public class OracleConnection extends DatabaseConnection {
             ResultSet rs = statement.executeQuery("SELECT * FROM " + table.getName());
             ResultSetMetaData rsmd = rs.getMetaData();;
             DatabaseMetaData dm = connection.getMetaData();
-
+            
+            ArrayList<HashMap> constraints = getConstraints(table.getName());
+            
+            List<List> lesFK = new ArrayList<>();
+            ResultSet rsFK = dm.getImportedKeys(null, null, table.getName());
+            while (rsFK.next()) {
+                ArrayList<String> donneesFK = new ArrayList<>();
+                donneesFK.add(rsFK.getString("FKCOLUMN_NAME"));
+                donneesFK.add(rsFK.getString("PKTABLE_NAME"));
+                donneesFK.add(rsFK.getString("PKCOLUMN_NAME"));
+                lesFK.add(donneesFK);
+            }
+            
+            //Obtention des unique
+            constraints.forEach((c) -> {
+                    int attr = (int) c.get("COLUMN_ID") - 1;
+                    switch ((char) c.get("CONSTRAINT_TYPE")) {
+                        case 'U':
+                            columns.get(attr).isUnique(true);
+                            break;
+                        default:
+                            break;
+                    }
+                                    });
 
             //Obtention des PK
             for (String laPK : lesPK) {
@@ -191,15 +142,15 @@ public class OracleConnection extends DatabaseConnection {
                     column.isNullable(false);
                 }
                 i++;
-
-                //Obtention des FK
-                ResultSet rs2 = dm.getImportedKeys(null, null, table.getName());
-                while (rs2.next()) {
-                    if (rs2.getString("FKCOLUMN_NAME").equals(column.getName())) {
-                        column.foreignKey(rs2.getString("PKTABLE_NAME"), rs2.getString("PKCOLUMN_NAME"));
+                
+                //Obtentation des FK
+                for (List<String> laFK : lesFK) {
+                    if (column.getName().equals(laFK.get(0))) {
+                        column.foreignKey(laFK.get(1), laFK.get(2));
                     }
                 }
             }
+
             table.attributes().addAll(columns);
             return true;
             
@@ -208,20 +159,6 @@ public class OracleConnection extends DatabaseConnection {
             return false;
         }
 
-    }
-
-    @Override
-    public String findColumnByID(String rTable, int columnID) {
-        try {
-            findColumnByID.setString(1, rTable);
-            findColumnByID.setInt(2, columnID);
-            resultSet = findColumnByID.executeQuery();
-            resultSet.next();
-            return resultSet.getString("COLUMN_NAME");
-        } catch (SQLException e) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération d'un attribut par son ID.");
-            return null;
-        }
     }
 
     @Override

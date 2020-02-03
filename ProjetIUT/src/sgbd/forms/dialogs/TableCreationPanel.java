@@ -37,9 +37,7 @@ public class TableCreationPanel extends javax.swing.JPanel {
     public TableCreationPanel(Controller c, int nbCol) {
         initComponents();
         controller = c;
-        columns = nbCol;
-        
-        
+        columns = nbCol;     
         
         //on rempli la combolist ddes types
         String[] types = controller.getTypesList();
@@ -57,7 +55,6 @@ public class TableCreationPanel extends javax.swing.JPanel {
         for (int i = 0; i < columns; i++) {
             model.addRow(row);
         }
-
         
         //on récupère la liste des table et on rempli la combobox (pour ajout FK)
         String[] lstTables = controller.getTablesList();
@@ -274,8 +271,6 @@ public class TableCreationPanel extends javax.swing.JPanel {
         model.addRow(row);
     }//GEN-LAST:event_btnAddRowActionPerformed
 
-    
-    
     private void btnAddFKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFKActionPerformed
         TableModel model = tblAttributes.getModel();
         
@@ -330,7 +325,6 @@ public class TableCreationPanel extends javax.swing.JPanel {
         else{
             JOptionPane.showMessageDialog(this, "Aucune clé étrangère existante.");
         }
-        
     }//GEN-LAST:event_btnRmFKActionPerformed
 
     
@@ -350,9 +344,7 @@ public class TableCreationPanel extends javax.swing.JPanel {
             }
         }
     }
-    
-    
-    
+
     private void ckbxTableListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckbxTableListActionPerformed
         // TODO add your handling code here:
         String[] refs = controller.getPKList(ckbxTableList.getSelectedItem().toString());
