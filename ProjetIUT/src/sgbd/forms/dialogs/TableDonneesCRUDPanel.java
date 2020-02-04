@@ -242,6 +242,7 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
                     }
                 }
                 controllerCRUD.deleteRow(tableCRUD, lesAttributs, lesValeurs, this);
+                lancerRecherche();
                 
                 
             }
@@ -259,14 +260,10 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
 
     private void jButtonModifierLigneCRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModifierLigneCRUDActionPerformed
         
-        ArrayList<String> lesAttributs = new ArrayList<>();
-        for(int i = 0 ; i < jTableDonneesCRUD.getColumnCount() ; i++)
-        {
-            lesAttributs.add(jTableDonneesCRUD.getColumnName(i));
-        }
         try 
         {
-            controllerCRUD.updateRows(valeursDeRechercheDeBase, jTableDonneesCRUD.getModel(), lesAttributs, tableCRUD);
+            controllerCRUD.updateRows(valeursDeRechercheDeBase, jTableDonneesCRUD.getModel(), tableCRUD);
+            lancerRecherche();
         } catch (SQLException ex) {
             Logger.getLogger(TableDonneesCRUDPanel.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(TableDonneesCRUDPanel.this, "Erreur lors de la modification: " + ex);

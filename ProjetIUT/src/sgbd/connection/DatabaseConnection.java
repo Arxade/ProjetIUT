@@ -411,9 +411,8 @@ public abstract class DatabaseConnection {
    public ResultSet getResultSetFromTable(Table table) throws Exception{
             statement = connection.createStatement();
 
-            ResultSet rsPk = connection.getMetaData().getPrimaryKeys(null, null, table.getName());
-            rsPk.next();
-            preparedStatement = connection.prepareStatement("SELECT * FROM "+ table.getName() + " ORDER BY " +rsPk.getString(4));
+            //Je recupere le nom de la clef primaire pour trier dans l'ordre croissant les lignes avec getPrimaryKeyFromTableName(leNom)
+            preparedStatement = connection.prepareStatement("SELECT * FROM "+ table.getName() + " ORDER BY " + getPrimaryKeyFromTableName(table.getName()));
             resultSet = preparedStatement.executeQuery();
             return resultSet;
    
@@ -496,7 +495,7 @@ public abstract class DatabaseConnection {
     }
     
     public void updateRows(Object[][] valDeBase , TableModel modelNouveau, String laRequete, ArrayList<Attribute> lesAttributs) throws SQLException
-    {
+    {   
             statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
             resultSet = statement.executeQuery(laRequete);
             int row = 0;
@@ -508,28 +507,29 @@ public abstract class DatabaseConnection {
                     System.err.println("les vals " + modelNouveau.getValueAt(row, col) + "   " + valDeBase[col][row]);
                     if(!modelNouveau.getValueAt(row, col).equals(valDeBase[col][row]))
                     {
+                        String type = lesAttributs.get(col).getType();
                         System.err.println("Dans le if row=" + row + " col=" + col);
-                        if("VARCHAR2".equals(lesAttributs.get(col).getType())  || "CHAR".equals(lesAttributs.get(col).getType()))
+                        if("VARCHAR2".equals(type)  || "CHAR".equals(type))
                         {
                             resultSet.updateString(col+1, modelNouveau.getValueAt(row, col).toString() );
                             resultSet.updateRow();
                         }
-                        else if("NUMBER".equals(lesAttributs.get(col).getType()))
+                        else if("NUMBER".equals(type))
                         {
                             resultSet.updateInt(col+1, (int) modelNouveau.getValueAt(row, col));
                             resultSet.updateRow();
                         }
-                        else if("FLOAT".equals(lesAttributs.get(col).getType()) || "REAL".equals(lesAttributs.get(col).getType()))
+                        else if("FLOAT".equals(type) || "REAL".equals(type))
                         {
                             resultSet.updateFloat(col+1, (float) modelNouveau.getValueAt(row, col));
                             resultSet.updateRow();
                         }
-                        else if("LONG".equals(lesAttributs.get(col).getType()))
+                        else if("LONG".equals(type))
                         {
                             resultSet.updateLong(col+1, (long) modelNouveau.getValueAt(row, col));
                             resultSet.updateRow();
                         }
-                        else if("DATE".equals(lesAttributs.get(col).getType()))
+                        else if("DATE".equals(type))
                         {
                             resultSet.updateDate(col+1, (Date) modelNouveau.getValueAt(row, col));
                             resultSet.updateRow();
@@ -606,5 +606,12 @@ public abstract class DatabaseConnection {
         }
         
         preparedStatement.execute();
+    }
+    
+    public String getPrimaryKeyFromTableName(String tableName) throws SQLException
+    {
+        resultSet = connection.getMetaData().getPrimaryKeys(null, null, tableName);
+        resultSet.next();
+        return resultSet.getString(4);
     }
 }

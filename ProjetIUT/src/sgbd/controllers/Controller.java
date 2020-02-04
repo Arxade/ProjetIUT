@@ -177,17 +177,17 @@ public class Controller {
     return connection.getResultSetFromTableWithParams(laTable, lesAttributs);
     }*/
     
-    public String[] getAttributesFromJTextArea(String lesAttributs)
+    /*public String[] getAttributesFromJTextArea(String lesAttributs)
     {
-        lesAttributs = lesAttributs.toUpperCase();
-        lesAttributs = lesAttributs.replace(" ", "");
-        
-        String[] tabAttributs ;
-        
-        tabAttributs = lesAttributs.split(",");
-        
-        return tabAttributs;
-    }
+    lesAttributs = lesAttributs.toUpperCase();
+    lesAttributs = lesAttributs.replace(" ", "");
+    
+    String[] tabAttributs ;
+    
+    tabAttributs = lesAttributs.split(",");
+    
+    return tabAttributs;
+    }*/
     
     public void deleteRow(Table laTable , ArrayList<String> lesAttributs, ArrayList<String> lesValeurs, Component panel) throws SQLException
     {
@@ -211,30 +211,24 @@ public class Controller {
         connection.deleteRow(requete , lesValeurs);
     }
     
-    public void updateRows(Object[][] valDeBase , TableModel modelNouveau , ArrayList<String> attributesNames, Table laTable) throws SQLException
+    public void updateRows(Object[][] valDeBase , TableModel modelNouveau , Table laTable) throws SQLException
     {
         String requete = "SELECT ";
-        ArrayList<Attribute> listAttributs = new ArrayList<>();
-        for(int i = 0 ; i < attributesNames.size() ; i++)
+        for(int i = 0 ; i < laTable.attributes().size() ; i++)
         {
-            if(laTable.attributes().get(i).getName().equals(attributesNames.get(i)) )
-            {
-               listAttributs.add(laTable.attributes().get(i));
-            }
-            
             if(i>0)
             {
-                requete = requete + ", " + attributesNames.get(i) + " ";
+                requete = requete + ", " + laTable.attributes().get(i).getName() + " ";
             }
             else
             {
-                requete = requete + attributesNames.get(i) + " ";
+                requete = requete + laTable.attributes().get(i).getName() + " ";
             }
             System.err.println(requete);
         }
-        requete = requete + "FROM " + laTable.getName();
+        requete = requete + "FROM " + laTable.getName() + " ORDER BY " + connection.getPrimaryKeyFromTableName(laTable.getName());
         System.out.println(requete);
-        connection.updateRows(valDeBase , modelNouveau ,requete, listAttributs);
+        connection.updateRows(valDeBase , modelNouveau ,requete, laTable.attributes());
     }
     
     public void addRows(String[][] listeDesValeurs , Table laTable, int nbRows) throws SQLException
