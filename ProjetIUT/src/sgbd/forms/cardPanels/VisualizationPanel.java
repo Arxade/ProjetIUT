@@ -420,25 +420,24 @@ public class VisualizationPanel extends javax.swing.JPanel {
         //set du nbr de lignes de la table 
         try {
             String strNbCol = JOptionPane.showInputDialog("Entrer le nombre de colonnes : ");
-            if (strNbCol != null){ 
-                columns = Integer.parseInt(strNbCol);            
-            final JDialog dialog = new JDialog();
-            dialog.setTitle("Nouvelle table");
-            dialog.setModal(true);
-            dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            TableCreationPanel content = new TableCreationPanel(controller, columns);
-            content.getButton("confirm").addActionListener((ActionEvent e) -> {
-                String name = content.getTableName().getText();
-                dialog.dispose();
-            });
-            dialog.setContentPane(content);
-            dialog.setResizable(true);
-            dialog.pack();
-            dialog.setVisible(true);
-            setTablesList();
+            if (strNbCol != null) {
+                columns = Integer.parseInt(strNbCol);
+                final JDialog dialog = new JDialog();
+                dialog.setTitle("Nouvelle table");
+                dialog.setModal(true);
+                dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                TableCreationPanel content = new TableCreationPanel(controller, columns);
+                content.getButton("confirm").addActionListener((ActionEvent e) -> {
+                    String name = content.getTableName().getText();
+                    dialog.dispose();
+                });
+                dialog.setContentPane(content);
+                dialog.setResizable(true);
+                dialog.pack();
+                dialog.setVisible(true);
+                setTablesList();
             }
-        } 
-        catch (HeadlessException | NumberFormatException e) {
+        } catch (HeadlessException | NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "erreur lors de la saisie du nombre de colonnes.");
         }
     }//GEN-LAST:event_btnCreateTableActionPerformed
@@ -492,74 +491,94 @@ public class VisualizationPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_setSelectedListItem
 
     private void jButtonDonneesCRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDonneesCRUDActionPerformed
-        final JDialog dialog = new JDialog();
-        dialog.setTitle("Gestion des données");
-        dialog.setModal(true);
-        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        if (lstTables.getSelectedValue() == null) {
+            JOptionPane.showMessageDialog(null, "Veuillez sélectionner une table");
+        } else {
+            final JDialog dialog = new JDialog();
+            dialog.setTitle("Gestion des données");
+            dialog.setModal(true);
+            dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        TableDonneesCRUDPanel content = new TableDonneesCRUDPanel(controller, recentTables[0]);
-        //content.getButton("confirm").addActionListener((ActionEvent e) -> {
-        //    String name = content.getTableName().getText();
-        //    setTablesList();
-        //    dialog.dispose();
-        //});
-        dialog.setContentPane(content);
-        dialog.setResizable(true);
-        dialog.pack();
-        dialog.setVisible(true);
+            TableDonneesCRUDPanel content = new TableDonneesCRUDPanel(controller, recentTables[0]);
+            //content.getButton("confirm").addActionListener((ActionEvent e) -> {
+            //    String name = content.getTableName().getText();
+            //    setTablesList();
+            //    dialog.dispose();
+            //});
+            dialog.setContentPane(content);
+            dialog.setResizable(true);
+            dialog.pack();
+            dialog.setVisible(true);
+        }
     }//GEN-LAST:event_jButtonDonneesCRUDActionPerformed
 
     private void btnDropTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDropTableActionPerformed
-        String tableToDrop = lstTables.getSelectedValue();
-        String message = "Supprimer la table " + tableToDrop + " ?";
-        JCheckBox ckbCascadeConstraints = new JCheckBox("Supprimer les contraintes d'intégrité référentielle");
-        Object[] params = {message, ckbCascadeConstraints};
-        int dialog = JOptionPane.showConfirmDialog(null, params, "Suppression d'une table", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
-        if (dialog == JOptionPane.YES_OPTION) {
-            if (controller.dropTable(lstTables.getSelectedValue(), ckbCascadeConstraints.isSelected()) == true) {
-                ((DefaultListModel) lstTables.getModel()).removeElement(tableToDrop);
-                DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
-                tableModel.setRowCount(0);
-                JOptionPane.showMessageDialog(null, "Table " + tableToDrop + " supprimée.");
+        if (lstTables.getSelectedValue() == null) {
+            JOptionPane.showMessageDialog(null, "Veuillez sélectionner une table");
+        } else {
+            String tableToDrop = lstTables.getSelectedValue();
+            String message = "Supprimer la table " + tableToDrop + " ?";
+            JCheckBox ckbCascadeConstraints = new JCheckBox("Supprimer les contraintes d'intégrité référentielle");
+            Object[] params = {message, ckbCascadeConstraints};
+            int dialog = JOptionPane.showConfirmDialog(null, params, "Suppression d'une table", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
+            if (dialog == JOptionPane.YES_OPTION) {
+                if (controller.dropTable(lstTables.getSelectedValue(), ckbCascadeConstraints.isSelected()) == true) {
+                    ((DefaultListModel) lstTables.getModel()).removeElement(tableToDrop);
+                    DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
+                    tableModel.setRowCount(0);
+                    JOptionPane.showMessageDialog(null, "Table " + tableToDrop + " supprimée.");
+                }
             }
         }
+
     }//GEN-LAST:event_btnDropTableActionPerformed
 
 
     private void btnAlterTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterTableActionPerformed
-        final JDialog dialog = new JDialog();
-        dialog.setTitle("Modification");
-        dialog.setModal(true);
-        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        String selected = lstTables.getSelectedValue();
-        TableAlterationPanel content = new TableAlterationPanel(controller, recentTables[0]);
-        content.getButton("confirmer").addActionListener((ActionEvent e) -> {
-        });
-        content.getButton("annuler").addActionListener((ActionEvent e) -> {
-            if (content.getButton("annuler").getText() == "Fermer") {
-                DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
-                tableModel.setRowCount(0);
-                dialog.dispose();
-                            recentTables[0].attributes().forEach((a) -> {
-                tableModel.addRow(a.toObject());
+        if (lstTables.getSelectedValue() == null) {
+            JOptionPane.showMessageDialog(null, "Veuillez sélectionner une table");
+        } else {
+            final JDialog dialog = new JDialog();
+            dialog.setTitle("Modification");
+            dialog.setModal(true);
+            dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            TableAlterationPanel content = new TableAlterationPanel(controller, recentTables[0]);
+            content.getButton("confirmer").addActionListener((ActionEvent e) -> {
             });
-            resizeColumnWidth(tblAttributes);
-            }
-        });
-        content.getButton("rename").addActionListener((ActionEvent e) -> {
-        });
-        dialog.setContentPane(content);
-        dialog.setResizable(true);
-        dialog.pack();
-        dialog.setVisible(true);
+            content.getButton("annuler").addActionListener((ActionEvent e) -> {
+                if (content.getButton("annuler").getText() == "Fermer") {
+                    DefaultTableModel tableModel = (DefaultTableModel) tblAttributes.getModel();
+                    tableModel.setRowCount(0);
+                    dialog.dispose();
+                    recentTables[0].attributes().forEach((a) -> {
+                        tableModel.addRow(a.toObject());
+                    });
+                    resizeColumnWidth(tblAttributes);
+                }
+            });
+            content.getButton("rename").addActionListener((ActionEvent e) -> {
+            });
+            dialog.setContentPane(content);
+            dialog.setResizable(true);
+            dialog.pack();
+            dialog.setVisible(true);
+        }
     }//GEN-LAST:event_btnAlterTableActionPerformed
 
     private void btnRenameTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenameTableActionPerformed
-        String inputNom, nomActuel;
-        nomActuel = lstTables.getSelectedValue();
-        inputNom = JOptionPane.showInputDialog(null, "Entrer le nouveau nom de la table : ", "Renommage de la table", JOptionPane.QUESTION_MESSAGE).toUpperCase();
-        if (controller.renameTable(nomActuel, inputNom) == true) {
-            setTablesList();
+        if (lstTables.getSelectedValue() == null) {
+            JOptionPane.showMessageDialog(null, "Veuillez sélectionner une table");
+        } else {
+            String inputNom, nomActuel;
+            nomActuel = lstTables.getSelectedValue();
+            inputNom = JOptionPane.showInputDialog(null, "Entrer le nouveau nom de la table " + nomActuel + " : ", "Renommage de la table", JOptionPane.QUESTION_MESSAGE);
+            if (inputNom != null)
+            {
+                if (controller.renameTable(nomActuel, inputNom.toUpperCase()) == true) {
+                    setTablesList();
+                }
+            }
+
         }
 
     }//GEN-LAST:event_btnRenameTableActionPerformed
