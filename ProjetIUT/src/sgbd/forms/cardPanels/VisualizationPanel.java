@@ -34,6 +34,7 @@ import sgbd.controllers.Controller;
 import sgbd.forms.MainFrame;
 import sgbd.forms.dialogs.TableAlterationPanel;
 import sgbd.forms.dialogs.TableDonneesCRUDPanel;
+import sgbd.forms.dialogs.RequeteGraphiquePanel;
 
 /**
  *
@@ -159,10 +160,11 @@ public class VisualizationPanel extends javax.swing.JPanel {
         tblAttributes = new javax.swing.JTable();
         btnCreateTable = new javax.swing.JButton();
         lblTableName = new javax.swing.JLabel();
-        jButtonDonneesCRUD = new javax.swing.JButton();
+        btnCRUD = new javax.swing.JButton();
         btnAlterTable = new javax.swing.JButton();
         btnDropTable = new javax.swing.JButton();
         btnRenameTable = new javax.swing.JButton();
+        btnRequeteGraph = new javax.swing.JButton();
 
         setName("visualizationPanel"); // NOI18N
 
@@ -173,7 +175,6 @@ public class VisualizationPanel extends javax.swing.JPanel {
         btnDisonnect.setToolTipText("Déconnexion");
         btnDisonnect.setBorder(null);
         btnDisonnect.setContentAreaFilled(false);
-        btnDisonnect.setPreferredSize(new java.awt.Dimension(32, 32));
         btnDisonnect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDisonnectActionPerformed(evt);
@@ -245,10 +246,10 @@ public class VisualizationPanel extends javax.swing.JPanel {
             }
         });
 
-        jButtonDonneesCRUD.setText("Gestion de données");
-        jButtonDonneesCRUD.addActionListener(new java.awt.event.ActionListener() {
+        btnCRUD.setText("Gestion de données");
+        btnCRUD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDonneesCRUDActionPerformed(evt);
+                btnCRUDActionPerformed(evt);
             }
         });
 
@@ -273,6 +274,13 @@ public class VisualizationPanel extends javax.swing.JPanel {
             }
         });
 
+        btnRequeteGraph.setText("Requête graphique");
+        btnRequeteGraph.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRequeteGraphActionPerformed(evt);
+            }
+        });
+
         lpnContainer.setLayer(toolBar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(lblUser, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(lblDb, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -282,10 +290,11 @@ public class VisualizationPanel extends javax.swing.JPanel {
         lpnContainer.setLayer(slpAttributes, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(btnCreateTable, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(lblTableName, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        lpnContainer.setLayer(jButtonDonneesCRUD, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lpnContainer.setLayer(btnCRUD, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(btnAlterTable, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(btnDropTable, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(btnRenameTable, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lpnContainer.setLayer(btnRequeteGraph, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout lpnContainerLayout = new javax.swing.GroupLayout(lpnContainer);
         lpnContainer.setLayout(lpnContainerLayout);
@@ -311,14 +320,17 @@ public class VisualizationPanel extends javax.swing.JPanel {
                     .addComponent(slpAttributes)
                     .addGroup(lpnContainerLayout.createSequentialGroup()
                         .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnAlterTable, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnRenameTable, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnDropTable, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonDonneesCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRequeteGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         lpnContainerLayout.setVerticalGroup(
@@ -343,13 +355,14 @@ public class VisualizationPanel extends javax.swing.JPanel {
                         .addComponent(slpAttributes, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addGap(32, 32, 32)
                         .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButtonDonneesCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAlterTable, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnRenameTable, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDropTable, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnRequeteGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(59, 59, 59))
-                    .addComponent(slpTables, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE))
+                    .addComponent(slpTables, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -490,7 +503,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
 //        else lstTables.clearSelection();
     }//GEN-LAST:event_setSelectedListItem
 
-    private void jButtonDonneesCRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDonneesCRUDActionPerformed
+    private void btnCRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCRUDActionPerformed
         if (lstTables.getSelectedValue() == null) {
             JOptionPane.showMessageDialog(null, "Veuillez sélectionner une table");
         } else {
@@ -510,7 +523,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
             dialog.pack();
             dialog.setVisible(true);
         }
-    }//GEN-LAST:event_jButtonDonneesCRUDActionPerformed
+    }//GEN-LAST:event_btnCRUDActionPerformed
 
     private void btnDropTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDropTableActionPerformed
         if (lstTables.getSelectedValue() == null) {
@@ -583,14 +596,27 @@ public class VisualizationPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnRenameTableActionPerformed
 
+    private void btnRequeteGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRequeteGraphActionPerformed
+        final JDialog dialog = new JDialog();
+        dialog.setTitle("Requête graphique");
+        dialog.setModal(true);
+        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        RequeteGraphiquePanel content = new RequeteGraphiquePanel(controller);
+        dialog.setContentPane(content);
+        dialog.setResizable(true);
+        dialog.pack();
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnRequeteGraphActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterTable;
+    private javax.swing.JButton btnCRUD;
     private javax.swing.JButton btnCreateTable;
     private javax.swing.JButton btnDisonnect;
     private javax.swing.JButton btnDropTable;
     private javax.swing.JButton btnRenameTable;
-    private javax.swing.JButton jButtonDonneesCRUD;
+    private javax.swing.JButton btnRequeteGraph;
     private javax.swing.JLabel lblDb;
     private javax.swing.JLabel lblDbName;
     private javax.swing.JLabel lblTableName;

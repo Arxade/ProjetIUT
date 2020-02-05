@@ -170,6 +170,11 @@ public class Controller {
             return false;
         }
     }
+    
+        public String[] getNomsAttributsFromNomTable(String nomTable)
+    {
+        return connection.getNomsAttributsFromNomTable(nomTable);
+    }
 
     //Pour Plus tard//
     /* public ResultSet getResultSetFromTableWithParams(Table laTable , String lesAttributs) throws SQLException

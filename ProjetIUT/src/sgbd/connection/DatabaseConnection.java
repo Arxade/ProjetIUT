@@ -449,6 +449,25 @@ public abstract class DatabaseConnection {
         return lesAttributs;
     }
     
+    
+    public String[] getNomsAttributsFromNomTable(String nomTable)
+    {
+        ArrayList<String> nomAttributs = new ArrayList<>();
+        try {
+            resultSet = dbMetadata.getColumns(null, null, nomTable, null);
+            while (resultSet.next()) {
+                nomAttributs.add(resultSet.getString("COLUMN_NAME"));
+            }
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Echec de récupération de la liste des colonnes. " + e);
+        }
+        
+        String[] array = nomAttributs.toArray(new String[nomAttributs.size()]);
+        return array;
+    }
+    
+    
+    
     //Pour plus tard//
     /*public ResultSet getResultSetFromTableWithParams(Table laTable, String lesAttributs) throws SQLException
     {
