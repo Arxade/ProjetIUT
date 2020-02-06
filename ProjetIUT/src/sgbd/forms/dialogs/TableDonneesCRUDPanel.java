@@ -175,11 +175,12 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
                     String valeurs[] = new String[rs.getMetaData().getColumnCount()];
                     for(y=1 ; y<rs.getMetaData().getColumnCount()+1 ; y++)
                     {
-                        valeurs[y-1] = rs.getString(y);
-                        if(tableCRUD.attributes().get(y-1).getType().equals("DATE") )
-                        {
-                            valeurs[y-1] = df.format(rs.getDate(y));
-                        }
+                            valeurs[y-1] = rs.getString(y);
+                            if(tableCRUD.attributes().get(y-1).getType().equals("DATE") && !rs.wasNull())
+                            {
+                                valeurs[y-1] = df.format(rs.getDate(y));
+                            }
+                        
                         
                     }
                     model.addRow(valeurs);
