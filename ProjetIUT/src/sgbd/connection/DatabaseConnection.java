@@ -550,7 +550,7 @@ public abstract class DatabaseConnection {
                         }
                         else if("DATE".equals(type))
                         {
-                            resultSet.updateDate(col+1, (Date) modelNouveau.getValueAt(row, col));
+                            resultSet.updateDate(col+1, Date.valueOf( (String) modelNouveau.getValueAt(row, col)) );
                             resultSet.updateRow();
                         }
                     }

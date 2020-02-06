@@ -8,8 +8,12 @@ package sgbd.forms.dialogs;
 import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
@@ -164,6 +168,7 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
                     model.addColumn(nomCol);
                 }
 
+                DateFormat df = new SimpleDateFormat("YYYY-MM-dd");
                 //Création des lignes de données//
                 while(rs.next())
                 {
@@ -171,6 +176,11 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
                     for(y=1 ; y<rs.getMetaData().getColumnCount()+1 ; y++)
                     {
                         valeurs[y-1] = rs.getString(y);
+                        if(tableCRUD.attributes().get(y-1).getType().equals("DATE") )
+                        {
+                            valeurs[y-1] = df.format(rs.getDate(y));
+                        }
+                        
                     }
                     model.addRow(valeurs);
                 }
