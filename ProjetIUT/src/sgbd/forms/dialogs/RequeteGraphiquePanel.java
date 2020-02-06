@@ -1,6 +1,9 @@
 package sgbd.forms.dialogs;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.JDialog;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import sgbd.controllers.Controller;
 
@@ -43,6 +46,8 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableRequete = new javax.swing.JTable();
         btnExecuterRequete = new javax.swing.JButton();
+        btnRemoveLigne = new javax.swing.JButton();
+        btnAddLigne = new javax.swing.JButton();
 
         comboBoxTables.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -61,6 +66,25 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tableRequete);
 
         btnExecuterRequete.setText("Exécuter la requête");
+        btnExecuterRequete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExecuterRequeteActionPerformed(evt);
+            }
+        });
+
+        btnRemoveLigne.setText("Retirer une ligne");
+        btnRemoveLigne.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveLigneActionPerformed(evt);
+            }
+        });
+
+        btnAddLigne.setText("Ajouter une ligne");
+        btnAddLigne.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddLigneActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -68,9 +92,12 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnExecuterRequete, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnRemoveLigne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAddLigne, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                    .addComponent(btnExecuterRequete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 726, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -78,10 +105,14 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnExecuterRequete, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(4, 4, 4)
+                        .addComponent(btnAddLigne, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRemoveLigne, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExecuterRequete, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -98,9 +129,36 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_comboBoxTablesActionPerformed
 
+    private void btnExecuterRequeteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecuterRequeteActionPerformed
+        final JDialog dialog = new JDialog();
+        dialog.setTitle("Résultat");
+        dialog.setModal(true);
+        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        ResultatRequetePanel content = new ResultatRequetePanel();
+        dialog.setContentPane(content);
+        dialog.setResizable(true);
+        dialog.pack();
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnExecuterRequeteActionPerformed
+
+    private void btnAddLigneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLigneActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tableRequete.getModel();
+        Object[] row = null;
+        model.addRow(row);
+    }//GEN-LAST:event_btnAddLigneActionPerformed
+
+    private void btnRemoveLigneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveLigneActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tableRequete.getModel();
+        int nbRow = model.getRowCount();
+        if (nbRow > 0)
+            model.removeRow(nbRow - 1);
+    }//GEN-LAST:event_btnRemoveLigneActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddLigne;
     private javax.swing.JButton btnExecuterRequete;
+    private javax.swing.JButton btnRemoveLigne;
     private javax.swing.JComboBox<String> comboBoxAttributs;
     private javax.swing.JComboBox<String> comboBoxTables;
     private javax.swing.JScrollPane jScrollPane1;
