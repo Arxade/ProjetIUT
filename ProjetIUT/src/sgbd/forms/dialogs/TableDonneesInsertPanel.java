@@ -156,7 +156,10 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
         {
             for(int row = 0 ; row < jTableDonneesInsert.getRowCount() ; row++)
             {
-                listeDesValeurs[row][col] = jTableDonneesInsert.getValueAt(row, col).toString();
+                if(jTableDonneesInsert.getValueAt(row, col) != null)
+                {
+                    listeDesValeurs[row][col] = jTableDonneesInsert.getValueAt(row, col).toString();
+                }
             }
         }
         

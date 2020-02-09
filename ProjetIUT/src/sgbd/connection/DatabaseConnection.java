@@ -524,7 +524,7 @@ public abstract class DatabaseConnection {
                 for(int col = 0 ; col < valDeBase.length ; col++)
                 {
                     System.err.println("les vals " + modelNouveau.getValueAt(row, col) + "   " + valDeBase[col][row]);
-                    if(!modelNouveau.getValueAt(row, col).equals(valDeBase[col][row]))
+                    if(!modelNouveau.getValueAt(row, col).equals(valDeBase[col][row]) )
                     {
                         String type = lesAttributs.get(col).getType();
                         System.err.println("Dans le if row=" + row + " col=" + col);
@@ -600,26 +600,33 @@ public abstract class DatabaseConnection {
         {
             for(int col = 0 ; col < laTable.attributes().size() ; col++)
             {
-                type = laTable.attributes().get(col).getType();
-                if("VARCHAR2".equals(type)  || "CHAR".equals(type))
+                if(listeDesValeurs[row][col] != null)
                 {
-                    preparedStatement.setString(col+1, listeDesValeurs[row][col].toString() );
+                    type = laTable.attributes().get(col).getType();
+                    if("VARCHAR2".equals(type)  || "CHAR".equals(type))
+                    {
+                        preparedStatement.setString(col+1, listeDesValeurs[row][col].toString() );
+                    }
+                    else if("NUMBER".equals(type))
+                    {
+                        preparedStatement.setInt(col+1, Integer.parseInt(listeDesValeurs[row][col]));
+                    }
+                    else if("FLOAT".equals((type)) || "REAL".equals(type))
+                    {
+                        preparedStatement.setFloat(col+1, Float.parseFloat(listeDesValeurs[row][col]));
+                    }
+                    else if("LONG".equals(type))
+                    {
+                        preparedStatement.setLong(col+1, Long.parseLong(listeDesValeurs[row][col]));
+                    }
+                    else if("DATE".equals(type))
+                    {
+                        preparedStatement.setDate(col+1, Date.valueOf(listeDesValeurs[row][col]));
+                    }
                 }
-                else if("NUMBER".equals(type))
+                else
                 {
-                    preparedStatement.setInt(col+1, Integer.parseInt(listeDesValeurs[row][col]));
-                }
-                else if("FLOAT".equals((type)) || "REAL".equals(type))
-                {
-                    preparedStatement.setFloat(col+1, Float.parseFloat(listeDesValeurs[row][col]));
-                }
-                else if("LONG".equals(type))
-                {
-                    preparedStatement.setLong(col+1, Long.parseLong(listeDesValeurs[row][col]));
-                }
-                else if("DATE".equals(type))
-                {
-                    preparedStatement.setDate(col+1, Date.valueOf(listeDesValeurs[row][col]));
+                    preparedStatement.setNull(col+1, java.sql.Types.NULL);
                 }
             }
         }
