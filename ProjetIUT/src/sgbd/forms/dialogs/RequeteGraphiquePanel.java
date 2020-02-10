@@ -57,12 +57,20 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
 
         tableRequete.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null}
+                {null, null, null, null, null}
             },
             new String [] {
-                "Table", "Attribut", "Condition", "Groupement"
+                "Table", "Attribut", "Afficher données", "Condition", "Groupement"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Boolean.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tableRequete);
 
         btnExecuterRequete.setText("Exécuter la requête");
@@ -136,7 +144,7 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
         dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         String attribut = tableRequete.getValueAt(0, 1).toString();
         String table = tableRequete.getValueAt(0, 0).toString();
-        String condition = tableRequete.getValueAt(0, 2).toString();
+        String condition = tableRequete.getValueAt(0, 3).toString();
         ResultatRequetePanel content = new ResultatRequetePanel(controller, controller.traduireLigneRequeteGraphiqueEnSql(attribut, table, condition));
         dialog.setContentPane(content);
         dialog.setResizable(true);
