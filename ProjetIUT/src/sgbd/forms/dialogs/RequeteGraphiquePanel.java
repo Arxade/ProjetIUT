@@ -134,7 +134,7 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
         dialog.setTitle("Résultat");
         dialog.setModal(true);
         dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        ResultatRequetePanel content = new ResultatRequetePanel();
+        ResultatRequetePanel content = new ResultatRequetePanel(controller, controller.traduireLigneRequeteGraphiqueEnSql("id", "test", " = 1"));
         dialog.setContentPane(content);
         dialog.setResizable(true);
         dialog.pack();
