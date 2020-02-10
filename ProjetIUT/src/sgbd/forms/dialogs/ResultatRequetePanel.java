@@ -57,7 +57,7 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
         btnFermer = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtFieldRequete = new javax.swing.JTextArea();
         btnAfficherRequete = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -79,11 +79,16 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
 
         btnSave.setText("Enregistrer la requete");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        txtFieldRequete.setColumns(20);
+        txtFieldRequete.setRows(5);
+        jScrollPane2.setViewportView(txtFieldRequete);
 
         btnAfficherRequete.setText("Traduire la requête en SQL");
+        btnAfficherRequete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAfficherRequeteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -125,6 +130,10 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
         win.dispose();
     }//GEN-LAST:event_btnFermerActionPerformed
 
+    private void btnAfficherRequeteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfficherRequeteActionPerformed
+        txtFieldRequete.setText(requete);
+    }//GEN-LAST:event_btnAfficherRequeteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAfficherRequete;
@@ -133,6 +142,6 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea txtFieldRequete;
     // End of variables declaration//GEN-END:variables
 }
