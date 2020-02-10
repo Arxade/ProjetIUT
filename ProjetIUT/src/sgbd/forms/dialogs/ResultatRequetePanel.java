@@ -7,9 +7,12 @@ package sgbd.forms.dialogs;
 
 import java.awt.Window;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
@@ -26,6 +29,7 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
     
     private Controller controller;
     private String requete;
+    private ResultSet rs;
 
     /**
      * Creates new form ResultatRequetePanel
@@ -40,7 +44,12 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
     }
     
     private void executerRequete() {
-        controller.getResultSetFromRequete(requete);
+        try {
+            rs = controller.getResultSetFromRequete(requete);
+            tableResultat.setModel(buildTableModel(rs));
+        } catch (SQLException ex) {
+            Logger.getLogger(ResultatRequetePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -53,14 +62,14 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableResultat = new javax.swing.JTable();
         btnFermer = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtFieldRequete = new javax.swing.JTextArea();
         btnAfficherRequete = new javax.swing.JButton();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableResultat.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -68,7 +77,7 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableResultat);
 
         btnFermer.setText("Fermer");
         btnFermer.addActionListener(new java.awt.event.ActionListener() {
@@ -77,7 +86,7 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
             }
         });
 
-        btnSave.setText("Enregistrer la requete");
+        btnSave.setText("Sauvegarder la requête");
 
         txtFieldRequete.setColumns(20);
         txtFieldRequete.setRows(5);
@@ -111,7 +120,6 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
                         .addComponent(btnAfficherRequete, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -134,6 +142,31 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
         txtFieldRequete.setText(requete);
     }//GEN-LAST:event_btnAfficherRequeteActionPerformed
 
+    public static DefaultTableModel buildTableModel(ResultSet rs)
+            throws SQLException {
+
+        ResultSetMetaData metaData = rs.getMetaData();
+
+        // names of columns
+        Vector<String> columnNames = new Vector<String>();
+        int columnCount = metaData.getColumnCount();
+        for (int column = 1; column <= columnCount; column++) {
+            columnNames.add(metaData.getColumnName(column));
+        }
+
+        // data of the table
+        Vector<Vector<Object>> data = new Vector<>();
+        while (rs.next()) {
+            Vector<Object> vector = new Vector<>();
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                vector.add(rs.getObject(columnIndex));
+            }
+            data.add(vector);
+        }
+
+        return new DefaultTableModel(data, columnNames);
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAfficherRequete;
@@ -141,7 +174,7 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
     private javax.swing.JButton btnSave;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableResultat;
     private javax.swing.JTextArea txtFieldRequete;
     // End of variables declaration//GEN-END:variables
 }
