@@ -1,5 +1,7 @@
 package sgbd.forms.dialogs;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JDialog;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
@@ -138,14 +140,20 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_comboBoxTablesActionPerformed
 
     private void btnExecuterRequeteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecuterRequeteActionPerformed
+        ArrayList<String> lesAttributs = new ArrayList<>();
+        for (int row = 0; row < tableRequete.getRowCount(); row++)
+        {
+            lesAttributs.add(tableRequete.getValueAt(row, 1).toString());
+        }
+        String attribut = tableRequete.getValueAt(0, 1).toString();
+        String table = tableRequete.getValueAt(0, 0).toString();
+        String condition = "";
+        
         final JDialog dialog = new JDialog();
         dialog.setTitle("Résultat");
         dialog.setModal(true);
         dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        String attribut = tableRequete.getValueAt(0, 1).toString();
-        String table = tableRequete.getValueAt(0, 0).toString();
-        String condition = tableRequete.getValueAt(0, 3).toString();
-        ResultatRequetePanel content = new ResultatRequetePanel(controller, controller.traduireLigneRequeteGraphiqueEnSql(attribut, table, condition));
+        ResultatRequetePanel content = new ResultatRequetePanel(controller, controller.traduireRequeteGraphiqueEnSql(lesAttributs, table, condition));
         dialog.setContentPane(content);
         dialog.setResizable(true);
         dialog.pack();

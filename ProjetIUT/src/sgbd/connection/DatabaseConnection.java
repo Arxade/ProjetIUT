@@ -468,9 +468,22 @@ public abstract class DatabaseConnection {
         return array;
     }
     
-    public String traduireLigneRequeteGraphiqueEnSql(String attribut, String table, String condition)
+    public String traduireRequeteGraphiqueEnSql(ArrayList<String> lesAttributs, String table, String condition)
     {
-        String requete = "SELECT " + attribut + " FROM " + table + " WHERE " + attribut + " " + condition ;
+        String select, from, where, groupBy;
+        select = "SELECT ";
+        from = " FROM ";
+        where = "";
+        groupBy = "";
+        
+        for (String unAttribut  : lesAttributs) {
+            select = select + unAttribut +  ", ";
+        }
+        select = select.substring(0, select.length() - 2);
+        
+        from = from + table;
+                
+        String requete = select + from + where + groupBy;
         System.out.println(requete);
         return requete;
     }

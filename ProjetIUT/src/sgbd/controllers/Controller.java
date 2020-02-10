@@ -171,19 +171,18 @@ public class Controller {
         }
     }
     
-        public String[] getNomsAttributsFromNomTable(String nomTable)
-    {
+    public String[] getNomsAttributsFromNomTable(String nomTable) {
         return connection.getNomsAttributsFromNomTable(nomTable);
     }
-        
-    public String traduireLigneRequeteGraphiqueEnSql(String attribut, String table, String condition) {
-        return connection.traduireLigneRequeteGraphiqueEnSql(attribut, table, condition);
+
+    public String traduireRequeteGraphiqueEnSql(ArrayList<String> lesAttributs, String table, String condition) {
+        return connection.traduireRequeteGraphiqueEnSql(lesAttributs, table, condition);
     }
 
     public ResultSet getResultSetFromRequete(String requeteSQL) {
         return connection.getResultSetFromRequete(requeteSQL);
     }
-    
+
 
     //Pour Plus tard//
     /* public ResultSet getResultSetFromTableWithParams(Table laTable , String lesAttributs) throws SQLException
