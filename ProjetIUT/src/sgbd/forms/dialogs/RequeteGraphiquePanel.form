@@ -85,11 +85,11 @@
         <Component class="javax.swing.JTable" name="tableRequete">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="5" rowCount="1">
+              <Table columnCount="5" rowCount="0">
                 <Column editable="true" title="Table" type="java.lang.String"/>
                 <Column editable="true" title="Attribut" type="java.lang.String"/>
-                <Column editable="true" title="Afficher donn&#xe9;es" type="java.lang.Boolean"/>
-                <Column editable="true" title="Condition" type="java.lang.String"/>
+                <Column editable="true" title="Afficher donn&#xe9;es attribut" type="java.lang.Boolean"/>
+                <Column editable="true" title="Condition attribut" type="java.lang.String"/>
                 <Column editable="true" title="Groupement" type="java.lang.Boolean"/>
               </Table>
             </Property>

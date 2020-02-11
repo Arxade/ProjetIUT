@@ -468,26 +468,57 @@ public abstract class DatabaseConnection {
         return array;
     }
     
-    public String traduireRequeteGraphiqueEnSql(ArrayList<String> lesAttributs, String table, String condition)
-    {
+//    public String traduireRequeteGraphiqueEnSql(ArrayList<String> lesAttributs, String table, String condition)
+//    {
+//        String select, from, where, groupBy;
+//        select = "SELECT ";
+//        from = " FROM ";
+//        where = "";
+//        groupBy = "";
+//        
+//        for (String unAttribut  : lesAttributs) {
+//            select = select + unAttribut +  ", ";
+//        }
+//        select = select.substring(0, select.length() - 2);
+//        
+//        from = from + table;
+//                
+//        String requete = select + from + where + groupBy;
+//        System.out.println(requete);
+//        return requete;
+//    }
+    
+    public String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes) {
         String select, from, where, groupBy;
         select = "SELECT ";
         from = " FROM ";
         where = "";
         groupBy = "";
         
-        for (String unAttribut  : lesAttributs) {
-            select = select + unAttribut +  ", ";
+        for (ArrayList<Object> uneLigne : lesLignes) {
+            if (Boolean.valueOf(uneLigne.get(2).toString()) == true) {
+                select = select + uneLigne.get(1).toString() + ", ";
+            }
+
+            if (uneLigne.get(3) != null) {
+                if (!uneLigne.get(3).toString().equals("")) {
+                    if (!where.contains("WHERE")) {
+                        where = " WHERE ";
+                    } else {
+                        where = where + " AND ";
+                    }
+                    where = where + uneLigne.get(1).toString() + " " + uneLigne.get(3).toString();
+                }
+            }
         }
         select = select.substring(0, select.length() - 2);
-        
-        from = from + table;
-                
+        from = from + lesLignes.get(0).get(0).toString();
+
         String requete = select + from + where + groupBy;
         System.out.println(requete);
         return requete;
     }
-    
+
     public ResultSet getResultSetFromRequete(String requeteSQL)
     {
         ResultSet rs = null;

@@ -10,9 +10,11 @@ import javax.swing.table.TableColumn;
 import sgbd.controllers.Controller;
 
 
+
 public class RequeteGraphiquePanel extends javax.swing.JPanel {
     
     private Controller controller;
+    private ArrayList<ArrayList<Object>> lesLignes;
 
     /**
      * Creates new form TableRequeteGraphique
@@ -59,10 +61,10 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
 
         tableRequete.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Table", "Attribut", "Afficher données", "Condition", "Groupement"
+                "Table", "Attribut", "Afficher données attribut", "Condition attribut", "Groupement"
             }
         ) {
             Class[] types = new Class [] {
@@ -140,30 +142,36 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_comboBoxTablesActionPerformed
 
     private void btnExecuterRequeteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecuterRequeteActionPerformed
-        ArrayList<String> lesAttributs = new ArrayList<>();
-        for (int row = 0; row < tableRequete.getRowCount(); row++)
-        {
-            lesAttributs.add(tableRequete.getValueAt(row, 1).toString());
-        }
-        String attribut = tableRequete.getValueAt(0, 1).toString();
-        String table = tableRequete.getValueAt(0, 0).toString();
-        String condition = "";
-        
+        remplirListesAttributs();
         final JDialog dialog = new JDialog();
         dialog.setTitle("Résultat");
         dialog.setModal(true);
         dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        ResultatRequetePanel content = new ResultatRequetePanel(controller, controller.traduireRequeteGraphiqueEnSql(lesAttributs, table, condition));
+        ResultatRequetePanel content = new ResultatRequetePanel(controller, controller.traduireRequeteGraphiqueEnSql(lesLignes));
         dialog.setContentPane(content);
         dialog.setResizable(true);
         dialog.pack();
         dialog.setVisible(true);
     }//GEN-LAST:event_btnExecuterRequeteActionPerformed
 
+    public void remplirListesAttributs() {
+        lesLignes = new ArrayList<>();
+        for (int row = 0; row < tableRequete.getRowCount(); row++) {
+            ArrayList<Object> proprietesAttribut = new ArrayList<>();
+            for (int column = 0; column < tableRequete.getColumnCount(); column++) {
+                proprietesAttribut.add(tableRequete.getValueAt(row, column));
+            }
+            lesLignes.add(proprietesAttribut);
+        }
+        lesLignes.forEach(value -> System.out.println(value));
+    }
+
     private void btnAddLigneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLigneActionPerformed
         DefaultTableModel model = (DefaultTableModel) tableRequete.getModel();
         Object[] row = null;
         model.addRow(row);
+        tableRequete.setValueAt(false, model.getRowCount() - 1, 2);
+        tableRequete.setValueAt(false, model.getRowCount() - 1, 4);
     }//GEN-LAST:event_btnAddLigneActionPerformed
 
     private void btnRemoveLigneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveLigneActionPerformed
