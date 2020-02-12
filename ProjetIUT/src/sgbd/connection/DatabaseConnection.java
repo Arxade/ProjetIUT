@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
 /**
@@ -526,7 +527,7 @@ public abstract class DatabaseConnection {
             statement = connection.createStatement();
             rs = statement.executeQuery(requeteSQL);
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+              JOptionPane.showMessageDialog(null, "Erreur " + ex);
         }
         return rs;
     }

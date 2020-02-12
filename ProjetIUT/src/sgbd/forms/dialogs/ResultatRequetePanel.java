@@ -48,7 +48,7 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
             rs = controller.getResultSetFromRequete(requete);
             tableResultat.setModel(buildTableModel(rs));
         } catch (SQLException ex) {
-            Logger.getLogger(ResultatRequetePanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Erreur " + ex);
         }
     }
 
