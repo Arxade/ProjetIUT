@@ -497,20 +497,25 @@ public abstract class DatabaseConnection {
         groupBy = "";
         
         for (ArrayList<Object> uneLigne : lesLignes) {
-            if (Boolean.valueOf(uneLigne.get(2).toString()) == true) {
-                select = select + uneLigne.get(1).toString() + ", ";
+            String attribut = uneLigne.get(1).toString();
+            String condition = uneLigne.get(3).toString();
+            String fonctionEnsemble = uneLigne.get(5).toString();
+            Boolean estDansSelect = Boolean.valueOf(uneLigne.get(2).toString());
+            Boolean estDansGroupBy = Boolean.valueOf(uneLigne.get(4).toString());
+            
+            if (estDansSelect == true) {
+                select = select + attribut + ", ";
             }
 
-            if (uneLigne.get(3) != null) {
-                if (!uneLigne.get(3).toString().equals("")) {
-                    if (!where.contains("WHERE")) {
-                        where = " WHERE ";
-                    } else {
-                        where = where + " AND ";
-                    }
-                    where = where + uneLigne.get(1).toString() + " " + uneLigne.get(3).toString();
+            if (!condition.equals("")) {
+                if (!where.contains("WHERE")) {
+                    where = " WHERE ";
+                } else {
+                    where = where + " AND ";
                 }
+                where = where + attribut + " " + condition;
             }
+
         }
         select = select.substring(0, select.length() - 2);
         from = from + lesLignes.get(0).get(0).toString();

@@ -183,6 +183,7 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
         model.addRow(row);
         tableRequete.setValueAt(false, model.getRowCount() - 1, 2);
         tableRequete.setValueAt(false, model.getRowCount() - 1, 4);
+        tableRequete.setValueAt("", model.getRowCount() - 1, 3);
     }//GEN-LAST:event_btnAddLigneActionPerformed
 
     private void btnRemoveLigneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveLigneActionPerformed
