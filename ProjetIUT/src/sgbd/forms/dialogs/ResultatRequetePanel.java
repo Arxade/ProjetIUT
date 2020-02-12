@@ -5,17 +5,51 @@
  */
 package sgbd.forms.dialogs;
 
+import java.awt.Window;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import sgbd.controllers.Controller;
+
 /**
  *
  * @author Arxade
  */
 public class ResultatRequetePanel extends javax.swing.JPanel {
+    
+    private Controller controller;
+    private String requete;
+    private ResultSet rs;
 
     /**
      * Creates new form ResultatRequetePanel
+     * @param controller
+     * @param requete
      */
-    public ResultatRequetePanel() {
+    public ResultatRequetePanel(Controller controller, String requete) {
         initComponents();
+        this.controller = controller;
+        this.requete = requete;
+        executerRequete();
+    }
+    
+    private void executerRequete() {
+        try {
+            rs = controller.getResultSetFromRequete(requete);
+            tableResultat.setModel(buildTableModel(rs));
+        } catch (SQLException ex) {
+            Logger.getLogger(ResultatRequetePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -28,11 +62,14 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        tableResultat = new javax.swing.JTable();
+        btnFermer = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtFieldRequete = new javax.swing.JTextArea();
+        btnAfficherRequete = new javax.swing.JButton();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableResultat.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -40,11 +77,27 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableResultat);
 
-        jButton1.setText("Fermer");
+        btnFermer.setText("Fermer");
+        btnFermer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFermerActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Traduire la requête en SQL");
+        btnSave.setText("Sauvegarder la requête");
+
+        txtFieldRequete.setColumns(20);
+        txtFieldRequete.setRows(5);
+        jScrollPane2.setViewportView(txtFieldRequete);
+
+        btnAfficherRequete.setText("Traduire la requête en SQL");
+        btnAfficherRequete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAfficherRequeteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -53,10 +106,12 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFermer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
+                    .addComponent(btnAfficherRequete, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 723, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -65,20 +120,61 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnAfficherRequete, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnFermer, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnFermerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFermerActionPerformed
+        JComponent comp = (JComponent) evt.getSource();
+        Window win = SwingUtilities.getWindowAncestor(comp);
+        win.dispose();
+    }//GEN-LAST:event_btnFermerActionPerformed
+
+    private void btnAfficherRequeteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfficherRequeteActionPerformed
+        txtFieldRequete.setText(requete);
+    }//GEN-LAST:event_btnAfficherRequeteActionPerformed
+
+    public static DefaultTableModel buildTableModel(ResultSet rs)
+            throws SQLException {
+
+        ResultSetMetaData metaData = rs.getMetaData();
+
+        // names of columns
+        Vector<String> columnNames = new Vector<String>();
+        int columnCount = metaData.getColumnCount();
+        for (int column = 1; column <= columnCount; column++) {
+            columnNames.add(metaData.getColumnName(column));
+        }
+
+        // data of the table
+        Vector<Vector<Object>> data = new Vector<>();
+        while (rs.next()) {
+            Vector<Object> vector = new Vector<>();
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                vector.add(rs.getObject(columnIndex));
+            }
+            data.add(vector);
+        }
+
+        return new DefaultTableModel(data, columnNames);
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnAfficherRequete;
+    private javax.swing.JButton btnFermer;
+    private javax.swing.JButton btnSave;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tableResultat;
+    private javax.swing.JTextArea txtFieldRequete;
     // End of variables declaration//GEN-END:variables
 }
