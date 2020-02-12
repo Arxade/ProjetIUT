@@ -5,6 +5,7 @@
  */
 package sgbd.forms.dialogs;
 
+import java.awt.Component;
 import java.awt.Window;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -17,8 +18,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 import sgbd.controllers.Controller;
 
 /**
@@ -41,6 +45,7 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
         this.controller = controller;
         this.requete = requete;
         executerRequete();
+        resizeColumnWidth(tableResultat);
     }
     
     private void executerRequete() {
@@ -87,6 +92,11 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
         });
 
         btnSave.setText("Sauvegarder la requête");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         txtFieldRequete.setColumns(20);
         txtFieldRequete.setRows(5);
@@ -106,12 +116,12 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnFermer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2)
-                    .addComponent(btnAfficherRequete, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE))
+                    .addComponent(btnFermer, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAfficherRequete, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 723, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 823, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -142,6 +152,10 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
         txtFieldRequete.setText(requete);
     }//GEN-LAST:event_btnAfficherRequeteActionPerformed
 
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+               resizeColumnWidth(tableResultat);
+    }//GEN-LAST:event_btnSaveActionPerformed
+
     public static DefaultTableModel buildTableModel(ResultSet rs)
             throws SQLException {
 
@@ -166,6 +180,22 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
 
         return new DefaultTableModel(data, columnNames);
 
+    }
+    
+    public void resizeColumnWidth(JTable table) {
+        final TableColumnModel columnModel = table.getColumnModel();
+        for (int column = 0; column < table.getColumnCount(); column++) {
+            int width = 15; // Min width
+            for (int row = 0; row < table.getRowCount(); row++) {
+                TableCellRenderer renderer = table.getCellRenderer(row, column);
+                Component comp = table.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width + 1, width);
+            }
+            if (width > 300) {
+                width = 300;
+            }
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

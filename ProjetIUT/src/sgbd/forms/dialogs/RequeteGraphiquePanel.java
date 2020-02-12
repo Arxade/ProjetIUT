@@ -36,8 +36,10 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
         TableColumn attributColumn = tableRequete.getColumnModel().getColumn(1);
         attributColumn.setCellEditor(new DefaultCellEditor(comboBoxAttributs));
         
-        TableColumn fonctionColumn = tableRequete.getColumnModel().getColumn(5);
+        TableColumn fonctionColumn = tableRequete.getColumnModel().getColumn(3);
+        TableColumn fonctionHavingColumn = tableRequete.getColumnModel().getColumn(6);
         fonctionColumn.setCellEditor(new DefaultCellEditor(comboBoxFonctions));
+        fonctionHavingColumn.setCellEditor(new DefaultCellEditor(comboBoxFonctions));
     }
 
     /**
@@ -71,11 +73,11 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Table", "Attribut", "Afficher données attribut", "Condition attribut", "Groupement", "Fonction d'ensemble"
+                "Table", "Attribut", "Afficher données attribut", "Fonction d'ensemble", "Condition attribut", "Regrouper", "Fonction condition groupe", "Condition groupement"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -116,7 +118,7 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
                     .addComponent(btnRemoveLigne, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
                     .addComponent(btnExecuterRequete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1211, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -131,7 +133,7 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
                         .addComponent(btnRemoveLigne, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnExecuterRequete, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -181,9 +183,9 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tableRequete.getModel();
         Object[] row = null;
         model.addRow(row);
-        tableRequete.setValueAt(false, model.getRowCount() - 1, 2);
-        tableRequete.setValueAt(false, model.getRowCount() - 1, 4);
-        tableRequete.setValueAt("", model.getRowCount() - 1, 3);
+        tableRequete.setValueAt(true, model.getRowCount() - 1, 2);
+        tableRequete.setValueAt(false, model.getRowCount() - 1, 5);
+        tableRequete.setValueAt("", model.getRowCount() - 1, 4);
     }//GEN-LAST:event_btnAddLigneActionPerformed
 
     private void btnRemoveLigneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveLigneActionPerformed

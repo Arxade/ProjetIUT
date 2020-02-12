@@ -498,13 +498,13 @@ public abstract class DatabaseConnection {
         
         for (ArrayList<Object> uneLigne : lesLignes) {
             String attribut = uneLigne.get(1).toString();
-            String condition = uneLigne.get(3).toString();
+            String condition = uneLigne.get(4).toString();
             String fonctionEnsemble = "Aucune";
-            if (uneLigne.get(5) != null) {
-                fonctionEnsemble = uneLigne.get(5).toString();
+            if (uneLigne.get(3) != null) {
+                fonctionEnsemble = uneLigne.get(3).toString();
             }
             Boolean estDansSelect = Boolean.valueOf(uneLigne.get(2).toString());
-            Boolean estDansGroupBy = Boolean.valueOf(uneLigne.get(4).toString());
+            Boolean estDansGroupBy = Boolean.valueOf(uneLigne.get(5).toString());
             
             if (estDansSelect == true) {
                 switch (fonctionEnsemble) {
