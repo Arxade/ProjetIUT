@@ -64,7 +64,7 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
             }
         });
 
-        comboBoxFonctions.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Somme", "Moyenne", "Comptage", "Maximum", "Minimum" }));
+        comboBoxFonctions.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aucune", "Somme", "Moyenne", "Comptage", "Maximum", "Minimum" }));
 
         tableRequete.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

@@ -499,12 +499,36 @@ public abstract class DatabaseConnection {
         for (ArrayList<Object> uneLigne : lesLignes) {
             String attribut = uneLigne.get(1).toString();
             String condition = uneLigne.get(3).toString();
-            String fonctionEnsemble = uneLigne.get(5).toString();
+            String fonctionEnsemble = "Aucune";
+            if (uneLigne.get(5) != null) {
+                fonctionEnsemble = uneLigne.get(5).toString();
+            }
             Boolean estDansSelect = Boolean.valueOf(uneLigne.get(2).toString());
             Boolean estDansGroupBy = Boolean.valueOf(uneLigne.get(4).toString());
             
             if (estDansSelect == true) {
-                select = select + attribut + ", ";
+                switch (fonctionEnsemble) {
+                    case "Aucune":
+                        select = select + attribut + ", ";
+                        break;
+                    case "Somme":
+                        select = select + "SUM(" + attribut + "), ";
+                        break;
+                    case "Moyenne":
+                        select = select + "AVG(" + attribut + "), ";
+                        break;
+                    case "Maximum":
+                        select = select + "MAX(" + attribut + "), ";
+                        break;
+                    case "Minimum":
+                        select = select + "MIN(" + attribut + "), ";
+                        break;
+                    case "Comptage":
+                        select = select + "COUNT(" + attribut + "), ";
+                        break;
+                    default:
+                        break;
+                }
             }
 
             if (!condition.equals("")) {
@@ -515,8 +539,8 @@ public abstract class DatabaseConnection {
                 }
                 where = where + attribut + " " + condition;
             }
-
         }
+        
         select = select.substring(0, select.length() - 2);
         from = from + lesLignes.get(0).get(0).toString();
 

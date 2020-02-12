@@ -28,12 +28,13 @@
     <Component class="javax.swing.JComboBox" name="comboBoxFonctions">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="5">
-            <StringItem index="0" value="Somme"/>
-            <StringItem index="1" value="Moyenne"/>
-            <StringItem index="2" value="Comptage"/>
-            <StringItem index="3" value="Maximum"/>
-            <StringItem index="4" value="Minimum"/>
+          <StringArray count="6">
+            <StringItem index="0" value="Aucune"/>
+            <StringItem index="1" value="Somme"/>
+            <StringItem index="2" value="Moyenne"/>
+            <StringItem index="3" value="Comptage"/>
+            <StringItem index="4" value="Maximum"/>
+            <StringItem index="5" value="Minimum"/>
           </StringArray>
         </Property>
       </Properties>
