@@ -494,7 +494,9 @@ public abstract class DatabaseConnection {
         select = "SELECT ";
         from = " FROM ";
         where = "";
-        groupBy = "";
+        groupBy = "GROUP BY ";
+        
+        ArrayList<String> elementsGroupBy = new ArrayList<>();
         
         for (ArrayList<Object> uneLigne : lesLignes) {
             String attribut = uneLigne.get(1).toString();
@@ -505,11 +507,14 @@ public abstract class DatabaseConnection {
             }
             Boolean estDansSelect = Boolean.valueOf(uneLigne.get(2).toString());
             Boolean estDansGroupBy = Boolean.valueOf(uneLigne.get(5).toString());
+            Boolean estUneFonction = true;
+            
             
             if (estDansSelect == true) {
                 switch (fonctionEnsemble) {
                     case "Aucune":
                         select = select + attribut + ", ";
+                        estUneFonction = false;
                         break;
                     case "Somme":
                         select = select + "SUM(" + attribut + "), ";
@@ -539,12 +544,23 @@ public abstract class DatabaseConnection {
                 }
                 where = where + attribut + " " + condition;
             }
+            
+            
+            if(estDansGroupBy == true && !estUneFonction)groupBy = groupBy + uneLigne.get(1).toString() + ", ";
+            else if(!estUneFonction) elementsGroupBy.add(uneLigne.get(1).toString());
         }
         
-        select = select.substring(0, select.length() - 2);
+        
+        
+        select = select.substring(0, select.length() - 2);        
         from = from + lesLignes.get(0).get(0).toString();
 
-        String requete = select + from + where + groupBy;
+        String requete = select + from + where;
+        if(!groupBy.equals("")){
+            for(String element : elementsGroupBy) groupBy = groupBy + element + ", "; 
+            groupBy = groupBy.substring(0, groupBy.length() - 2);
+            requete = requete + " " + groupBy;
+        }
         System.out.println(requete);
         return requete;
     }

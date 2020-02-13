@@ -1,7 +1,6 @@
 package sgbd.forms.dialogs;
 
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -118,8 +117,7 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
                     .addComponent(btnRemoveLigne, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
                     .addComponent(btnExecuterRequete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1221, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
