@@ -1,9 +1,9 @@
 package sgbd.forms.dialogs;
 
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -15,6 +15,7 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
     
     private Controller controller;
     private ArrayList<ArrayList<Object>> lesLignes;
+    private String nomTableSelectionnee;
 
     /**
      * Creates new form TableRequeteGraphique
@@ -25,15 +26,24 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
         this.controller = controller;
         
         String[] tables = controller.getTablesList();
-        TableColumn tableColumn = tableRequete.getColumnModel().getColumn(0);
         for (String table : tables) {
             comboBoxTables.addItem(table);
         }
-        tableColumn.setCellEditor(new DefaultCellEditor(comboBoxTables));
-        comboBoxTables.setSelectedIndex(1);
+        comboBoxTables.setSelectedIndex(0);
+        nomTableSelectionnee = comboBoxTables.getSelectedItem().toString();
+
+        String[] attributs = controller.getNomsAttributsFromNomTable(comboBoxTables.getSelectedItem().toString());
+        for (String attribut : attributs) {
+            comboBoxAttributs.addItem(attribut);
+        }
         
-        TableColumn attributColumn = tableRequete.getColumnModel().getColumn(1);
+        TableColumn attributColumn = tableRequete.getColumnModel().getColumn(0);
         attributColumn.setCellEditor(new DefaultCellEditor(comboBoxAttributs));
+        
+        TableColumn fonctionColumn = tableRequete.getColumnModel().getColumn(2);
+        TableColumn fonctionHavingColumn = tableRequete.getColumnModel().getColumn(5);
+        fonctionColumn.setCellEditor(new DefaultCellEditor(comboBoxFonctions));
+        fonctionHavingColumn.setCellEditor(new DefaultCellEditor(comboBoxFonctions));
     }
 
     /**
@@ -45,30 +55,28 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        comboBoxTables = new javax.swing.JComboBox<>();
         comboBoxAttributs = new javax.swing.JComboBox<>();
+        comboBoxFonctions = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableRequete = new javax.swing.JTable();
         btnExecuterRequete = new javax.swing.JButton();
         btnRemoveLigne = new javax.swing.JButton();
         btnAddLigne = new javax.swing.JButton();
+        comboBoxTables = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
 
-        comboBoxTables.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBoxTablesActionPerformed(evt);
-            }
-        });
+        comboBoxFonctions.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aucune", "Somme", "Moyenne", "Comptage", "Maximum", "Minimum" }));
 
         tableRequete.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Table", "Attribut", "Afficher données attribut", "Condition attribut", "Groupement"
+                "Attribut", "Afficher données attribut", "Fonction d'ensemble", "Condition attribut", "Regrouper", "Fonction condition groupe", "Condition groupement"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -98,6 +106,14 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
             }
         });
 
+        comboBoxTables.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxTablesActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Table : ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -105,11 +121,18 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnRemoveLigne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAddLigne, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
-                    .addComponent(btnExecuterRequete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 726, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExecuterRequete, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnRemoveLigne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAddLigne, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(comboBoxTables, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -118,50 +141,45 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(btnAddLigne, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(comboBoxTables, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(btnRemoveLigne, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAddLigne, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnExecuterRequete, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void comboBoxTablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxTablesActionPerformed
-        if (comboBoxTables.getSelectedItem() != null) {
-            comboBoxAttributs.removeAllItems();
-            String[] attributs = controller.getNomsAttributsFromNomTable(comboBoxTables.getSelectedItem().toString());
-            for (String attribut : attributs) {
-                comboBoxAttributs.addItem(attribut);
-            }
-        }
-
-
-    }//GEN-LAST:event_comboBoxTablesActionPerformed
-
     private void btnExecuterRequeteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecuterRequeteActionPerformed
-        remplirListesAttributs();
-        final JDialog dialog = new JDialog();
-        dialog.setTitle("Résultat");
-        dialog.setModal(true);
-        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        ResultatRequetePanel content = new ResultatRequetePanel(controller, controller.traduireRequeteGraphiqueEnSql(lesLignes));
-        dialog.setContentPane(content);
-        dialog.setResizable(true);
-        dialog.pack();
-        dialog.setVisible(true);
+        try {
+            remplirListeLignes();
+            final JDialog dialog = new JDialog();
+            dialog.setTitle("Résultat");
+            dialog.setModal(true);
+            dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            ResultatRequetePanel content = new ResultatRequetePanel(controller, controller.traduireRequeteGraphiqueEnSql(lesLignes, comboBoxTables.getSelectedItem().toString()));
+            dialog.setContentPane(content);
+            dialog.setResizable(true);
+            dialog.pack();
+            dialog.setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erreur " + ex);
+        }
     }//GEN-LAST:event_btnExecuterRequeteActionPerformed
 
-    public void remplirListesAttributs() {
+    public void remplirListeLignes(){
         lesLignes = new ArrayList<>();
         for (int row = 0; row < tableRequete.getRowCount(); row++) {
-            ArrayList<Object> proprietesAttribut = new ArrayList<>();
+            ArrayList<Object> laLigne = new ArrayList<>();
             for (int column = 0; column < tableRequete.getColumnCount(); column++) {
-                proprietesAttribut.add(tableRequete.getValueAt(row, column));
+                laLigne.add(tableRequete.getValueAt(row, column));
             }
-            lesLignes.add(proprietesAttribut);
+            lesLignes.add(laLigne);
         }
         lesLignes.forEach(value -> System.out.println(value));
     }
@@ -170,8 +188,9 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tableRequete.getModel();
         Object[] row = null;
         model.addRow(row);
-        tableRequete.setValueAt(false, model.getRowCount() - 1, 2);
+        tableRequete.setValueAt(true, model.getRowCount() - 1, 1);
         tableRequete.setValueAt(false, model.getRowCount() - 1, 4);
+        tableRequete.setValueAt("", model.getRowCount() - 1, 3);
     }//GEN-LAST:event_btnAddLigneActionPerformed
 
     private void btnRemoveLigneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveLigneActionPerformed
@@ -181,13 +200,35 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
             model.removeRow(nbRow - 1);
     }//GEN-LAST:event_btnRemoveLigneActionPerformed
 
+    private void comboBoxTablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxTablesActionPerformed
+        if (!comboBoxTables.getSelectedItem().toString().equals(nomTableSelectionnee)) {
+            if (comboBoxAttributs.getItemCount() > 0) {
+                comboBoxAttributs.removeAllItems();
+            }
+            String[] attributs = controller.getNomsAttributsFromNomTable(comboBoxTables.getSelectedItem().toString());
+            for (String attribut : attributs) {
+                comboBoxAttributs.addItem(attribut);
+            }
+            DefaultTableModel model = (DefaultTableModel) tableRequete.getModel();
+            int nbRow = model.getRowCount();
+            if (nbRow > 0)
+                model.setRowCount(0);
+            nomTableSelectionnee = comboBoxTables.getSelectedItem().toString();
+            
+        }
+        
+        
+    }//GEN-LAST:event_comboBoxTablesActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddLigne;
     private javax.swing.JButton btnExecuterRequete;
     private javax.swing.JButton btnRemoveLigne;
     private javax.swing.JComboBox<String> comboBoxAttributs;
+    private javax.swing.JComboBox<String> comboBoxFonctions;
     private javax.swing.JComboBox<String> comboBoxTables;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableRequete;
     // End of variables declaration//GEN-END:variables

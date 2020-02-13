@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
 /**
@@ -488,33 +489,81 @@ public abstract class DatabaseConnection {
 //        return requete;
 //    }
     
-    public String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes) {
+    public String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes, String nomTable) {
         String select, from, where, groupBy;
         select = "SELECT ";
         from = " FROM ";
         where = "";
-        groupBy = "";
+        groupBy = "GROUP BY ";
+        
+        ArrayList<String> elementsGroupBy = new ArrayList<>();
         
         for (ArrayList<Object> uneLigne : lesLignes) {
-            if (Boolean.valueOf(uneLigne.get(2).toString()) == true) {
-                select = select + uneLigne.get(1).toString() + ", ";
+            String attribut = uneLigne.get(0).toString();
+            String condition = uneLigne.get(3).toString();
+            String fonctionEnsemble = "Aucune";
+            if (uneLigne.get(2) != null) {
+                fonctionEnsemble = uneLigne.get(2).toString();
             }
-
-            if (uneLigne.get(3) != null) {
-                if (!uneLigne.get(3).toString().equals("")) {
-                    if (!where.contains("WHERE")) {
-                        where = " WHERE ";
-                    } else {
-                        where = where + " AND ";
-                    }
-                    where = where + uneLigne.get(1).toString() + " " + uneLigne.get(3).toString();
+            Boolean estDansSelect = Boolean.valueOf(uneLigne.get(1).toString());
+            Boolean estDansGroupBy = Boolean.valueOf(uneLigne.get(4).toString());
+            Boolean estUneFonction = false;
+            
+            
+            if (estDansSelect == true) {
+                switch (fonctionEnsemble) {
+                    case "Aucune":
+                        select = select + attribut + ", ";
+                        break;
+                    case "Somme":
+                        select = select + "SUM(" + attribut + "), ";
+                        estUneFonction = true;
+                        break;
+                    case "Moyenne":
+                        select = select + "AVG(" + attribut + "), ";
+                        estUneFonction = true;
+                        break;
+                    case "Maximum":
+                        select = select + "MAX(" + attribut + "), ";
+                        estUneFonction = true;
+                        break;
+                    case "Minimum":
+                        select = select + "MIN(" + attribut + "), ";
+                        estUneFonction = true;
+                        break;
+                    case "Comptage":
+                        select = select + "COUNT(" + attribut + "), ";
+                        estUneFonction = true;
+                        break;
+                    default:
+                        break;
                 }
             }
-        }
-        select = select.substring(0, select.length() - 2);
-        from = from + lesLignes.get(0).get(0).toString();
 
-        String requete = select + from + where + groupBy;
+            if (!condition.equals("")) {
+                if (!where.contains("WHERE")) {
+                    where = " WHERE ";
+                } else {
+                    where = where + " AND ";
+                }
+                where = where + attribut + " " + condition;
+            }
+            
+            if (estDansGroupBy == true && !estUneFonction)
+                groupBy = groupBy + attribut + ", ";
+            else if (!estUneFonction)
+                elementsGroupBy.add(attribut);
+        }
+        
+        select = select.substring(0, select.length() - 2);        
+        from = from + nomTable;
+
+        String requete = select + from + where;
+        if(!groupBy.equals("GROUP BY ")){
+            for(String element : elementsGroupBy) groupBy = groupBy + element + ", "; 
+            groupBy = groupBy.substring(0, groupBy.length() - 2);
+            requete = requete + " " + groupBy;
+        }
         System.out.println(requete);
         return requete;
     }
@@ -526,7 +575,7 @@ public abstract class DatabaseConnection {
             statement = connection.createStatement();
             rs = statement.executeQuery(requeteSQL);
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+              JOptionPane.showMessageDialog(null, "Erreur " + ex);
         }
         return rs;
     }

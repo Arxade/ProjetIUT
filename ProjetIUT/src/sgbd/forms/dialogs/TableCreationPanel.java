@@ -102,6 +102,12 @@ public class TableCreationPanel extends javax.swing.JPanel {
         btnAddFK = new javax.swing.JButton();
         btnRmFK = new javax.swing.JButton();
 
+        cbxTypes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxTypesActionPerformed(evt);
+            }
+        });
+
         ckbxTableList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
         ckbxTableList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -353,6 +359,13 @@ public class TableCreationPanel extends javax.swing.JPanel {
             ckbxColumnsList.addItem(laRef);
         }        
     }//GEN-LAST:event_ckbxTableListActionPerformed
+
+    private void cbxTypesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTypesActionPerformed
+        // TODO add your handling code here:
+        TableModel model = tblAttributes.getModel();
+        if(cbxTypes.getSelectedItem().equals("DATE")) model.setValueAt(38, tblAttributes.getSelectedRow(), 1);           
+        else if(cbxTypes.getSelectedItem().equals("NUMBER")) model.setValueAt(7, tblAttributes.getSelectedRow(), 1);
+    }//GEN-LAST:event_cbxTypesActionPerformed
 
     
 
