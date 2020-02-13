@@ -556,7 +556,7 @@ public abstract class DatabaseConnection {
         from = from + lesLignes.get(0).get(0).toString();
 
         String requete = select + from + where;
-        if(!groupBy.equals("")){
+        if(!groupBy.equals("GROUP BY ")){
             for(String element : elementsGroupBy) groupBy = groupBy + element + ", "; 
             groupBy = groupBy.substring(0, groupBy.length() - 2);
             requete = requete + " " + groupBy;
