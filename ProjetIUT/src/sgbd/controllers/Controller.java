@@ -179,8 +179,8 @@ public class Controller {
 //        return connection.traduireRequeteGraphiqueEnSql(lesAttributs, table, condition);
 //    }
     
-        public String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes) {
-        return connection.traduireRequeteGraphiqueEnSql(lesLignes);
+        public String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes, String nomTable) {
+        return connection.traduireRequeteGraphiqueEnSql(lesLignes, nomTable);
     }
 
     public ResultSet getResultSetFromRequete(String requeteSQL) {

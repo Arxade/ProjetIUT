@@ -489,7 +489,7 @@ public abstract class DatabaseConnection {
 //        return requete;
 //    }
     
-    public String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes) {
+    public String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes, String nomTable) {
         String select, from, where, groupBy;
         select = "SELECT ";
         from = " FROM ";
@@ -499,14 +499,14 @@ public abstract class DatabaseConnection {
         ArrayList<String> elementsGroupBy = new ArrayList<>();
         
         for (ArrayList<Object> uneLigne : lesLignes) {
-            String attribut = uneLigne.get(1).toString();
-            String condition = uneLigne.get(4).toString();
+            String attribut = uneLigne.get(0).toString();
+            String condition = uneLigne.get(3).toString();
             String fonctionEnsemble = "Aucune";
-            if (uneLigne.get(3) != null) {
-                fonctionEnsemble = uneLigne.get(3).toString();
+            if (uneLigne.get(2) != null) {
+                fonctionEnsemble = uneLigne.get(2).toString();
             }
-            Boolean estDansSelect = Boolean.valueOf(uneLigne.get(2).toString());
-            Boolean estDansGroupBy = Boolean.valueOf(uneLigne.get(5).toString());
+            Boolean estDansSelect = Boolean.valueOf(uneLigne.get(1).toString());
+            Boolean estDansGroupBy = Boolean.valueOf(uneLigne.get(4).toString());
             Boolean estUneFonction = false;
             
             
@@ -549,15 +549,14 @@ public abstract class DatabaseConnection {
                 where = where + attribut + " " + condition;
             }
             
-            
-            if(estDansGroupBy == true && !estUneFonction)groupBy = groupBy + uneLigne.get(1).toString() + ", ";
-            else if(!estUneFonction) elementsGroupBy.add(uneLigne.get(1).toString());
+            if (estDansGroupBy == true && !estUneFonction)
+                groupBy = groupBy + attribut + ", ";
+            else if (!estUneFonction)
+                elementsGroupBy.add(attribut);
         }
         
-        
-        
         select = select.substring(0, select.length() - 2);        
-        from = from + lesLignes.get(0).get(0).toString();
+        from = from + nomTable;
 
         String requete = select + from + where;
         if(!groupBy.equals("GROUP BY ")){
