@@ -507,29 +507,33 @@ public abstract class DatabaseConnection {
             }
             Boolean estDansSelect = Boolean.valueOf(uneLigne.get(2).toString());
             Boolean estDansGroupBy = Boolean.valueOf(uneLigne.get(5).toString());
-            Boolean estUneFonction = true;
+            Boolean estUneFonction = false;
             
             
             if (estDansSelect == true) {
                 switch (fonctionEnsemble) {
                     case "Aucune":
                         select = select + attribut + ", ";
-                        estUneFonction = false;
                         break;
                     case "Somme":
                         select = select + "SUM(" + attribut + "), ";
+                        estUneFonction = true;
                         break;
                     case "Moyenne":
                         select = select + "AVG(" + attribut + "), ";
+                        estUneFonction = true;
                         break;
                     case "Maximum":
                         select = select + "MAX(" + attribut + "), ";
+                        estUneFonction = true;
                         break;
                     case "Minimum":
                         select = select + "MIN(" + attribut + "), ";
+                        estUneFonction = true;
                         break;
                     case "Comptage":
                         select = select + "COUNT(" + attribut + "), ";
+                        estUneFonction = true;
                         break;
                     default:
                         break;
