@@ -65,10 +65,9 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableDonneesInsert = new javax.swing.JTable();
         jButtonConfirmerInsert = new javax.swing.JButton();
-        jTextFieldNbLignesInsert = new javax.swing.JTextField();
-        jLabelNombreDeLignesInsert = new javax.swing.JLabel();
-        jButtonAjouterNbLignesInsert = new javax.swing.JButton();
+        jButtonAjouterLigneInsert = new javax.swing.JButton();
         jButtonEnleverNbLignesSelectionneeInsert = new javax.swing.JButton();
+        jButtonEnleverUneLigneInsert = new javax.swing.JButton();
 
         jTableDonneesInsert.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -87,14 +86,10 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
             }
         });
 
-        jTextFieldNbLignesInsert.setText("nbLignes");
-
-        jLabelNombreDeLignesInsert.setText("Nombre de lignes:");
-
-        jButtonAjouterNbLignesInsert.setText("Ajouter ce nombre de lignes");
-        jButtonAjouterNbLignesInsert.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAjouterLigneInsert.setText("Ajouter une ligne");
+        jButtonAjouterLigneInsert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAjouterNbLignesInsertActionPerformed(evt);
+                jButtonAjouterLigneInsertActionPerformed(evt);
             }
         });
 
@@ -105,6 +100,8 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
             }
         });
 
+        jButtonEnleverUneLigneInsert.setText("Retirer une ligne");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -112,16 +109,14 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonConfirmerInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonAjouterNbLignesInsert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonEnleverNbLignesSelectionneeInsert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonAjouterLigneInsert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonEnleverNbLignesSelectionneeInsert, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabelNombreDeLignesInsert)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldNbLignesInsert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButtonConfirmerInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jButtonEnleverUneLigneInsert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(12, 12, 12)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 782, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -130,12 +125,11 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelNombreDeLignesInsert)
-                            .addComponent(jTextFieldNbLignesInsert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonAjouterNbLignesInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(23, 23, 23)
+                        .addComponent(jButtonAjouterLigneInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonEnleverUneLigneInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
                         .addComponent(jButtonEnleverNbLignesSelectionneeInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonConfirmerInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -177,15 +171,12 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
         
     }//GEN-LAST:event_jButtonConfirmerInsertActionPerformed
 
-    private void jButtonAjouterNbLignesInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAjouterNbLignesInsertActionPerformed
+    private void jButtonAjouterLigneInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAjouterLigneInsertActionPerformed
         DefaultTableModel model = (DefaultTableModel) jTableDonneesInsert.getModel();
-        for(int i = 0 ; i<Integer.parseInt(jTextFieldNbLignesInsert.getText()) ; i++)
-        {
             Object[] rowData = null;
             model.addRow(rowData);
-            nbRows++;
-        }
-    }//GEN-LAST:event_jButtonAjouterNbLignesInsertActionPerformed
+        
+    }//GEN-LAST:event_jButtonAjouterLigneInsertActionPerformed
 
     private void jButtonEnleverNbLignesSelectionneeInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnleverNbLignesSelectionneeInsertActionPerformed
                                                              
@@ -205,13 +196,12 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonAjouterNbLignesInsert;
+    private javax.swing.JButton jButtonAjouterLigneInsert;
     private javax.swing.JButton jButtonConfirmerInsert;
     private javax.swing.JButton jButtonEnleverNbLignesSelectionneeInsert;
-    private javax.swing.JLabel jLabelNombreDeLignesInsert;
+    private javax.swing.JButton jButtonEnleverUneLigneInsert;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableDonneesInsert;
-    private javax.swing.JTextField jTextFieldNbLignesInsert;
     // End of variables declaration//GEN-END:variables
 
     Object getButton(String confirm) {
