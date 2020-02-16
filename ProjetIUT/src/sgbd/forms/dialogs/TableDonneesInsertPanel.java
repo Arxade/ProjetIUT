@@ -172,7 +172,8 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
     }
     
     private void jButtonConfirmerInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmerInsertActionPerformed
-        
+    
+        insert();
         
     }//GEN-LAST:event_jButtonConfirmerInsertActionPerformed
 

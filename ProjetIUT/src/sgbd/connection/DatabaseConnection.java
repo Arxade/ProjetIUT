@@ -708,11 +708,11 @@ public abstract class DatabaseConnection {
                 if(listeDesValeurs[row][col] != null)
                 {
                     type = laTable.attributes().get(col).getType();
-                    if("VARCHAR2".equals(type)  || "CHAR".equals(type))
+                    if("VARCHAR2".equals(type)  || "CHAR".equals(type) || "VARCHAR".equals(type))
                     {
                         preparedStatement.setString(col+1, listeDesValeurs[row][col].toString() );
                     }
-                    else if("NUMBER".equals(type))
+                    else if("NUMBER".equals(type) || "INTEGER".equals(type) || "INT".equals(type))
                     {
                         preparedStatement.setInt(col+1, Integer.parseInt(listeDesValeurs[row][col]));
                     }
