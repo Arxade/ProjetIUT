@@ -632,7 +632,9 @@ public abstract class DatabaseConnection {
                 for(int col = 0 ; col < valDeBase.length ; col++)
                 {
                     System.err.println("les vals " + modelNouveau.getValueAt(row, col) + "   " + valDeBase[col][row]);
-                    if(!modelNouveau.getValueAt(row, col).equals(valDeBase[col][row]) )
+                    //Pour eviter les nullPointerException
+                    if(modelNouveau.getValueAt(row, col)!=null && valDeBase[col][row]!=null)
+                    if( !modelNouveau.getValueAt(row, col).equals(valDeBase[col][row]) )
                     {
                         String type = lesAttributs.get(col).getType();
                         System.err.println("Dans le if row=" + row + " col=" + col);
