@@ -732,9 +732,10 @@ public abstract class DatabaseConnection {
                     preparedStatement.setNull(col+1, java.sql.Types.NULL);
                 }
             }
+            preparedStatement.executeUpdate();
         }
         
-        preparedStatement.executeUpdate();
+        
     }
     
     public String getPrimaryKeyFromTableName(String tableName) throws SQLException
