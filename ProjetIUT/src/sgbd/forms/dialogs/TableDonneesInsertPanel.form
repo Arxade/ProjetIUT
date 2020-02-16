@@ -43,7 +43,7 @@
                       <Component id="jButtonAjouterLigneInsert" min="-2" pref="50" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jButtonEnleverUneLigneInsert" min="-2" pref="53" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                       <Component id="jButtonEnleverNbLignesSelectionneeInsert" min="-2" pref="50" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jButtonConfirmerInsert" min="-2" pref="100" max="-2" attributes="0"/>
@@ -106,6 +106,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Retirer une ligne"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEnleverUneLigneInsertActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

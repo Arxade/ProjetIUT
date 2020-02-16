@@ -101,6 +101,11 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
         });
 
         jButtonEnleverUneLigneInsert.setText("Retirer une ligne");
+        jButtonEnleverUneLigneInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEnleverUneLigneInsertActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -129,7 +134,7 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
                         .addComponent(jButtonAjouterLigneInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonEnleverUneLigneInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
+                        .addGap(68, 68, 68)
                         .addComponent(jButtonEnleverNbLignesSelectionneeInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonConfirmerInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -175,6 +180,7 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
         DefaultTableModel model = (DefaultTableModel) jTableDonneesInsert.getModel();
             Object[] rowData = null;
             model.addRow(rowData);
+            nbRows++;
         
     }//GEN-LAST:event_jButtonAjouterLigneInsertActionPerformed
 
@@ -193,6 +199,14 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
         }
         
     }//GEN-LAST:event_jButtonEnleverNbLignesSelectionneeInsertActionPerformed
+
+    private void jButtonEnleverUneLigneInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnleverUneLigneInsertActionPerformed
+        
+        DefaultTableModel model = (DefaultTableModel) jTableDonneesInsert.getModel();
+            Object[] rowData = null;
+            model.removeRow(nbRows);
+            nbRows--;
+    }//GEN-LAST:event_jButtonEnleverUneLigneInsertActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
