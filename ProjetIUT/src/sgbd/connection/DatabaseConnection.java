@@ -403,7 +403,16 @@ public abstract class DatabaseConnection {
             statement = connection.createStatement();
 
             //Je recupere le nom de la clef primaire pour trier dans l'ordre croissant les lignes avec getPrimaryKeyFromTableName(leNom)
-            preparedStatement = connection.prepareStatement("SELECT * FROM "+ table.getName() + " ORDER BY " + getPrimaryKeyFromTableName(table.getName()));
+            String pk = getPrimaryKeyFromTableName(table.getName());
+            if(pk != null)
+            {
+                preparedStatement = connection.prepareStatement("SELECT * FROM "+ table.getName() + " ORDER BY " + pk);
+            }
+            else
+            {
+                preparedStatement = connection.prepareStatement("SELECT * FROM "+ table.getName() );
+            }
+            
             resultSet = preparedStatement.executeQuery();
             return resultSet;
    
