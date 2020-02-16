@@ -724,7 +724,7 @@ public abstract class DatabaseConnection {
             }
         }
         
-        preparedStatement.execute();
+        preparedStatement.executeUpdate();
     }
     
     public String getPrimaryKeyFromTableName(String tableName) throws SQLException
