@@ -109,6 +109,21 @@ public class MySQLConnection extends DatabaseConnection {
         }
 
     }
+    
+    @Override
+    public boolean renameTable(String nomActuel, String nouveauNom) {
+
+        String renameQuery = "RENAME TABLE " + nomActuel + " TO " + nouveauNom;
+        System.out.println(renameQuery);
+        try {
+            statement = connection.createStatement();
+            statement.executeUpdate(renameQuery);
+            return true;
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Impossible de renommer la table : " + e);
+            return false;
+        }
+    }
 
     @Override
     public boolean dropTable(String table, boolean cascadeConstraints) {
