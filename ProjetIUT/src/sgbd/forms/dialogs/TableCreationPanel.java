@@ -363,8 +363,14 @@ public class TableCreationPanel extends javax.swing.JPanel {
     private void cbxTypesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTypesActionPerformed
         // TODO add your handling code here:
         TableModel model = tblAttributes.getModel();
-        if(cbxTypes.getSelectedItem().equals("DATE")) model.setValueAt(38, tblAttributes.getSelectedRow(), 1);           
-        else if(cbxTypes.getSelectedItem().equals("NUMBER")) model.setValueAt(7, tblAttributes.getSelectedRow(), 1);
+        if (cbxTypes.getSelectedItem() != null) {
+            if (cbxTypes.getSelectedItem().equals("DATE")) {
+                model.setValueAt(38, tblAttributes.getSelectedRow(), 1);
+            } else if (cbxTypes.getSelectedItem().equals("NUMBER")) {
+                model.setValueAt(7, tblAttributes.getSelectedRow(), 1);
+            }
+        }
+
     }//GEN-LAST:event_cbxTypesActionPerformed
 
     
