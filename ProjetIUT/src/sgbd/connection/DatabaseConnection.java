@@ -411,7 +411,7 @@ public abstract class DatabaseConnection {
             }
             catch(Exception e)
             {
-                preparedStatement = connection.prepareStatement("SELECT * FROM "+ table.getName() + " ORDER BY " );
+                preparedStatement = connection.prepareStatement("SELECT * FROM "+ table.getName() );
             }
             
             resultSet = preparedStatement.executeQuery();
