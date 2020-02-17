@@ -201,11 +201,13 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
     }//GEN-LAST:event_jButtonEnleverNbLignesSelectionneeInsertActionPerformed
 
     private void jButtonEnleverUneLigneInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnleverUneLigneInsertActionPerformed
-        
+
         DefaultTableModel model = (DefaultTableModel) jTableDonneesInsert.getModel();
-            Object[] rowData = null;
-            model.removeRow(nbRows);
+        if (nbRows > 0) {
+            model.removeRow(nbRows - 1);
             nbRows--;
+        }
+
     }//GEN-LAST:event_jButtonEnleverUneLigneInsertActionPerformed
 
 

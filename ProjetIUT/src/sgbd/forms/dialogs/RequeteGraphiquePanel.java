@@ -31,11 +31,6 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
         }
         comboBoxTables.setSelectedIndex(0);
         nomTableSelectionnee = comboBoxTables.getSelectedItem().toString();
-
-        String[] attributs = controller.getNomsAttributsFromNomTable(comboBoxTables.getSelectedItem().toString());
-        for (String attribut : attributs) {
-            comboBoxAttributs.addItem(attribut);
-        }
         
         TableColumn attributColumn = tableRequete.getColumnModel().getColumn(0);
         attributColumn.setCellEditor(new DefaultCellEditor(comboBoxAttributs));
@@ -44,6 +39,7 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
         TableColumn fonctionHavingColumn = tableRequete.getColumnModel().getColumn(5);
         fonctionColumn.setCellEditor(new DefaultCellEditor(comboBoxFonctions));
         fonctionHavingColumn.setCellEditor(new DefaultCellEditor(comboBoxFonctions));
+
     }
 
     /**
@@ -121,16 +117,14 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnExecuterRequete, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                    .addComponent(btnExecuterRequete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnRemoveLigne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAddLigne, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(comboBoxTables, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboBoxTables, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(btnRemoveLigne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAddLigne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -145,9 +139,9 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
                             .addComponent(jLabel1)
                             .addComponent(comboBoxTables, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(btnRemoveLigne, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAddLigne, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRemoveLigne, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnExecuterRequete, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE))
@@ -191,6 +185,9 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
         tableRequete.setValueAt(true, model.getRowCount() - 1, 1);
         tableRequete.setValueAt(false, model.getRowCount() - 1, 4);
         tableRequete.setValueAt("", model.getRowCount() - 1, 3);
+        tableRequete.setValueAt("Aucune", model.getRowCount() - 1, 2);
+        tableRequete.setValueAt("Aucune", model.getRowCount() - 1, 5);
+        tableRequete.setValueAt("", model.getRowCount() - 1, 6);
     }//GEN-LAST:event_btnAddLigneActionPerformed
 
     private void btnRemoveLigneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveLigneActionPerformed

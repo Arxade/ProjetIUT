@@ -449,28 +449,27 @@ public abstract class DatabaseConnection {
 //    }
     
     public String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes, String nomTable) {
-        String select, from, where, groupBy;
+        String select, from, where, groupBy, having;
         select = "SELECT ";
         from = " FROM ";
         where = "";
-        groupBy = "GROUP BY ";
+        groupBy = " GROUP BY ";
+        having = "";
         
-        ArrayList<String> elementsGroupBy = new ArrayList<>();
+        ArrayList<String> attributsGroupBy = new ArrayList<>();
         
         for (ArrayList<Object> uneLigne : lesLignes) {
             String attribut = uneLigne.get(0).toString();
-            String condition = uneLigne.get(3).toString();
-            String fonctionEnsemble = "Aucune";
-            if (uneLigne.get(2) != null) {
-                fonctionEnsemble = uneLigne.get(2).toString();
-            }
+            String conditionWhere = uneLigne.get(3).toString().trim();
+            String fonctionEnsembleSelect = uneLigne.get(2).toString();
+            String fonctionEnsembleHaving = uneLigne.get(5).toString();
+            String conditionHaving = uneLigne.get(6).toString().trim();
             Boolean estDansSelect = Boolean.valueOf(uneLigne.get(1).toString());
             Boolean estDansGroupBy = Boolean.valueOf(uneLigne.get(4).toString());
             Boolean estUneFonction = false;
             
-            
             if (estDansSelect == true) {
-                switch (fonctionEnsemble) {
+                switch (fonctionEnsembleSelect) {
                     case "Aucune":
                         select = select + attribut + ", ";
                         break;
@@ -494,35 +493,57 @@ public abstract class DatabaseConnection {
                         select = select + "COUNT(" + attribut + "), ";
                         estUneFonction = true;
                         break;
-                    default:
-                        break;
                 }
             }
 
-            if (!condition.equals("")) {
+            if (!conditionWhere.equals("")) {
                 if (!where.contains("WHERE")) {
                     where = " WHERE ";
                 } else {
                     where = where + " AND ";
                 }
-                where = where + attribut + " " + condition;
+                where = where + attribut + " " + conditionWhere;
             }
             
-            if (estDansGroupBy == true && !estUneFonction)
+            if (estDansGroupBy == true && !estUneFonction) {
                 groupBy = groupBy + attribut + ", ";
-            else if (!estUneFonction)
-                elementsGroupBy.add(attribut);
+            } else if (!estUneFonction) {
+                attributsGroupBy.add(attribut);
+            }
+
+            switch (fonctionEnsembleHaving) {
+                case "Aucune":
+                    break;
+                case "Somme":
+                    having = " HAVING SUM(" + attribut + ") " + conditionHaving;
+                    break;
+                case "Moyenne":
+                    having = " HAVING AVG(" + attribut + ") " + conditionHaving;
+                    break;
+                case "Maximum":
+                    having = " HAVING MAX(" + attribut + ") " + conditionHaving;
+                    break;
+                case "Minimum":
+                    having = " HAVING MIN(" + attribut + ") " + conditionHaving;
+                    break;
+                case "Comptage":
+                    having = " HAVING COUNT(" + attribut + ") " + conditionHaving;
+                    break;
+            }
+        }
+
+        select = select.substring(0, select.length() - 2);
+        from = from + nomTable;
+        String requete = select + from + where;
+        
+        if (!groupBy.equals("GROUP BY ")) {
+            for (String attributGroupBy : attributsGroupBy) {
+                groupBy = groupBy + attributGroupBy + ", ";
+            }
+            groupBy = groupBy.substring(0, groupBy.length() - 2);
+            requete = requete + groupBy + having;
         }
         
-        select = select.substring(0, select.length() - 2);        
-        from = from + nomTable;
-
-        String requete = select + from + where;
-        if(!groupBy.equals("GROUP BY ")){
-            for(String element : elementsGroupBy) groupBy = groupBy + element + ", "; 
-            groupBy = groupBy.substring(0, groupBy.length() - 2);
-            requete = requete + " " + groupBy;
-        }
         System.out.println(requete);
         return requete;
     }
