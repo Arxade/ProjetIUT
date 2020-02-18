@@ -217,18 +217,16 @@ public class OracleConnection extends DatabaseConnection {
     public void createTable(String tableName, ArrayList<Attribute> lstAt) throws SQLException {
 
         String req = "CREATE TABLE " + tableName.toUpperCase() + "(";
-        String contraintes = "";
+        String contraintes = ", ";
 
         for (Attribute at : lstAt) {
             req += at.getName() + " " + at.getType();
             if (at.getLength() != -1) {
-                req += "(" + at.getLength() + "), ";
-            } else {
-                req += ", ";
+                req += "(" + at.getLength() + ") ";
             }
 
             if (at.isPrimaryKey()) {
-                if (contraintes.equals("")) {
+                if (contraintes.equals(", ")) {
                     contraintes += "CONSTRAINT pk_" + at.getName() + " PRIMARY KEY (" + at.getName() + ") ";
                 } else {
                     contraintes += ", CONSTRAINT pk_" + at.getName() + " PRIMARY KEY (" + at.getName() + ") ";
@@ -236,7 +234,7 @@ public class OracleConnection extends DatabaseConnection {
             }
 
             if (!at.isNullable()) {
-                if (contraintes.equals("")) {
+                if (contraintes.equals(", ")) {
                     contraintes += "CONSTRAINT nn_" + at.getName() + " CHECK (" + at.getName() + " IS NOT NULL) ";
                 } else {
                     contraintes += ", CONSTRAINT nn_" + at.getName() + " CHECK (" + at.getName() + " IS NOT NULL) ";
@@ -244,7 +242,7 @@ public class OracleConnection extends DatabaseConnection {
             }
 
             if (at.isUnique()) {
-                if (contraintes.equals("")) {
+                if (contraintes.equals(", ")) {
                     contraintes += "CONSTRAINT un_" + at.getName() + " UNIQUE (" + at.getName() + ") ";
                 } else {
                     contraintes += ", CONSTRAINT un_" + at.getName() + " UNIQUE (" + at.getName() + ") ";
@@ -252,15 +250,16 @@ public class OracleConnection extends DatabaseConnection {
             }
 
             if (!at.isForeignKey()[0].equals("NOTFOREIGNKEY")) {
-                if (contraintes.equals("")) {
+                if (contraintes.equals(", ")) {
                     contraintes += "CONSTRAINT fk_" + at.getName() + " FOREIGN KEY (" + at.getName() + ") REFERENCES " + at.isForeignKey()[0] + "(" + at.isForeignKey()[1] + ") ";
                 } else {
                     contraintes += ", CONSTRAINT fk_" + at.getName() + " FOREIGN KEY (" + at.getName() + ") REFERENCES " + at.isForeignKey()[0] + "(" + at.isForeignKey()[1] + ") ";
                 }
             }
         }
-
-        req += contraintes + ")";
+        
+        if(contraintes.equals(", ")) req += ")";
+        else req += contraintes + ")";
 
         System.out.println(req);
 
