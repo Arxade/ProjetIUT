@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -165,6 +166,8 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichiers .sql", "sql");
+        fileChooser.setFileFilter(filter);
         fileChooser.setDialogTitle("Choisir l'emplacement de sauvegarde");
 
         int userSelection = fileChooser.showSaveDialog(this);
