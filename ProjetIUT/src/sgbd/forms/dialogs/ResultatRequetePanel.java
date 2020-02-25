@@ -7,6 +7,7 @@ package sgbd.forms.dialogs;
 
 import java.awt.Component;
 import java.awt.Window;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,9 +23,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -161,14 +164,24 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAfficherRequeteActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        try (FileWriter out = new FileWriter("requete.sql", true)) {
-            out.append(requete + "\n");
-            JOptionPane.showMessageDialog(this, "Requête sauvegardée");
-            out.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ResultatRequetePanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ResultatRequetePanel.class.getName()).log(Level.SEVERE, null, ex);
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Specify a file to save");
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+
+            try (FileWriter out = new FileWriter(fileToSave.getAbsolutePath(), true)) {
+                out.append(requete + "\n");
+                JOptionPane.showMessageDialog(this, "Requête sauvegardée");
+                out.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(ResultatRequetePanel.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ResultatRequetePanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
