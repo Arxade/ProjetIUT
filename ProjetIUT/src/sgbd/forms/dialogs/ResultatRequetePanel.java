@@ -165,7 +165,7 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Specify a file to save");
+        fileChooser.setDialogTitle("Choisir l'emplacement de sauvegarde");
 
         int userSelection = fileChooser.showSaveDialog(this);
 
@@ -173,7 +173,7 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
             File fileToSave = fileChooser.getSelectedFile();
             System.out.println("Save as file: " + fileToSave.getAbsolutePath());
 
-            try (FileWriter out = new FileWriter(fileToSave.getAbsolutePath(), true)) {
+            try (FileWriter out = new FileWriter(fileToSave.getAbsolutePath() +".sql", true)) {
                 out.append(requete + "\n");
                 JOptionPane.showMessageDialog(this, "Requête sauvegardée");
                 out.close();
