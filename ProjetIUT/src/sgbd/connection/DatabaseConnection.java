@@ -536,7 +536,7 @@ public abstract class DatabaseConnection {
         from = from + nomTable;
         String requete = select + from + where;
         
-        if (!groupBy.equals("GROUP BY ")) {
+        if (!groupBy.equals(" GROUP BY ")) {
             for (String attributGroupBy : attributsGroupBy) {
                 groupBy = groupBy + attributGroupBy + ", ";
             }
