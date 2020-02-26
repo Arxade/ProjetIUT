@@ -365,10 +365,12 @@ public class TableCreationPanel extends javax.swing.JPanel {
         TableModel model = tblAttributes.getModel();
         if (cbxTypes.getSelectedItem() != null) {
             if (cbxTypes.getSelectedItem().equals("DATE")) {
-                model.setValueAt(38, tblAttributes.getSelectedRow(), 1);
+                model.setValueAt(7, tblAttributes.getSelectedRow(), 2);
             } else if (cbxTypes.getSelectedItem().equals("NUMBER")) {
-                model.setValueAt(7, tblAttributes.getSelectedRow(), 1);
-            }
+                model.setValueAt(38, tblAttributes.getSelectedRow(), 2);
+            }else if (cbxTypes.getSelectedItem().equals("VARCHAR")){
+                model.setValueAt(25, tblAttributes.getSelectedRow(), 2);
+            }            
         }
 
     }//GEN-LAST:event_cbxTypesActionPerformed

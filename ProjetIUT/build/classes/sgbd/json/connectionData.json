@@ -1,1 +1,1 @@
-{"SGBD":"MySQL","Port":"3308","Database":"TESTDB","Host":"localhost"}
+{"SGBD":"MySQL","Port":"3306","Database":"test","Host":"localhost"}
