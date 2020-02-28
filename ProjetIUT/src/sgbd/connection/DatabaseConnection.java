@@ -20,7 +20,7 @@ import javax.swing.table.TableModel;
  *
  * @author Arxade
  */
-public abstract class DatabaseConnection {
+public abstract class DatabaseConnection implements I_Connection {
     protected Connection connection = null;
     protected DatabaseMetaData dbMetadata = null;
     protected Statement statement = null;
