@@ -17,27 +17,29 @@ import javax.swing.text.Document;
  *
  * @author Kazed
  */
-public class ConnectionParamsPanel extends javax.swing.JPanel {
+public class ConnectionParamsDialog extends javax.swing.JPanel {
     private final HashMap<String, String> params;
     /**
      * Creates new form ConnectionParams
      * @param params
      */
-    public ConnectionParamsPanel(HashMap<String, String> params) {
+    public ConnectionParamsDialog(HashMap<String, String> params) {
         initComponents();
         this.params = params;
         if(!params.isEmpty()) {
             txtHost.setText(params.get("Host"));
             txtPort.setText(params.get("Port"));
             txtDb.setText(params.get("Database"));
+            comboBoxSGBD.setSelectedItem(params.get("SGBD"));
         }
     }
     
-    public JTextField getInput(String param) {
+    public String getInput(String param) {
         switch(param) {
-            case "Host" : return txtHost;
-            case "Port" : return txtPort;
-            case "Database" : return txtDb;
+            case "Host" : return txtHost.getText();
+            case "Port" : return txtPort.getText();
+            case "Database" : return txtDb.getText();
+            case "SGBD" : return comboBoxSGBD.getSelectedItem().toString();
             default : return null;
         }
     }
@@ -63,8 +65,7 @@ public class ConnectionParamsPanel extends javax.swing.JPanel {
                     }
                     else comp.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                     break;
-                case "JTextField":
-                    
+                case "JTextField":     
                     break;
                 default:
                     break;
@@ -84,7 +85,6 @@ public class ConnectionParamsPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         lpnContainer = new javax.swing.JLayeredPane();
-        btnConfirm = new javax.swing.JButton();
         lblHost = new javax.swing.JLabel();
         lblPort = new javax.swing.JLabel();
         lblDb = new javax.swing.JLabel();
@@ -92,12 +92,13 @@ public class ConnectionParamsPanel extends javax.swing.JPanel {
         txtPort = new javax.swing.JTextField();
         txtDb = new javax.swing.JTextField();
         btnCancel = new javax.swing.JButton();
+        btnConfirm = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        comboBoxSGBD = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(320, 218));
 
-        btnConfirm.setText("Confirmer");
-        btnConfirm.setName("btnConfirm"); // NOI18N
-        btnConfirm.setPreferredSize(new java.awt.Dimension(96, 32));
+        lpnContainer.setPreferredSize(new java.awt.Dimension(226, 250));
 
         lblHost.setText("Hôte");
 
@@ -116,7 +117,14 @@ public class ConnectionParamsPanel extends javax.swing.JPanel {
         btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.setPreferredSize(new java.awt.Dimension(96, 32));
 
-        lpnContainer.setLayer(btnConfirm, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        btnConfirm.setText("Confirmer");
+        btnConfirm.setName("btnConfirm"); // NOI18N
+        btnConfirm.setPreferredSize(new java.awt.Dimension(96, 32));
+
+        jLabel1.setText("SGDB");
+
+        comboBoxSGBD.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Oracle", "MySQL" }));
+
         lpnContainer.setLayer(lblHost, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(lblPort, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(lblDb, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -124,77 +132,87 @@ public class ConnectionParamsPanel extends javax.swing.JPanel {
         lpnContainer.setLayer(txtPort, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(txtDb, javax.swing.JLayeredPane.DEFAULT_LAYER);
         lpnContainer.setLayer(btnCancel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lpnContainer.setLayer(btnConfirm, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lpnContainer.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lpnContainer.setLayer(comboBoxSGBD, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout lpnContainerLayout = new javax.swing.GroupLayout(lpnContainer);
         lpnContainer.setLayout(lpnContainerLayout);
         lpnContainerLayout.setHorizontalGroup(
             lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(lpnContainerLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
+                .addGap(21, 21, 21)
                 .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(lpnContainerLayout.createSequentialGroup()
-                        .addComponent(lblHost)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtHost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(lpnContainerLayout.createSequentialGroup()
-                        .addComponent(lblPort)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lpnContainerLayout.createSequentialGroup()
-                        .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(lpnContainerLayout.createSequentialGroup()
-                                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(64, 64, 64))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, lpnContainerLayout.createSequentialGroup()
-                                .addComponent(lblDb)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnConfirm, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDb, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 0, 0))
+                    .addComponent(lblPort)
+                    .addComponent(lblHost)
+                    .addComponent(lblDb)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDb, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                    .addComponent(txtHost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboBoxSGBD, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lpnContainerLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
         lpnContainerLayout.setVerticalGroup(
             lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(lpnContainerLayout.createSequentialGroup()
-                .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblHost)
-                    .addComponent(txtHost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
+                .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(lpnContainerLayout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(comboBoxSGBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtHost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lpnContainerLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addGap(19, 19, 19)
+                        .addComponent(lblHost)))
+                .addGap(14, 14, 14)
                 .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPort)
                     .addComponent(txtPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
+                .addGap(18, 18, 18)
                 .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDb)
                     .addComponent(txtDb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                .addGap(27, 27, 27)
                 .addGroup(lpnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0))
+                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(lpnContainer)
-                .addGap(32, 32, 32))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lpnContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(lpnContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addContainerGap()
+                .addComponent(lpnContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnConfirm;
+    private javax.swing.JComboBox<String> comboBoxSGBD;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblDb;
     private javax.swing.JLabel lblHost;
     private javax.swing.JLabel lblPort;

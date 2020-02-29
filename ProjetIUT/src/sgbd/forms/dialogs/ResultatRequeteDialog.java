@@ -38,7 +38,7 @@ import sgbd.controllers.Controller;
  *
  * @author Arxade
  */
-public class ResultatRequetePanel extends javax.swing.JPanel {
+public class ResultatRequeteDialog extends javax.swing.JPanel {
     
     private Controller controller;
     private String requete;
@@ -49,7 +49,7 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
      * @param controller
      * @param requete
      */
-    public ResultatRequetePanel(Controller controller, String requete) {
+    public ResultatRequeteDialog(Controller controller, String requete) {
         initComponents();
         this.controller = controller;
         this.requete = requete;
@@ -181,9 +181,9 @@ public class ResultatRequetePanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Requête sauvegardée");
                 out.close();
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(ResultatRequetePanel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ResultatRequeteDialog.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(ResultatRequetePanel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ResultatRequeteDialog.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnSaveActionPerformed

@@ -20,7 +20,7 @@ import sgbd.controllers.Controller;
  *
  * @author Kazed
  */
-public class TableCreationPanel extends javax.swing.JPanel {
+public class TableCreationDialog extends javax.swing.JPanel {
     
     private Controller controller;
     private int columns = 0;  
@@ -33,7 +33,7 @@ public class TableCreationPanel extends javax.swing.JPanel {
      */
     
     
-    public TableCreationPanel(Controller c, int nbCol) {
+    public TableCreationDialog(Controller c, int nbCol) {
         initComponents();
         controller = c;
         columns = nbCol;     

@@ -20,7 +20,7 @@ import sgbd.database.Table;
  *
  * @author Alexandre
  */
-public class TableDonneesInsertPanel extends javax.swing.JPanel 
+public class TableDonneesInsertDialog extends javax.swing.JPanel 
 {
 
     /**
@@ -32,7 +32,7 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
     private Table laTableInsert;
     private String[][] listeDesValeurs;
     
-    public TableDonneesInsertPanel(Table laTable, Controller ctr) 
+    public TableDonneesInsertDialog(Table laTable, Controller ctr) 
     {
         initComponents();
         ArrayList<Attribute> lesAttributs = laTable.attributes();
@@ -165,8 +165,8 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
         try {
             controllerInsert.addRows(listeDesValeurs, laTableInsert, nbRows);
         } catch (SQLException ex) {
-            Logger.getLogger(TableDonneesInsertPanel.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(TableDonneesInsertPanel.this, "Erreur lors de l'insertion de donnéées: " + ex);
+            Logger.getLogger(TableDonneesInsertDialog.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(TableDonneesInsertDialog.this, "Erreur lors de l'insertion de donnéées: " + ex);
         }
     }
     
@@ -195,7 +195,7 @@ public class TableDonneesInsertPanel extends javax.swing.JPanel
         }
         catch(Exception e)
         {
-            JOptionPane.showMessageDialog(TableDonneesInsertPanel.this, "Erreur lors de la supression de la ligne :" + e);
+            JOptionPane.showMessageDialog(TableDonneesInsertDialog.this, "Erreur lors de la supression de la ligne :" + e);
         }
         
     }//GEN-LAST:event_jButtonEnleverNbLignesSelectionneeInsertActionPerformed

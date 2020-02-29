@@ -9,7 +9,7 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.HeadlessException;
-import sgbd.forms.dialogs.TableCreationPanel;
+import sgbd.forms.dialogs.TableCreationDialog;
 import sgbd.database.Table;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultListCellRenderer;
@@ -32,9 +32,9 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import sgbd.controllers.Controller;
 import sgbd.forms.MainFrame;
-import sgbd.forms.dialogs.TableAlterationPanel;
-import sgbd.forms.dialogs.TableDonneesCRUDPanel;
-import sgbd.forms.dialogs.RequeteGraphiquePanel;
+import sgbd.forms.dialogs.TableAlterationDialog;
+import sgbd.forms.dialogs.TableDonneesCRUDDialog;
+import sgbd.forms.dialogs.RequeteGraphiqueDialog;
 
 /**
  *
@@ -416,7 +416,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         dialog.setModal(true);
         dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         String selected = lstTables.getSelectedValue();
-        TableAlterationPanel content = new TableAlterationPanel(controller, recentTables[0]);
+        TableAlterationDialog content = new TableAlterationDialog(controller, recentTables[0]);
         content.getButton("confirmer").addActionListener((ActionEvent e) -> {
         });
         content.getButton("annuler").addActionListener((ActionEvent e) -> {
@@ -439,7 +439,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
                 dialog.setTitle("Nouvelle table");
                 dialog.setModal(true);
                 dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                TableCreationPanel content = new TableCreationPanel(controller, columns);
+                TableCreationDialog content = new TableCreationDialog(controller, columns);
                 content.getButton("confirm").addActionListener((ActionEvent e) -> {
                     String name = content.getTableName().getText();
                     dialog.dispose();
@@ -512,7 +512,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
             dialog.setModal(true);
             dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-            TableDonneesCRUDPanel content = new TableDonneesCRUDPanel(controller, recentTables[0]);
+            TableDonneesCRUDDialog content = new TableDonneesCRUDDialog(controller, recentTables[0]);
             //content.getButton("confirm").addActionListener((ActionEvent e) -> {
             //    String name = content.getTableName().getText();
             //    setTablesList();
@@ -555,7 +555,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
             dialog.setTitle("Modification");
             dialog.setModal(true);
             dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            TableAlterationPanel content = new TableAlterationPanel(controller, recentTables[0]);
+            TableAlterationDialog content = new TableAlterationDialog(controller, recentTables[0]);
             content.getButton("confirmer").addActionListener((ActionEvent e) -> {
             });
             content.getButton("annuler").addActionListener((ActionEvent e) -> {
@@ -601,7 +601,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
         dialog.setTitle("Requête graphique");
         dialog.setModal(true);
         dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        RequeteGraphiquePanel content = new RequeteGraphiquePanel(controller);
+        RequeteGraphiqueDialog content = new RequeteGraphiqueDialog(controller);
         dialog.setContentPane(content);
         dialog.setResizable(true);
         dialog.pack();

@@ -29,7 +29,7 @@ import sgbd.database.Table;
  *
  * @author Alexandre
  */
-public class TableDonneesCRUDPanel extends javax.swing.JPanel {
+public class TableDonneesCRUDDialog extends javax.swing.JPanel {
 
     /**
      * Creates new form TableDonneesCRUDPanel
@@ -40,7 +40,7 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
     public Table tableCRUD;
     private Object[][] valeursDeRechercheDeBase;
     
-    public TableDonneesCRUDPanel(Controller ctr,Table laTable) {
+    public TableDonneesCRUDDialog(Controller ctr,Table laTable) {
         initComponents();
         TableColumn col;
         int longueurArrayListDeLaTable = laTable.attributes().size();
@@ -228,7 +228,7 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
             valeursDeRechercheDeBase = nouvelleValeurs;
             
         } catch (Exception ex) {
-            Logger.getLogger(TableDonneesCRUDPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TableDonneesCRUDDialog.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Erreur lors du SELECT " + ex);
         }
     }
@@ -259,12 +259,12 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
             }
             catch (SQLException e) 
             {
-                JOptionPane.showMessageDialog(TableDonneesCRUDPanel.this, "Erreur lors de la suppression " + e);
+                JOptionPane.showMessageDialog(TableDonneesCRUDDialog.this, "Erreur lors de la suppression " + e);
             }
         }
         else
         {
-            JOptionPane.showMessageDialog(TableDonneesCRUDPanel.this, "Veuillez selectionner une ligne.");
+            JOptionPane.showMessageDialog(TableDonneesCRUDDialog.this, "Veuillez selectionner une ligne.");
         }
         
     }//GEN-LAST:event_jButtonEffacerLigneCRUDActionPerformed
@@ -276,8 +276,8 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
             controllerCRUD.updateRows(valeursDeRechercheDeBase, jTableDonneesCRUD.getModel(), tableCRUD);
             lancerRecherche();
         } catch (SQLException ex) {
-            Logger.getLogger(TableDonneesCRUDPanel.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(TableDonneesCRUDPanel.this, "Erreur lors de la modification: " + ex);
+            Logger.getLogger(TableDonneesCRUDDialog.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(TableDonneesCRUDDialog.this, "Erreur lors de la modification: " + ex);
         }
         
         
@@ -290,7 +290,7 @@ public class TableDonneesCRUDPanel extends javax.swing.JPanel {
         dialog.setModal(true);
         dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        TableDonneesInsertPanel content = new TableDonneesInsertPanel(tableCRUD , controllerCRUD);
+        TableDonneesInsertDialog content = new TableDonneesInsertDialog(tableCRUD , controllerCRUD);
         content.fermerTableDonneesInsertPanel().addActionListener((ActionEvent e) -> {
             content.insert();
             dialog.dispose();

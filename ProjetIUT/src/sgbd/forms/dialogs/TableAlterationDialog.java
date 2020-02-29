@@ -26,7 +26,7 @@ import sgbd.database.Attribute;
  *
  * @author Paul
  */
-public class TableAlterationPanel extends javax.swing.JPanel {
+public class TableAlterationDialog extends javax.swing.JPanel {
 
     private Table table;
     private Controller controller;
@@ -39,7 +39,7 @@ public class TableAlterationPanel extends javax.swing.JPanel {
      * @param controller
      * @param table
      */
-    public TableAlterationPanel(Controller controller, Table table) {
+    public TableAlterationDialog(Controller controller, Table table) {
         initComponents();
         this.controller = controller;
         this.table = table;

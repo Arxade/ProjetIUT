@@ -29,6 +29,7 @@ public class ConnectionDataJSON {
             params.put("Host", (String)data.get("Host"));
             params.put("Port", (String)data.get("Port"));
             params.put("Database", (String)data.get("Database"));
+            params.put("SGBD", sgbd);
         } 
         catch (IOException | ParseException e) {
             //Pas de JSON à récupérer

@@ -11,7 +11,7 @@ import sgbd.controllers.Controller;
 
 
 
-public class RequeteGraphiquePanel extends javax.swing.JPanel {
+public class RequeteGraphiqueDialog extends javax.swing.JPanel {
     
     private Controller controller;
     private ArrayList<ArrayList<Object>> lesLignes;
@@ -21,7 +21,7 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
      * Creates new form TableRequeteGraphique
      * @param controller
      */
-    public RequeteGraphiquePanel(Controller controller) {
+    public RequeteGraphiqueDialog(Controller controller) {
         initComponents();
         this.controller = controller;
         
@@ -156,7 +156,7 @@ public class RequeteGraphiquePanel extends javax.swing.JPanel {
             dialog.setTitle("Résultat");
             dialog.setModal(true);
             dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            ResultatRequetePanel content = new ResultatRequetePanel(controller, controller.traduireRequeteGraphiqueEnSql(lesLignes, comboBoxTables.getSelectedItem().toString()));
+            ResultatRequeteDialog content = new ResultatRequeteDialog(controller, controller.traduireRequeteGraphiqueEnSql(lesLignes, comboBoxTables.getSelectedItem().toString()));
             dialog.setContentPane(content);
             dialog.setResizable(true);
             dialog.pack();
