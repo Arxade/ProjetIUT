@@ -16,11 +16,13 @@ public class ConnectionFactory {
     protected ConnectionFactory(){}
 
     public static I_Connection createConnection(HashMap<String, String> params, String nomConnection) {
-        if (nomConnection.equals("Oracle")) {
-            return new OracleConnection(params);
-        } else if (nomConnection.equals("MySQL")) {
-            return new MySQLConnection(params);
+        switch (nomConnection) {
+            case "Oracle":
+                return new OracleConnection(params);
+            case "MySQL":
+                return new MySQLConnection(params);
+            default:
+                return null;
         }
-        return null;
     }
 }
