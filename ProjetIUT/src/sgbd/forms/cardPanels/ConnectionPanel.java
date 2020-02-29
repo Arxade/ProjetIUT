@@ -8,7 +8,6 @@ package sgbd.forms.cardPanels;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Font;
-import sgbd.connection.DatabaseConnection;
 import sgbd.forms.dialogs.ConnectionParamsPanel;
 import sgbd.json.ConnectionDataJSON;
 import java.awt.event.ActionEvent;
@@ -16,8 +15,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
-import sgbd.connection.MySQLConnection;
-import sgbd.connection.OracleConnection;
 import sgbd.controllers.Controller;
 import sgbd.forms.MainFrame;
 
@@ -216,20 +213,11 @@ public class ConnectionPanel extends javax.swing.JPanel {
 
     private void btnConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnectActionPerformed
         String sgbd = cbxSGBD.getSelectedItem().toString();
-        DatabaseConnection co;
-        //Connexion à la BDD en fonction du SGBD choisi
-        switch(sgbd) {
-            case "MySQL" :
-                co = new MySQLConnection(json.getParams());
-                break;
-            default :
-                co = new OracleConnection(json.getParams());
-        }
-        controller = new Controller(co);
+        controller = new Controller(sgbd, json.getParams());
 
         //Si la connexion est effectuée, sauvegarde le SGBD dans le JSON
         //et switche sur le JPanel VisualizationPanel
-        if(controller.tryConnect(json, txtUser.getText(), String.valueOf(txtPassword.getPassword()))) {
+        if(controller.connect(json, txtUser.getText(), String.valueOf(txtPassword.getPassword()))) {
             txtPassword.setText("");
             json.setParam("SGBD", sgbd);
             json.save();

@@ -15,10 +15,10 @@ import sgbd.database.Table;
 
 /**
  *
- * @author diazt
+ * @author Arxade
  */
-public interface I_Connection {
-    
+public interface NewInterface extends I_Connection {
+
     boolean addColonne(String nomTable, String nomColonne, String typeColonne, int longueurColonne);
 
     boolean addConstraintNotNull(String nomTable, String nomColonne, String dataType, int longueur);
@@ -39,6 +39,14 @@ public interface I_Connection {
 
     void createTable(String tableName, ArrayList<Attribute> lstAt) throws SQLException;
 
+    //Pour plus tard//
+    /*public ResultSet getResultSetFromTableWithParams(Table laTable, String lesAttributs) throws SQLException
+    {
+    System.out.println("Nom de table: " + laTable.getName() + " Nom des attributs: " + lesAttributs);
+    String query = "SELECT * FROM " + laTable.getName();
+    resultSet = statement.executeQuery(query);
+    return resultSet;
+    }*/
     void deleteRow(String requete, ArrayList<String> valeurs) throws SQLException;
 
     boolean dropColonne(String nomTable, String nomColonne);
@@ -53,8 +61,27 @@ public interface I_Connection {
 
     boolean dropTable(String table, boolean cascadeConstraints);
 
+    /*
+    METHODE SELECT PAR NOM DE TABLE JE LA LAISSE ON VA SUREMENT SEN SERVIR PLUS TARD
+    public String writeSelectToString(String nomTable) throws SQLException, Exception {
+    String text = "";
+    resultSet = getResultSetFromTable(nomTable);
+    ResultSet rsTable = getResultSetFromTable(nomTable);
+    while (resultSet.next()) {
+    for (int y = 1; y < (rsTable.getMetaData().getColumnCount()) + 1; y++) {
+    if (y == rsTable.getMetaData().getColumnCount()) {
+    text = text + resultSet.getString(y) + "\r\n";
+    } else {
+    text = text + resultSet.getString(y) + " ";
+    }
+    }
+    }
+    return text;
+    }
+     */
     ArrayList<String> getAttributesNames(Table laTable);
 
+    //méthode qui retourne un tableau listant toutes les contraintes PRIMARY KEY, UNIQUE et CHECK des colonnes d'une table
     ArrayList<HashMap> getConstraints(String table);
 
     String getDatabaseName();
@@ -95,7 +122,27 @@ public interface I_Connection {
 
     boolean setTypesList();
 
+    //    public String traduireRequeteGraphiqueEnSql(ArrayList<String> lesAttributs, String table, String condition)
+    //    {
+    //        String select, from, where, groupBy;
+    //        select = "SELECT ";
+    //        from = " FROM ";
+    //        where = "";
+    //        groupBy = "";
+    //
+    //        for (String unAttribut  : lesAttributs) {
+    //            select = select + unAttribut +  ", ";
+    //        }
+    //        select = select.substring(0, select.length() - 2);
+    //
+    //        from = from + table;
+    //
+    //        String requete = select + from + where + groupBy;
+    //        System.out.println(requete);
+    //        return requete;
+    //    }
     String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes, String nomTable);
 
     void updateRows(Object[][] valDeBase, TableModel modelNouveau, String laRequete, ArrayList<Attribute> lesAttributs) throws SQLException;
+    
 }

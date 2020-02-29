@@ -10,9 +10,6 @@ import sgbd.database.Table;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
@@ -20,7 +17,7 @@ import javax.swing.table.TableModel;
  *
  * @author Arxade
  */
-public abstract class DatabaseConnection implements I_Connection {
+public abstract class DatabaseConnection implements NewInterface {
     protected Connection connection = null;
     protected DatabaseMetaData dbMetadata = null;
     protected Statement statement = null;
@@ -33,13 +30,8 @@ public abstract class DatabaseConnection implements I_Connection {
     protected String[] typesList;
     protected String url;
     
-    public abstract boolean connect(String user, String password);
-    public abstract boolean prepareStatements();
     
-    //méthode qui retourne un tableau listant toutes les contraintes PRIMARY KEY, UNIQUE et CHECK des colonnes d'une table 
-    public abstract ArrayList<HashMap> getConstraints(String table);
-    public abstract boolean setTableColumns(Table table);
-    
+    @Override
     public void prepareConnection() {
         try {
             dbMetadata = connection.getMetaData();
@@ -50,6 +42,7 @@ public abstract class DatabaseConnection implements I_Connection {
         }
     }
     
+    @Override
     public String getUserName() {
         try {
             return dbMetadata.getUserName();
@@ -60,8 +53,8 @@ public abstract class DatabaseConnection implements I_Connection {
         }
     }
     
-    public abstract String getDatabaseName();
     
+    @Override
     public boolean setTablesList() {
         try {
             resultSet = dbMetadata.getTables(connection.getCatalog(), connection.getSchema(), "%", new String[]{"TABLE"});
@@ -78,14 +71,9 @@ public abstract class DatabaseConnection implements I_Connection {
         
     }
     
-    public abstract boolean dropTable(String table, boolean cascadeConstraints);
-    
-    public abstract boolean renameTable(String nomActuel, String nouveauNom);
-
-    
-    public abstract void createTable(String tableName, ArrayList<Attribute> lstAt) throws SQLException;
     
     
+    @Override
     public String[] getTablesList() {
         try {
             ArrayList<String> lesTables = new ArrayList<>();
@@ -105,6 +93,7 @@ public abstract class DatabaseConnection implements I_Connection {
 
     }
 
+    @Override
     public String[] getPKTab(String table) {
         try {
             ArrayList<String> listePK = new ArrayList<>(2);
@@ -122,6 +111,7 @@ public abstract class DatabaseConnection implements I_Connection {
         }
     }
     
+    @Override
     public ArrayList<Attribute> getTableColumns(Table table) {
         ArrayList<Attribute> columns = null;
         try {
@@ -139,6 +129,7 @@ public abstract class DatabaseConnection implements I_Connection {
         return columns;
     }
     
+    @Override
     public boolean setTypesList() {
         try {
             ArrayList<String> lst = new ArrayList<>();
@@ -163,10 +154,12 @@ public abstract class DatabaseConnection implements I_Connection {
         }
     }
     
+    @Override
     public String[] getTypesList() {
         return typesList;
     }
   
+    @Override
     public boolean dropColonne(String nomTable, String nomColonne) {
         try {
             statement = connection.createStatement();
@@ -181,6 +174,7 @@ public abstract class DatabaseConnection implements I_Connection {
         }
     }
     
+    @Override
         public boolean addColonne(String nomTable, String nomColonne, String typeColonne, int longueurColonne) {
         try {
             String addQuery;
@@ -199,8 +193,8 @@ public abstract class DatabaseConnection implements I_Connection {
         }
     }
 
-    public abstract boolean renameColonne(String nomTable, String nomColonneActuel, String nomColonneNew, String dataType, int longueur);
 
+    @Override
     public boolean alterDatatypeColonne(String nomTable, String nomColonne, String datatype, int longueurColonne) {
         try {
             statement = connection.createStatement();
@@ -219,6 +213,7 @@ public abstract class DatabaseConnection implements I_Connection {
         }
     }
     
+    @Override
     public boolean dropPrimaryKey(String nomTable) {
         try {
             statement = connection.createStatement();
@@ -232,6 +227,7 @@ public abstract class DatabaseConnection implements I_Connection {
         }
     }
     
+    @Override
     public boolean createPrimaryKey(String nomTable, ArrayList<String> nomColonnesPK) {
         try {
             String colonnesPK = "";
@@ -250,6 +246,7 @@ public abstract class DatabaseConnection implements I_Connection {
         }
     }
         
+    @Override
     public boolean createForeignKey(String nomTable, String nomColonne, String nomTableRef, String nomColonneRef) {
         try {
             statement = connection.createStatement();
@@ -265,6 +262,7 @@ public abstract class DatabaseConnection implements I_Connection {
     }
     
 
+    @Override
     public boolean dropConstraint(String nomTable, String nomConstraint) {
         try {
             statement = connection.createStatement();
@@ -278,8 +276,8 @@ public abstract class DatabaseConnection implements I_Connection {
         }
     }
     
-    public abstract boolean dropForeignKey(String nomTable, String nomFK);
 
+    @Override
     public boolean addConstraintUnique(String nomTable, String nomColonne) {
         try {
             statement = connection.createStatement();
@@ -293,6 +291,7 @@ public abstract class DatabaseConnection implements I_Connection {
         }
     }
 
+    @Override
     public boolean addConstraintNotNull(String nomTable, String nomColonne, String dataType, int longueur) {
         try {
             statement = connection.createStatement();
@@ -306,6 +305,7 @@ public abstract class DatabaseConnection implements I_Connection {
         }
     }
     
+    @Override
         public boolean dropNotNull(String nomTable, String nomColonne, String dataType, int longueur) {
         try {
             statement = connection.createStatement();
@@ -319,6 +319,7 @@ public abstract class DatabaseConnection implements I_Connection {
         }
     }
     
+    @Override
     public String[] getForeignKeyNames(String nomTable){
        ArrayList<String> lesFK = new ArrayList<>();    
         try {
@@ -339,11 +340,13 @@ public abstract class DatabaseConnection implements I_Connection {
     
 
 
+    @Override
     public void query (String requete) throws SQLException {
         statement = connection.createStatement();
         statement.execute(requete);
     }
     
+    @Override
     public void close() {
         try {
             if(statement != null) statement.close();
@@ -360,6 +363,7 @@ public abstract class DatabaseConnection implements I_Connection {
     }
     
     
+    @Override
    public ResultSet getResultSetFromTable(Table table) throws Exception{
             statement = connection.createStatement();
 
@@ -401,6 +405,7 @@ public abstract class DatabaseConnection implements I_Connection {
     }
     */
     
+    @Override
     public ArrayList<String> getAttributesNames(Table laTable)
     {
         ArrayList<String> lesAttributs = new ArrayList<>();
@@ -412,6 +417,7 @@ public abstract class DatabaseConnection implements I_Connection {
     }
     
     
+    @Override
     public String[] getNomsAttributsFromNomTable(String nomTable)
     {
         ArrayList<String> nomAttributs = new ArrayList<>();
@@ -448,6 +454,7 @@ public abstract class DatabaseConnection implements I_Connection {
 //        return requete;
 //    }
     
+    @Override
     public String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes, String nomTable) {
         String select, from, where, groupBy, having;
         select = "SELECT ";
@@ -548,6 +555,7 @@ public abstract class DatabaseConnection implements I_Connection {
         return requete;
     }
 
+    @Override
     public ResultSet getResultSetFromRequete(String requeteSQL)
     {
         ResultSet rs = null;
@@ -571,6 +579,7 @@ public abstract class DatabaseConnection implements I_Connection {
     return resultSet;
     }*/
     
+    @Override
     public void deleteRow(String requete , ArrayList<String> valeurs) throws SQLException
     {
         statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
@@ -603,6 +612,7 @@ public abstract class DatabaseConnection implements I_Connection {
         }
     }
     
+    @Override
     public void updateRows(Object[][] valDeBase , TableModel modelNouveau, String laRequete, ArrayList<Attribute> lesAttributs) throws SQLException
     {   
             statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
@@ -651,6 +661,7 @@ public abstract class DatabaseConnection implements I_Connection {
             }            
     }
     
+    @Override
     public void addRow(String[][] listeDesValeurs, Table laTable, int nbrow) throws SQLException
     {
         //Je commence d'abord avec le premier attribut pour pouvoir mettre plus aisement les virgules
@@ -722,6 +733,7 @@ public abstract class DatabaseConnection implements I_Connection {
         
     }
     
+    @Override
     public String getPrimaryKeyFromTableName(String tableName) throws SQLException
     {
         resultSet = connection.getMetaData().getPrimaryKeys(null, null, tableName);

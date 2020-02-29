@@ -9,8 +9,9 @@ import java.awt.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.table.TableModel;
-import sgbd.connection.DatabaseConnection;
+import sgbd.connection.*;
 import sgbd.database.Attribute;
 import sgbd.database.Table;
 import sgbd.json.ConnectionDataJSON;
@@ -20,25 +21,29 @@ import sgbd.json.ConnectionDataJSON;
  * @author Kazed
  */
 public class Controller {
-    private DatabaseConnection connection;
+    private I_Connection DBConnection;
+    private String SGBD;
+    private HashMap<String, String> params;
     
-    public Controller(DatabaseConnection co) {
-        connection = co;
+    public Controller(String SGBD, HashMap<String, String> params) {
+        this.SGBD = SGBD;
+        this.params = params;
+        this.DBConnection = ConnectionFactory.createConnection(params, SGBD);
     }
     
     public String getUserName() {
-        return connection.getUserName();
+        return DBConnection.getUserName();
     }
     
     public String getDatabaseName() {
-        return connection.getDatabaseName();
+        return DBConnection.getDatabaseName();
     }
     
-    public boolean tryConnect(ConnectionDataJSON json, String user, String password) {
+    public boolean connect(ConnectionDataJSON json, String user, String password) {
         if(json.isParametered()) {
-            boolean connected = connection.connect(user, password);
+            boolean connected = DBConnection.connect(user, password);
             if(connected) {
-                connection.prepareConnection();
+                DBConnection.prepareConnection();
             }
             return connected;
         }
@@ -46,21 +51,21 @@ public class Controller {
     }
     
     public String[] getTablesList() {
-         if(connection.setTablesList()) return connection.getTablesList();
+         if(DBConnection.setTablesList()) return DBConnection.getTablesList();
          else return null;
     }
     
     public boolean getAttributesList(Table t) {
-        return connection.setTableColumns(t);
+        return DBConnection.setTableColumns(t);
     }
     
     public String[] getTypesList() {
-        if(connection.setTypesList()) return connection.getTypesList();
+        if(DBConnection.setTypesList()) return DBConnection.getTypesList();
         else return null;
     }
     
     public void close() {
-        connection.close();
+        DBConnection.close();
     }
 
     
@@ -85,94 +90,94 @@ public class Controller {
             lstAt.add(at);
         }   
 
-        connection.createTable(nomTable, lstAt);
+        DBConnection.createTable(nomTable, lstAt);
     }
     
     
     
     public boolean dropTable(String table, boolean cascadeConstraints) {
-        return connection.dropTable(table, cascadeConstraints);
+        return DBConnection.dropTable(table, cascadeConstraints);
     }
 
     public boolean dropColonne(String nomTable, String nomColonne) {
-        return connection.dropColonne(nomTable, nomColonne);
+        return DBConnection.dropColonne(nomTable, nomColonne);
     }
 
     public boolean addColonne(String nomTable, String nomColonne, String typeColonne, int longueurColonne) {
-        return connection.addColonne(nomTable, nomColonne, typeColonne, longueurColonne);
+        return DBConnection.addColonne(nomTable, nomColonne, typeColonne, longueurColonne);
     }
 
     public boolean renameColonne(String nomTable, String nomColonneActuel, String nomColonneNew, String dataType, int longueur) {
-        return connection.renameColonne(nomTable, nomColonneActuel, nomColonneNew, dataType, longueur);
+        return DBConnection.renameColonne(nomTable, nomColonneActuel, nomColonneNew, dataType, longueur);
     }
 
     public boolean alterDatatypeColonne(String nomTable, String nomColonne, String typeColonne, int longueurColonne) {
-        return connection.alterDatatypeColonne(nomTable, nomColonne, typeColonne, longueurColonne);
+        return DBConnection.alterDatatypeColonne(nomTable, nomColonne, typeColonne, longueurColonne);
     }
 
     public boolean dropPrimaryKey(String nomTable) {
-        return connection.dropPrimaryKey(nomTable);
+        return DBConnection.dropPrimaryKey(nomTable);
     }
     
     public boolean createPrimaryKey(String nomTable, ArrayList<String> nomColonnesPK){
-        return connection.createPrimaryKey(nomTable, nomColonnesPK);
+        return DBConnection.createPrimaryKey(nomTable, nomColonnesPK);
     }
 
     public boolean createForeignyKey(String nomTable, String nomColonne, String nomTableRef, String nomColonneRef) {
-        return connection.createForeignKey(nomTable, nomColonne, nomTableRef, nomColonneRef);
+        return DBConnection.createForeignKey(nomTable, nomColonne, nomTableRef, nomColonneRef);
     }
 
     public boolean dropConstraint(String nomTable, String nomConstraint) {
-        return connection.dropConstraint(nomTable, nomConstraint);
+        return DBConnection.dropConstraint(nomTable, nomConstraint);
     }
     
     public boolean addConstraintUnique(String nomTable, String nomColonne) {
-        return connection.addConstraintUnique(nomTable, nomColonne);
+        return DBConnection.addConstraintUnique(nomTable, nomColonne);
     }
     
      public boolean addConstraintNotNull(String nomTable, String nomColonne, String dataType, int longueur) {
-         return connection.addConstraintNotNull(nomTable, nomColonne, dataType, longueur);
+         return DBConnection.addConstraintNotNull(nomTable, nomColonne, dataType, longueur);
      }
     
     public boolean dropNotNull(String nomTable, String nomColonne, String dataType, int longueur){
-        return connection.dropNotNull(nomTable, nomColonne, dataType, longueur);
+        return DBConnection.dropNotNull(nomTable, nomColonne, dataType, longueur);
     }
     
     public boolean dropFK(String nomTable, String nomFK)
     {
-        return connection.dropForeignKey(nomTable, nomFK);
+        return DBConnection.dropForeignKey(nomTable, nomFK);
     }
     
     public String[] getPKList(String nomTable){
-        return connection.getPKTab(nomTable);
+        return DBConnection.getPKTab(nomTable);
     }
     
     public String[] getFKNames(String nomTable)
     {
-        return connection.getForeignKeyNames(nomTable);
+        return DBConnection.getForeignKeyNames(nomTable);
     }
 
     public ResultSet getResultSetFromTable(Table table) throws Exception
     {
-        return connection.getResultSetFromTable(table);
+        return DBConnection.getResultSetFromTable(table);
     }
     
     public ArrayList<String> getAttributesNames(Table laTable)
     {
-        return connection.getAttributesNames(laTable);
+        return DBConnection.getAttributesNames(laTable);
     }
     
     public boolean renameTable(String nomActuel, String nouveauNom)
     {
         if (nouveauNom != null && !nomActuel.equals(nouveauNom)) {
-            return connection.renameTable(nomActuel, nouveauNom);
+            return DBConnection.renameTable(nomActuel, nouveauNom);
         } else {
             return false;
         }
     }
     
     public String[] getNomsAttributsFromNomTable(String nomTable) {
-        return connection.getNomsAttributsFromNomTable(nomTable);
+        return DBConnection.getNomsAttributsFromNomTable(nomTable);
     }
 
 //    public String traduireRequeteGraphiqueEnSql(ArrayList<String> lesAttributs, String table, String condition) {
@@ -180,11 +185,11 @@ public class Controller {
 //    }
     
         public String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes, String nomTable) {
-        return connection.traduireRequeteGraphiqueEnSql(lesLignes, nomTable);
+        return DBConnection.traduireRequeteGraphiqueEnSql(lesLignes, nomTable);
     }
 
     public ResultSet getResultSetFromRequete(String requeteSQL) {
-        return connection.getResultSetFromRequete(requeteSQL);
+        return DBConnection.getResultSetFromRequete(requeteSQL);
     }
 
 
@@ -225,7 +230,7 @@ public class Controller {
         requete = requete + "FROM " + laTable.getName();
         System.err.println("La requete: " + requete);
         
-        connection.deleteRow(requete , lesValeurs);
+        DBConnection.deleteRow(requete , lesValeurs);
     }
     
     public void updateRows(Object[][] valDeBase , TableModel modelNouveau , Table laTable) throws SQLException
@@ -243,13 +248,13 @@ public class Controller {
             }
             System.err.println(requete);
         }
-        requete = requete + "FROM " + laTable.getName() + " ORDER BY " + connection.getPrimaryKeyFromTableName(laTable.getName());
+        requete = requete + "FROM " + laTable.getName() + " ORDER BY " + DBConnection.getPrimaryKeyFromTableName(laTable.getName());
         System.out.println(requete);
-        connection.updateRows(valDeBase , modelNouveau ,requete, laTable.attributes());
+        DBConnection.updateRows(valDeBase , modelNouveau ,requete, laTable.attributes());
     }
     
     public void addRows(String[][] listeDesValeurs , Table laTable, int nbRows) throws SQLException
     {
-        connection.addRow(listeDesValeurs, laTable, nbRows);
+        DBConnection.addRow(listeDesValeurs, laTable, nbRows);
     }
 }
