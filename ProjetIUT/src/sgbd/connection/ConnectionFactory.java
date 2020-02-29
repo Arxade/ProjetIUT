@@ -12,6 +12,8 @@ import java.util.HashMap;
  * @author diazt
  */
 public class ConnectionFactory {
+    
+    protected ConnectionFactory(){}
 
     public static I_Connection createConnection(HashMap<String, String> params, String nomConnection) {
         if (nomConnection.equals("Oracle")) {
