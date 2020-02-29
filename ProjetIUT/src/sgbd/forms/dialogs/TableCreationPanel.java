@@ -15,7 +15,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import sgbd.controllers.Controller;
-import sgbd.controllers.DatabaseObjectTextDocument;
 
 /**
  *
@@ -127,7 +126,6 @@ public class TableCreationPanel extends javax.swing.JPanel {
         txtTableName.setMaximumSize(new java.awt.Dimension(128, 20));
         txtTableName.setMinimumSize(new java.awt.Dimension(128, 20));
         txtTableName.setPreferredSize(new java.awt.Dimension(128, 20));
-        txtTableName.setDocument(new DatabaseObjectTextDocument());
 
         tblAttributes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

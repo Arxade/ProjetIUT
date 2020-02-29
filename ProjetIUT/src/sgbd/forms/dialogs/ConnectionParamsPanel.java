@@ -12,7 +12,6 @@ import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.text.Document;
-import sgbd.controllers.IntTextDocument;
 
 /**
  *
@@ -110,8 +109,6 @@ public class ConnectionParamsPanel extends javax.swing.JPanel {
 
         txtPort.setColumns(5);
         txtPort.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        Document document = new IntTextDocument(0, 65535);
-        txtPort.setDocument(document);
 
         txtDb.setPreferredSize(new java.awt.Dimension(96, 19));
 
