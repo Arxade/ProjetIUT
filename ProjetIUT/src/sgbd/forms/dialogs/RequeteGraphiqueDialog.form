@@ -80,15 +80,15 @@
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="comboBoxTables" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                      <Component id="cbDistinct" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       <Component id="btnAddLigne" min="-2" pref="57" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnRemoveLigne" min="-2" pref="57" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnRead" min="-2" pref="73" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
-                      <Component id="cbDistinct" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnExecuterRequete" min="-2" pref="73" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" pref="624" max="32767" attributes="0"/>
@@ -218,7 +218,7 @@
     <Component class="javax.swing.JCheckBox" name="cbDistinct">
       <Properties>
         <Property name="selected" type="boolean" value="true"/>
-        <Property name="text" type="java.lang.String" value="Afficher les donn&#xe9;es en double"/>
+        <Property name="text" type="java.lang.String" value="R&#xe9;cup&#xe9;rer les donn&#xe9;es en double"/>
       </Properties>
     </Component>
   </SubComponents>
