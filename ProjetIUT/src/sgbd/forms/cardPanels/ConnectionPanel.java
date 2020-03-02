@@ -57,7 +57,7 @@ public class ConnectionPanel extends javax.swing.JPanel {
 
     public void showParamsDialog() {
         final JDialog dialog = new JDialog();
-        dialog.setTitle("Paramètres de l'URL");
+        dialog.setTitle("Paramètres de connexion");
         dialog.setModal(true);
         dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         ConnectionParamsDialog panel = new ConnectionParamsDialog(json.getParams());
