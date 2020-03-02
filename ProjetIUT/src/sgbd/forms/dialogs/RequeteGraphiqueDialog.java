@@ -198,7 +198,7 @@ public class RequeteGraphiqueDialog extends javax.swing.JPanel {
             dialog.pack();
             dialog.setVisible(true);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erreur " + ex);
+            JOptionPane.showMessageDialog(this, "Erreur dans la requête graphique");
         }
     }
     

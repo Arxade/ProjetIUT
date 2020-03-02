@@ -54,6 +54,7 @@ public class ResultatRequeteDialog extends javax.swing.JPanel {
         this.controller = controller;
         this.requete = requete;
         executerRequete();
+        txtFieldRequete.setEditable(false);
         resizeColumnWidth(tableResultat);
     }
     
