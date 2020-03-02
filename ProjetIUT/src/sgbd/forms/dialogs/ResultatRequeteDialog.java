@@ -174,10 +174,12 @@ public class ResultatRequeteDialog extends javax.swing.JPanel {
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
-            System.out.println("Save as file: " + fileToSave.getAbsolutePath());
-
-            try (FileWriter out = new FileWriter(fileToSave.getAbsolutePath() +".sql", true)) {
-                out.append(requete + "\n");
+            String chemin = fileToSave.getAbsolutePath();
+            if (!chemin.contains(".sql"))
+                chemin = chemin + ".sql";
+            
+            try (FileWriter out = new FileWriter(chemin, false)) {
+                out.write(requete + "\n");
                 JOptionPane.showMessageDialog(this, "Requête sauvegardée");
                 out.close();
             } catch (FileNotFoundException ex) {
