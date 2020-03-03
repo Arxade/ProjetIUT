@@ -5,6 +5,9 @@
  */
 package sgbd.forms.dialogs;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -14,7 +17,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
-import javax.swing.text.html.parser.DTDConstants;
 import sgbd.controllers.Controller;
 
 /**
@@ -27,26 +29,24 @@ public class TableCreationDialog extends javax.swing.JPanel {
     private int columns = 0;  
     
 
-    /**
-     * Creates new form TableCreationPanel
-     *
-     * @param c
-     */
-    
-    
     public TableCreationDialog(Controller c, int nbCol) {
         initComponents();
         controller = c;
         columns = nbCol;     
         
-        //on rempli la combolist ddes types
+        JOptionPane.showMessageDialog(this, "Certaines types de colonnes ont des longueurs prédéfinie.\n"
+                + "la longueur du champ vous sera demandée seulement pour les types compatibles.", 
+                "Information sur les longueurs de colonnes", 
+                JOptionPane.INFORMATION_MESSAGE);
+        
+        //on rempli la combolist des types
         String[] types = controller.getTypesList();
         TableColumn typeColumn = tblAttributes.getColumnModel().getColumn(1);
         for(String type : types) {
             cbxTypes.addItem(type);
         }
         typeColumn.setCellEditor(new DefaultCellEditor(cbxTypes));
-
+        
 
         DefaultTableModel model = (DefaultTableModel) tblAttributes.getModel();
         model.setRowCount(0);
@@ -63,6 +63,7 @@ public class TableCreationDialog extends javax.swing.JPanel {
         }
     }
 
+    
     public JTextField getTableName() {
         return txtTableName;
     }
@@ -70,7 +71,7 @@ public class TableCreationDialog extends javax.swing.JPanel {
     public JButton getButton(String s) {
         switch(s) {
             case "confirm":
-                return btnCreateTable;
+                return btnCreateTable;               
             case "cancel":
                 return btnCancel;
             default:
@@ -101,6 +102,7 @@ public class TableCreationDialog extends javax.swing.JPanel {
         btnCancel = new javax.swing.JButton();
         btnAddFK = new javax.swing.JButton();
         btnRmFK = new javax.swing.JButton();
+        btnModifLongueur = new javax.swing.JButton();
 
         cbxTypes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,7 +142,7 @@ public class TableCreationDialog extends javax.swing.JPanel {
                 java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                true, true, true, true, true, true, false, false, false
+                true, true, false, true, true, true, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -152,9 +154,9 @@ public class TableCreationDialog extends javax.swing.JPanel {
             }
         });
         tblAttributes.getModel().addTableModelListener(
-            new TableModelListener() 
+            new TableModelListener()
             {
-                public void tableChanged(TableModelEvent e) 
+                public void tableChanged(TableModelEvent e)
                 {
                     //  int row = e.getFirstRow();
                     // int column = e.getColumn();
@@ -204,27 +206,33 @@ public class TableCreationDialog extends javax.swing.JPanel {
                 }
             });
 
+            btnModifLongueur.setText("Modifier la longueur de la colonne sélectionnée");
+            btnModifLongueur.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnModifLongueurActionPerformed(evt);
+                }
+            });
+
             javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
             this.setLayout(layout);
             layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btnAddRow, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-                            .addComponent(btnRemoveRow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCreateTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCancel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(lblTableName)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtTableName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btnAddFK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnRmFK, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(26, 26, 26)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnAddFK, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAddRow, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRemoveRow, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCreateTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(lblTableName)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtTableName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnRmFK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnModifLongueur, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGap(18, 18, 18)
-                    .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE))
+                    .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE))
             );
             layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,43 +249,32 @@ public class TableCreationDialog extends javax.swing.JPanel {
                     .addComponent(btnAddFK)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(btnRmFK)
-                    .addGap(18, 18, 18)
+                    .addGap(7, 7, 7)
+                    .addComponent(btnModifLongueur)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(btnCreateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(34, 34, 34))
-                .addComponent(scroll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                    .addGap(26, 26, 26))
+                .addComponent(scroll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             );
         }// </editor-fold>//GEN-END:initComponents
 
     private void btnCreateTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateTableActionPerformed
         
-        String tableName = txtTableName.getText().toUpperCase();
-        TableModel tableModel = tblAttributes.getModel();
+        if(getButton("confirm") != null){
+            String tableName = txtTableName.getText().toUpperCase();
+            TableModel tableModel = tblAttributes.getModel();
 
-        try {
-            controller.tryCreateTable(tableName, tableModel);
-            JOptionPane.showMessageDialog(this, "Table Créée");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erreur lors de la création de la table: " + e.getMessage());
-        }
-                 
+            try {
+                controller.tryCreateTable(tableName, tableModel);
+                JOptionPane.showMessageDialog(this, "Table Créée");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erreur lors de la création de la table: " + e.getMessage());
+            }
+        }                 
     }//GEN-LAST:event_btnCreateTableActionPerformed
 
-    private int findForDate(){
-        TableModel model = tblAttributes.getModel();
-        
-        boolean trouve = false;
-        int i = 0;
-        while(!trouve && i < model.getRowCount()){     
-            if(model.getValueAt(i, 1) != null && model.getValueAt(i, 1).equals("DATE") && model.getValueAt(i, 2) != null){
-                trouve = true;
-            }
-            i++;
-        }
-        if(trouve) return i-1;
-        else return -1;
-    }
     
     
     private void btnRemoveRowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveRowActionPerformed
@@ -378,28 +375,60 @@ public class TableCreationDialog extends javax.swing.JPanel {
         }        
     }//GEN-LAST:event_ckbxTableListActionPerformed
 
+    
+    private Integer inputLongueur(){
+        Integer longueur = null;
+        boolean goodEntry = false;
+        while(!goodEntry){
+            try {
+                String s = JOptionPane.showInputDialog("Veuillez entrer la longueur du champ (annuler pour la taille par défaut):");
+                if(s != null) longueur = Integer.parseInt(s);
+                goodEntry = true;
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Veuillez entrer une valeur correcte (un entier naturel)");
+            }
+        }  
+        return longueur;
+    }
+    
+    
     private void cbxTypesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTypesActionPerformed
-        // TODO add your handling code here:
-        TableModel model = tblAttributes.getModel();
-        if (cbxTypes.getSelectedItem() != null) {
-            if (cbxTypes.getSelectedItem().equals("DATE")) {
-                model.setValueAt(7, tblAttributes.getSelectedRow(), 2);
-            } else if (cbxTypes.getSelectedItem().equals("NUMBER")) {
-                model.setValueAt(38, tblAttributes.getSelectedRow(), 2);
-            }else if (cbxTypes.getSelectedItem().equals("VARCHAR")){
-                model.setValueAt(25, tblAttributes.getSelectedRow(), 2);
-            }            
-        }
-
+        // TODO add your handling code here:   
+        setLongueurColonne();
     }//GEN-LAST:event_cbxTypesActionPerformed
 
-    
+    private void btnModifLongueurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifLongueurActionPerformed
+        // TODO add your handling code here:
+        setLongueurColonne();
+    }//GEN-LAST:event_btnModifLongueurActionPerformed
 
+
+    public void setLongueurColonne(){
+        TableModel model = tblAttributes.getModel();
+
+        if(tblAttributes.getSelectedColumn() == 1){
+            
+            List<String> lstTypesEditable = new ArrayList<>();
+            lstTypesEditable.add("CHAR");
+            lstTypesEditable.add("VARCHAR2");
+            lstTypesEditable.add("VARCHAR");
+            
+            
+            if (lstTypesEditable.contains(cbxTypes.getSelectedItem())) {
+                model.setValueAt(inputLongueur(), tblAttributes.getSelectedRow(),2);
+            }
+                 
+        }
+    }    
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddFK;
     private javax.swing.JButton btnAddRow;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCreateTable;
+    private javax.swing.JButton btnModifLongueur;
     private javax.swing.JButton btnRemoveRow;
     private javax.swing.JButton btnRmFK;
     private javax.swing.JComboBox<String> cbxTypes;
