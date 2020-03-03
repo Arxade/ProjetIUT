@@ -7,10 +7,6 @@ package sgbd.connection;
 
 import java.util.HashMap;
 
-/**
- *
- * @author diazt
- */
 public class ConnectionFactory {
     
     protected ConnectionFactory(){}

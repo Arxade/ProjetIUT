@@ -14,6 +14,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
+import javax.swing.text.html.parser.DTDConstants;
 import sgbd.controllers.Controller;
 
 /**
@@ -253,15 +254,32 @@ public class TableCreationDialog extends javax.swing.JPanel {
         
         String tableName = txtTableName.getText().toUpperCase();
         TableModel tableModel = tblAttributes.getModel();
-        
+
         try {
             controller.tryCreateTable(tableName, tableModel);
             JOptionPane.showMessageDialog(this, "Table Créée");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erreur lors de la création de la table: " + e.getMessage());
         }
+                 
     }//GEN-LAST:event_btnCreateTableActionPerformed
 
+    private int findForDate(){
+        TableModel model = tblAttributes.getModel();
+        
+        boolean trouve = false;
+        int i = 0;
+        while(!trouve && i < model.getRowCount()){     
+            if(model.getValueAt(i, 1) != null && model.getValueAt(i, 1).equals("DATE") && model.getValueAt(i, 2) != null){
+                trouve = true;
+            }
+            i++;
+        }
+        if(trouve) return i-1;
+        else return -1;
+    }
+    
+    
     private void btnRemoveRowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveRowActionPerformed
         DefaultTableModel model = (DefaultTableModel) tblAttributes.getModel();
         int nbRow = model.getRowCount();
@@ -291,8 +309,8 @@ public class TableCreationDialog extends javax.swing.JPanel {
             if (option == JOptionPane.OK_OPTION) {
                 boolean trouve = false;
                 int k = 0;
-                while(!trouve){
-                    if(model.getValueAt(k, 0).equals(ckbxNewColumns.getSelectedItem())){
+                while(!trouve){                    
+                    if(model.getValueAt(k, 0) != null && model.getValueAt(k, 0).equals(ckbxNewColumns.getSelectedItem())){
                         model.setValueAt(true, k, 6);
                         model.setValueAt(ckbxTableList.getSelectedItem(), k, 7);
                         model.setValueAt(ckbxColumnsList.getSelectedItem(), k, 8);
@@ -307,6 +325,8 @@ public class TableCreationDialog extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnAddFKActionPerformed
 
+
+    
     private void btnRmFKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRmFKActionPerformed
         TableModel model = tblAttributes.getModel();
         remplirCkbxNewColumns(true, model);
@@ -317,7 +337,7 @@ public class TableCreationDialog extends javax.swing.JPanel {
                 boolean trouve = false;
                 int k = 0;
                 while(!trouve){
-                    if(model.getValueAt(k, 0).equals(ckbxNewColumns.getSelectedItem())){
+                    if(model.getValueAt(k, 0) != null && model.getValueAt(k, 0).equals(ckbxNewColumns.getSelectedItem())){
                         model.setValueAt(false, k, 6);
                         model.setValueAt(null, k, 7);
                         model.setValueAt(null, k, 8);
