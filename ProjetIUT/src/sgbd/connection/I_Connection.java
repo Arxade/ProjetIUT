@@ -95,7 +95,7 @@ public interface I_Connection {
 
     boolean setTypesList();
 
-    String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes, String nomTable);
+    String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes, String nomTable, Boolean estDistinct);
 
     void updateRows(Object[][] valDeBase, TableModel modelNouveau, String laRequete, ArrayList<Attribute> lesAttributs) throws SQLException;
 }

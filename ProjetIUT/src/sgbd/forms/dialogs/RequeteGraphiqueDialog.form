@@ -49,14 +49,20 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="btnExecuterRequete" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="comboBoxTables" min="-2" pref="230" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
                   <Component id="btnRemoveLigne" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnAddLigne" alignment="0" max="32767" attributes="0"/>
+                  <Component id="btnRead" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="comboBoxTables" min="-2" pref="230" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="cbDistinct" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="1150" max="-2" attributes="0"/>
@@ -74,11 +80,15 @@
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="comboBoxTables" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                      <Component id="cbDistinct" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       <Component id="btnAddLigne" min="-2" pref="57" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnRemoveLigne" min="-2" pref="57" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnRead" min="-2" pref="73" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnExecuterRequete" min="-2" pref="73" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" pref="624" max="32767" attributes="0"/>
@@ -157,7 +167,7 @@
     </Container>
     <Component class="javax.swing.JButton" name="btnExecuterRequete">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Ex&#xe9;cuter la requ&#xea;te"/>
+        <Property name="text" type="java.lang.String" value="Ex&#xe9;cuter la requ&#xea;te graphique"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExecuterRequeteActionPerformed"/>
@@ -195,6 +205,20 @@
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="text" type="java.lang.String" value="Table : "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnRead">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ex&#xe9;cuter une requ&#xea;te enregistr&#xe9;e dans un fichier .sql"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReadActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="cbDistinct">
+      <Properties>
+        <Property name="selected" type="boolean" value="true"/>
+        <Property name="text" type="java.lang.String" value="R&#xe9;cup&#xe9;rer les donn&#xe9;es en double"/>
       </Properties>
     </Component>
   </SubComponents>

@@ -455,7 +455,7 @@ public abstract class DatabaseConnection implements I_Connection {
 //    }
     
     @Override
-    public String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes, String nomTable) {
+    public String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes, String nomTable, Boolean estPasDistinct) {
         String select, from, where, groupBy, having;
         select = "SELECT ";
         from = " FROM ";
@@ -464,6 +464,8 @@ public abstract class DatabaseConnection implements I_Connection {
         having = "";
         
         ArrayList<String> attributsGroupBy = new ArrayList<>();
+        if (estPasDistinct == false)
+            select = select + "DISTINCT ";
         
         for (ArrayList<Object> uneLigne : lesLignes) {
             String attribut = uneLigne.get(0).toString();
@@ -476,6 +478,7 @@ public abstract class DatabaseConnection implements I_Connection {
             Boolean estUneFonction = false;
             
             if (estDansSelect == true) {
+                
                 switch (fonctionEnsembleSelect) {
                     case "Aucune":
                         select = select + attribut + ", ";
@@ -517,6 +520,7 @@ public abstract class DatabaseConnection implements I_Connection {
             } else if (!estUneFonction) {
                 attributsGroupBy.add(attribut);
             }
+           
 
             switch (fonctionEnsembleHaving) {
                 case "Aucune":

@@ -1,10 +1,19 @@
 package sgbd.forms.dialogs;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import sgbd.controllers.Controller;
@@ -39,6 +48,8 @@ public class RequeteGraphiqueDialog extends javax.swing.JPanel {
         TableColumn fonctionHavingColumn = tableRequete.getColumnModel().getColumn(5);
         fonctionColumn.setCellEditor(new DefaultCellEditor(comboBoxFonctions));
         fonctionHavingColumn.setCellEditor(new DefaultCellEditor(comboBoxFonctions));
+        
+        
 
     }
 
@@ -60,6 +71,8 @@ public class RequeteGraphiqueDialog extends javax.swing.JPanel {
         btnAddLigne = new javax.swing.JButton();
         comboBoxTables = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
+        btnRead = new javax.swing.JButton();
+        cbDistinct = new javax.swing.JCheckBox();
 
         comboBoxFonctions.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aucune", "Somme", "Moyenne", "Comptage", "Maximum", "Minimum" }));
 
@@ -81,7 +94,7 @@ public class RequeteGraphiqueDialog extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tableRequete);
 
-        btnExecuterRequete.setText("Exécuter la requête");
+        btnExecuterRequete.setText("Exécuter la requête graphique");
         btnExecuterRequete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExecuterRequeteActionPerformed(evt);
@@ -110,6 +123,16 @@ public class RequeteGraphiqueDialog extends javax.swing.JPanel {
 
         jLabel1.setText("Table : ");
 
+        btnRead.setText("Exécuter une requête enregistrée dans un fichier .sql");
+        btnRead.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReadActionPerformed(evt);
+            }
+        });
+
+        cbDistinct.setSelected(true);
+        cbDistinct.setText("Récupérer les données en double");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,13 +141,17 @@ public class RequeteGraphiqueDialog extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnExecuterRequete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboBoxTables, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(btnRemoveLigne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAddLigne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnAddLigne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRead, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comboBoxTables, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbDistinct))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -138,11 +165,15 @@ public class RequeteGraphiqueDialog extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(comboBoxTables, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(8, 8, 8)
+                        .addComponent(cbDistinct)
+                        .addGap(30, 30, 30)
                         .addComponent(btnAddLigne, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnRemoveLigne, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRead, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExecuterRequete, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE))
                 .addContainerGap())
@@ -150,22 +181,27 @@ public class RequeteGraphiqueDialog extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnExecuterRequeteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecuterRequeteActionPerformed
+        remplirListeLignes();
+        ouvrirRequeteDialog(controller.traduireRequeteGraphiqueEnSql(lesLignes, comboBoxTables.getSelectedItem().toString(), cbDistinct.isSelected()));
+    }//GEN-LAST:event_btnExecuterRequeteActionPerformed
+
+    public void ouvrirRequeteDialog(String requete)
+    {
         try {
-            remplirListeLignes();
             final JDialog dialog = new JDialog();
             dialog.setTitle("Résultat");
             dialog.setModal(true);
             dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            ResultatRequeteDialog content = new ResultatRequeteDialog(controller, controller.traduireRequeteGraphiqueEnSql(lesLignes, comboBoxTables.getSelectedItem().toString()));
+            ResultatRequeteDialog content = new ResultatRequeteDialog(controller, requete);
             dialog.setContentPane(content);
             dialog.setResizable(true);
             dialog.pack();
             dialog.setVisible(true);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erreur " + ex);
+            JOptionPane.showMessageDialog(this, "Erreur dans la requête graphique");
         }
-    }//GEN-LAST:event_btnExecuterRequeteActionPerformed
-
+    }
+    
     public void remplirListeLignes(){
         lesLignes = new ArrayList<>();
         for (int row = 0; row < tableRequete.getRowCount(); row++) {
@@ -217,11 +253,47 @@ public class RequeteGraphiqueDialog extends javax.swing.JPanel {
         
     }//GEN-LAST:event_comboBoxTablesActionPerformed
 
+    private void btnReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReadActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichiers .sql", "sql");
+        fileChooser.setFileFilter(filter);
+        fileChooser.setDialogTitle("Sélectionner le fichier à lire");
+        int userSelection = fileChooser.showOpenDialog(this);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            FileReader fr = null;
+            try {
+                File fileToOpen = fileChooser.getSelectedFile();
+                System.out.println("Ouvrir : " + fileToOpen.getAbsolutePath());
+                fr = new FileReader(fileToOpen.getAbsolutePath());
+                int i;
+                String requete = "";
+                while ((i = fr.read()) != -1) {
+                    System.out.print((char) i);
+                    requete = requete + (char) i;
+                }
+
+                ouvrirRequeteDialog(requete);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(RequeteGraphiqueDialog.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(RequeteGraphiqueDialog.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    fr.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(RequeteGraphiqueDialog.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnReadActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddLigne;
     private javax.swing.JButton btnExecuterRequete;
+    private javax.swing.JButton btnRead;
     private javax.swing.JButton btnRemoveLigne;
+    private javax.swing.JCheckBox cbDistinct;
     private javax.swing.JComboBox<String> comboBoxAttributs;
     private javax.swing.JComboBox<String> comboBoxFonctions;
     private javax.swing.JComboBox<String> comboBoxTables;

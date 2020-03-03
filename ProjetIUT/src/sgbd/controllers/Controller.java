@@ -184,8 +184,8 @@ public class Controller {
 //        return connection.traduireRequeteGraphiqueEnSql(lesAttributs, table, condition);
 //    }
     
-        public String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes, String nomTable) {
-        return DBConnection.traduireRequeteGraphiqueEnSql(lesLignes, nomTable);
+        public String traduireRequeteGraphiqueEnSql(ArrayList<ArrayList<Object>> lesLignes, String nomTable, boolean estDistinct) {
+        return DBConnection.traduireRequeteGraphiqueEnSql(lesLignes, nomTable, estDistinct);
     }
 
     public ResultSet getResultSetFromRequete(String requeteSQL) {
