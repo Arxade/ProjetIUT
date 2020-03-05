@@ -190,7 +190,7 @@ public class TableCreationDialog extends javax.swing.JPanel {
                 }
             });
 
-            btnCancel.setText("Annuler");
+            btnCancel.setText("Fermer");
 
             btnAddFK.setText("Ajouter une clé étrangère");
             btnAddFK.addActionListener(new java.awt.event.ActionListener() {

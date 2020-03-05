@@ -443,7 +443,10 @@ public class VisualizationPanel extends javax.swing.JPanel {
                 content.getButton("confirm").addActionListener((ActionEvent e) -> {
                     String name = content.getTableName().getText();                   
                     dialog.dispose();
-                });               
+                });     
+                content.getButton("cancel").addActionListener((ActionEvent e) -> {                                     
+                    dialog.dispose();
+                });    
                 dialog.setContentPane(content);
                 dialog.setResizable(true);
                 dialog.pack();
