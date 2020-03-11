@@ -60,26 +60,23 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="btnAddRow" alignment="1" pref="247" max="32767" attributes="0"/>
-                      <Component id="btnRemoveRow" alignment="1" max="32767" attributes="0"/>
-                      <Component id="btnCreateTable" alignment="1" max="32767" attributes="0"/>
-                      <Component id="btnCancel" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="lblTableName" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="txtTableName" max="32767" attributes="0"/>
-                      </Group>
+              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="btnAddFK" alignment="1" max="32767" attributes="0"/>
+                  <Component id="btnAddRow" alignment="1" max="32767" attributes="0"/>
+                  <Component id="btnRemoveRow" alignment="1" max="32767" attributes="0"/>
+                  <Component id="btnCreateTable" alignment="1" max="32767" attributes="0"/>
+                  <Component id="btnCancel" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="lblTableName" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="txtTableName" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="btnAddFK" alignment="1" max="32767" attributes="0"/>
-                      <Component id="btnRmFK" alignment="1" min="-2" pref="247" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="btnRmFK" max="32767" attributes="0"/>
+                  <Component id="btnModifLongueur" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="scroll" pref="685" max="32767" attributes="0"/>
+              <Component id="scroll" pref="735" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -99,13 +96,15 @@
               <Component id="btnAddFK" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="btnRmFK" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+              <Component id="btnModifLongueur" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="btnCreateTable" min="-2" pref="90" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="btnCancel" min="-2" pref="46" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
           </Group>
-          <Component id="scroll" alignment="1" pref="386" max="32767" attributes="0"/>
+          <Component id="scroll" alignment="1" pref="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -148,7 +147,7 @@
               <Table columnCount="9" rowCount="0">
                 <Column editable="true" title="Nom" type="java.lang.String"/>
                 <Column editable="true" title="Type" type="java.lang.String"/>
-                <Column editable="true" title="Longueur" type="java.lang.Integer"/>
+                <Column editable="false" title="Longueur" type="java.lang.Integer"/>
                 <Column editable="true" title="Cl&#xe9; primaire" type="java.lang.Boolean"/>
                 <Column editable="true" title="Not null" type="java.lang.Boolean"/>
                 <Column editable="true" title="Unique" type="java.lang.Boolean"/>
@@ -211,7 +210,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="tblAttributes.getModel().addTableModelListener(&#xd;&#xa;new TableModelListener() &#xd;&#xa;{&#xd;&#xa;    public void tableChanged(TableModelEvent e) &#xd;&#xa;    {&#xd;&#xa;      //  int row = e.getFirstRow();&#xd;&#xa;       // int column = e.getColumn();&#xd;&#xa;     //   TableModel model = (TableModel)e.getSource();&#xd;&#xa;    //    String columnName = model.getColumnName(column);&#xd;&#xa;     //   Object data = model.getValueAt(row, column);&#xd;&#xa;        &#xd;&#xa;    }&#xd;&#xa;});"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="tblAttributes.getModel().addTableModelListener(&#xa;new TableModelListener() &#xa;{&#xa;    public void tableChanged(TableModelEvent e) &#xa;    {&#xa;      //  int row = e.getFirstRow();&#xa;       // int column = e.getColumn();&#xa;     //   TableModel model = (TableModel)e.getSource();&#xa;    //    String columnName = model.getColumnName(column);&#xa;     //   Object data = model.getValueAt(row, column);&#xa;        &#xa;    }&#xa;});"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -245,7 +244,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnCancel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Annuler"/>
+        <Property name="text" type="java.lang.String" value="Fermer"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnAddFK">
@@ -262,6 +261,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRmFKActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnModifLongueur">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Modifier la longueur de la colonne s&#xe9;lectionn&#xe9;e"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModifLongueurActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
