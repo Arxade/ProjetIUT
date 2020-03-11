@@ -221,11 +221,17 @@ public class OracleConnection extends DatabaseConnection {
 
         for (Attribute at : lstAt) {
             req += at.getName() + " " + at.getType();
-            if(at.getLength() == -1)
-             req += ", ";
-            else {
-                req += "(" + at.getLength() + "), ";
+            if(at.getLength() == -1){
+                if(!at.isNullable()) req += " NOT NULL";
+                req += ", ";   
             }
+            else {
+                req += "(" + at.getLength() + ")";
+                if(!at.isNullable()) req += " NOT NULL";   
+                req += ", ";
+            }
+            
+            
 
             if (at.isPrimaryKey()) {
                 if (contraintes.equals(" ")) {
@@ -234,7 +240,7 @@ public class OracleConnection extends DatabaseConnection {
                     contraintes += ", CONSTRAINT pk_" + at.getName() + " PRIMARY KEY (" + at.getName() + ")";
                 }
             }
-
+/*
             if (!at.isNullable()) {
                 if (contraintes.equals(" ")) {
                     contraintes += "CONSTRAINT nn_" + at.getName() + " CHECK (" + at.getName() + " IS NOT NULL)";
@@ -242,7 +248,7 @@ public class OracleConnection extends DatabaseConnection {
                     contraintes += ", CONSTRAINT nn_" + at.getName() + " CHECK (" + at.getName() + " IS NOT NULL)";
                 }
             }
-
+*/
             if (at.isUnique()) {
                 if (contraintes.equals(" ")) {
                     contraintes += "CONSTRAINT un_" + at.getName() + " UNIQUE (" + at.getName() + ")";
