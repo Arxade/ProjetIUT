@@ -13,7 +13,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sgbd.database.Attribute;
@@ -190,10 +189,14 @@ public class MySQLConnection extends DatabaseConnection {
 
         for (Attribute at : lstAt) {
             req += at.getName() + " " + at.getType();
-            if(at.getLength() == -1)
-             req += ", ";
+            if(at.getLength() == -1){
+                if(!at.isNullable()) req += " NOT NULL";
+                req += ", ";
+            }
             else {
-                req += "(" + at.getLength() + "), ";
+                req += "(" + at.getLength() + ")";
+                if(!at.isNullable()) req += " NOT NULL";   
+                req += ", ";
             }
 
             if (at.isPrimaryKey()) {
@@ -203,7 +206,7 @@ public class MySQLConnection extends DatabaseConnection {
                     contraintes += ", CONSTRAINT pk_" + at.getName() + " PRIMARY KEY (" + at.getName() + ")";
                 }
             }
-
+/*
             if (!at.isNullable()) {
                 if (contraintes.equals(" ")) {
                     contraintes += "CONSTRAINT nn_" + at.getName() + " CHECK (" + at.getName() + " IS NOT NULL)";
@@ -211,7 +214,7 @@ public class MySQLConnection extends DatabaseConnection {
                     contraintes += ", CONSTRAINT nn_" + at.getName() + " CHECK (" + at.getName() + " IS NOT NULL)";
                 }
             }
-
+*/
             if (at.isUnique()) {
                 if (contraintes.equals(" ")) {
                     contraintes += "CONSTRAINT un_" + at.getName() + " UNIQUE (" + at.getName() + ")";

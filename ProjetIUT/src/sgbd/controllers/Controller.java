@@ -227,7 +227,7 @@ public class Controller {
             
             System.err.println("La requete: " + requete);
         }
-        requete = requete + "FROM " + laTable.getName();
+        requete = requete + "FROM " + laTable.getName() + " ORDER BY " + DBConnection.getPrimaryKeyFromTableName(laTable.getName());
         System.err.println("La requete: " + requete);
         
         DBConnection.deleteRow(requete , lesValeurs);

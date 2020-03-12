@@ -588,6 +588,7 @@ public abstract class DatabaseConnection implements I_Connection {
     {
         statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
         resultSet = statement.executeQuery(requete);
+        connection.setAutoCommit(true);
         boolean valeursDeLaLigneCherche = true;
         while(resultSet.next())
         {
@@ -636,6 +637,7 @@ public abstract class DatabaseConnection implements I_Connection {
                         System.err.println("Dans le if row=" + row + " col=" + col);
                         if("VARCHAR2".equals(type)  || "CHAR".equals(type))
                         {
+                            System.out.println(modelNouveau.getValueAt(row, col).toString());
                             resultSet.updateString(col+1, modelNouveau.getValueAt(row, col).toString() );
                             resultSet.updateRow();
                         }
@@ -707,7 +709,7 @@ public abstract class DatabaseConnection implements I_Connection {
                     type = laTable.attributes().get(col).getType();
                     if("VARCHAR2".equals(type)  || "CHAR".equals(type) || "VARCHAR".equals(type))
                     {
-                        preparedStatement.setString(col+1, listeDesValeurs[row][col].toString() );
+                        preparedStatement.setString(col+1, listeDesValeurs[row][col]);
                     }
                     else if("NUMBER".equals(type) || "INTEGER".equals(type) || "INT".equals(type))
                     {

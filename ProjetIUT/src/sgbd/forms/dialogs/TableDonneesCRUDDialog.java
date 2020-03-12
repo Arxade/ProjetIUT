@@ -249,7 +249,8 @@ public class TableDonneesCRUDDialog extends javax.swing.JPanel {
                     }
                     else
                     {
-                        lesValeurs.add("null"); System.out.println("LesValeur.get(" + col + ") = " + lesValeurs.get(col));
+                        lesValeurs.add("null"); 
+                        System.out.println("LesValeur.get(" + col + ") = " + lesValeurs.get(col));
                     }
                 }
                 controllerCRUD.deleteRow(tableCRUD, lesAttributs, lesValeurs, this);
